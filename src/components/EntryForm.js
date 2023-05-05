@@ -16,7 +16,7 @@ export default function EntryForm() {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;
     if (data) {
-        window.location.reload();
+        //window.location.reload();
     }
     return (
         <div className="row">
@@ -25,6 +25,7 @@ export default function EntryForm() {
                     onSubmit={(e) => {
                         e.preventDefault();
                         createEntry();
+                        setFormState({ name: "", score: 0 });
                     }}>
                     <div className="col-6">
                         <input
