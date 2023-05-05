@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
-import Error from "./pages/Error";
+
 // apollo client
 
 export const url = "https://cms.plasticelephant.co.uk";
