@@ -7,7 +7,6 @@ export default function BeLeaderBoard() {
         name: "",
         score: 0,
     });
-
     const [Edit, setEdit] = useState(0);
     const [deleteEntry, { loadingDelete, errorDelete, dataDelete }] =
         useMutation(DELETEENTRY);
@@ -29,7 +28,9 @@ export default function BeLeaderBoard() {
                     return (
                         <form
                             key={contestant.id}
-                            onSubmit={() => {
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                setEdit(0);
                                 editEntry({
                                     variables: {
                                         id: contestant.id,
