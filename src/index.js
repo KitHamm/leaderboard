@@ -4,6 +4,8 @@ import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import App from "./App";
+import "./custom.scss";
+import "./fade.scss";
 // import App from './final/App';
 
 ReactDOM.render(

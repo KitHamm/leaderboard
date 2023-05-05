@@ -33,3 +33,13 @@ export const DELETEENTRY = gql`
         }
     }
 `;
+
+export const EDITENTRY = gql`
+    mutation UPDATE_ENTRY($id: ID!, $name: String!, $score: Int) {
+        updateLb(id: $id, data: { name: $name, score: $score }) {
+            data {
+                id
+            }
+        }
+    }
+`;
