@@ -15,14 +15,12 @@ export default function BeLeaderBoard() {
     const { loading, error, data } = useQuery(LB, { pollInterval: 500 });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;
-    console.log(data);
-
     function handleEdit(id, name, score) {
         setEdit(id);
         setFormState({ name: name, score: score });
     }
     return (
-        <div className="container">
+        <>
             {data.lbs.data.slice(0, 10).map((contestant) => {
                 if (contestant.id == Edit) {
                     return (
@@ -109,7 +107,6 @@ export default function BeLeaderBoard() {
                         </div>
                     );
             })}
-            <div className="row"></div>
-        </div>
+        </>
     );
 }

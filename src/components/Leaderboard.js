@@ -7,7 +7,7 @@ export default function Leaderboard() {
     if (error) return <div>Error</div>;
     console.log(data);
     return (
-        <div className="container">
+        <>
             {data.lbs.data.slice(0, 10).map((contestant) => {
                 return (
                     <div key={contestant.attributes.name} className="row">
@@ -21,6 +21,6 @@ export default function Leaderboard() {
                 );
             })}
             <div className="row"></div>
-        </div>
+        </>
     );
 }

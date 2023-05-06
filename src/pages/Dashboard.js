@@ -4,9 +4,9 @@ import EntryForm from "../components/EntryForm";
 
 export default function Dashboard() {
     return (
-        <>
+        <div className="container">
             <BeLeaderBoard />
             <EntryForm />
-        </>
+        </div>
     );
 }
