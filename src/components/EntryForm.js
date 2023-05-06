@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function EntryForm() {
     const [formState, setFormState] = useState({
         name: "",
-        score: 0,
+        score: "",
     });
     console.log(formState);
     const [createEntry, { loading, error, data }] = useMutation(NEWENTRY, {
@@ -15,19 +15,17 @@ export default function EntryForm() {
     });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;
-    if (data) {
-        //window.location.reload();
-    }
     return (
         <div className="row">
-            <div className="col-6">
+            <div className="col-12">
                 <form
+                    className="row"
                     onSubmit={(e) => {
                         e.preventDefault();
                         createEntry();
                         setFormState({ name: "", score: 0 });
                     }}>
-                    <div className="col-6">
+                    <div className="col-5">
                         <input
                             required
                             value={formState.name}
@@ -41,16 +39,18 @@ export default function EntryForm() {
                             placeholder="Name"
                         />
                     </div>
-                    <div className="col-6">
+                    <div className="col-5">
                         <input
                             required
                             value={formState.score}
-                            onChange={(e) =>
-                                setFormState({
-                                    ...formState,
-                                    score: parseInt(e.target.value),
-                                })
-                            }
+                            onChange={(e) => {
+                                if (e.target.value != "") {
+                                    setFormState({
+                                        ...formState,
+                                        score: parseInt(e.target.value),
+                                    });
+                                }
+                            }}
                             type="number"
                             min="1"
                             placeholder="Score"

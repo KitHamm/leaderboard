@@ -37,7 +37,7 @@ export default function BeLeaderBoard() {
                                     },
                                 });
                             }}
-                            className="row">
+                            className="row contestant">
                             <div className="col-4">
                                 <input
                                     required
@@ -56,18 +56,32 @@ export default function BeLeaderBoard() {
                                 <input
                                     required
                                     value={formState.score}
-                                    onChange={(e) =>
-                                        setFormState({
-                                            ...formState,
-                                            score: parseInt(e.target.value),
-                                        })
-                                    }
+                                    onChange={(e) => {
+                                        if (e.target.value != "") {
+                                            setFormState({
+                                                ...formState,
+                                                score: parseInt(e.target.value),
+                                            });
+                                        } else {
+                                            setFormState({
+                                                ...formState,
+                                                score: e.target.value,
+                                            });
+                                        }
+                                    }}
                                     type="number"
                                     placeholder="Score"
                                 />
                             </div>
                             <div className="col-4">
-                                <button className="btn">Submit</button>
+                                <button type="submit" className="btn">
+                                    Submit
+                                </button>
+                                <button
+                                    onClick={() => handleEdit(0, "", "")}
+                                    className="btn">
+                                    Cancel
+                                </button>
                             </div>
                         </form>
                     );
@@ -75,7 +89,7 @@ export default function BeLeaderBoard() {
                     return (
                         <div
                             key={contestant.attributes.name}
-                            className="row entry fade-in">
+                            className="row entry contestant fade-in">
                             <div className="col-4">
                                 <h3> Name: {contestant.attributes.name}</h3>
                             </div>

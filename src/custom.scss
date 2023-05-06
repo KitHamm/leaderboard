@@ -1,3 +1,11 @@
-.entry {
-    transition: all 1s ease-out;
+.leaderboard {
+    background-color: grey;
+    border-radius: 2rem;
+    padding: 3rem;
+}
+.contestant {
+    background-color: white;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.75);
 }
