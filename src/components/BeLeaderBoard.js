@@ -90,15 +90,15 @@ export default function BeLeaderBoard() {
                         <div
                             key={contestant.attributes.name}
                             className="row entry contestant fade-in">
-                            <div className="col-4">
+                            <div className="col-5">
                                 <h3> Name: {contestant.attributes.name}</h3>
                             </div>
                             <div className="col-4">
                                 <h3> Score: {contestant.attributes.score}</h3>
                             </div>
-                            <div className="col-4">
+                            <div className="col-3">
                                 <button
-                                    className="btn"
+                                    className="btn btn-warning me-3 ms-3"
                                     onClick={() =>
                                         handleEdit(
                                             contestant.id,
@@ -109,7 +109,7 @@ export default function BeLeaderBoard() {
                                     Edit
                                 </button>
                                 <button
-                                    className="btn"
+                                    className="btn btn-danger"
                                     onClick={() => {
                                         deleteEntry({
                                             variables: { id: contestant.id },

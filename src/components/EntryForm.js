@@ -19,13 +19,13 @@ export default function EntryForm() {
         <div className="row">
             <div className="col-12">
                 <form
-                    className="row"
+                    className="row entry"
                     onSubmit={(e) => {
                         e.preventDefault();
                         createEntry();
                         setFormState({ name: "", score: 0 });
                     }}>
-                    <div className="col-5">
+                    <div className="col-4">
                         <input
                             required
                             value={formState.name}
@@ -39,7 +39,7 @@ export default function EntryForm() {
                             placeholder="Name"
                         />
                     </div>
-                    <div className="col-5">
+                    <div className="col-4">
                         <input
                             required
                             value={formState.score}
@@ -56,8 +56,8 @@ export default function EntryForm() {
                             placeholder="Score"
                         />
                     </div>
-                    <div className="col">
-                        <button className="btn" type="submit">
+                    <div className="col-4">
+                        <button className="btn btn-success" type="submit">
                             Submit
                         </button>
                     </div>

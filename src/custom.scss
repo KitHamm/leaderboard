@@ -3,9 +3,33 @@
     border-radius: 2rem;
     padding: 3rem;
 }
-.contestant {
+.entry {
+    display: flex;
+    align-items: center;
     background-color: white;
     margin-bottom: 1rem;
     border-radius: 1rem;
     box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.75);
+}
+.contestant {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.75);
+    &:first-child {
+        background-color: gold;
+    }
+}
+input[type="text"],
+input[type="number"] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 8px 0;
+    padding: 12px 20px;
+    resize: none;
+    width: 100%;
 }
