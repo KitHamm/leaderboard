@@ -164,8 +164,8 @@ export default function BeLeaderBoard() {
                             key={contestant.attributes.name}
                             className={
                                 index === 0
-                                    ? "row contestant winner fade-in"
-                                    : "row contestant fade-in"
+                                    ? "row contestant winner"
+                                    : "row contestant"
                             }>
                             <div className="col-2 text-center">
                                 <h3>{index + 1}</h3>
