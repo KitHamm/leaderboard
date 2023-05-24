@@ -6,6 +6,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import App from "./App";
 import "./custom.scss";
 import "./fade.scss";
+import "./loader.scss";
 // import App from './final/App';
 
 ReactDOM.render(

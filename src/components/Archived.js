@@ -45,14 +45,20 @@ export default function Archive() {
                                 <div id={"table-" + lb.id} className="content">
                                     {lb.attributes.Board.map((table, index) => {
                                         return (
-                                            <div key={table.id} className="row">
-                                                <div className="col-2">
+                                            <div
+                                                key={table.id}
+                                                className={
+                                                    index === 0
+                                                        ? "row winner"
+                                                        : "row"
+                                                }>
+                                                <div className="col-2 text-center">
                                                     <h3>{index + 1}</h3>
                                                 </div>
-                                                <div className="col-5">
-                                                    <h3>Name: {table.Name}</h3>
+                                                <div className="col-4">
+                                                    <h3>{table.Name}</h3>
                                                 </div>
-                                                <div className="col-5">
+                                                <div className="col-4">
                                                     <h3>
                                                         Score: {table.Score}
                                                     </h3>

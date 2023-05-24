@@ -16,8 +16,8 @@ function App() {
         <BrowserRouter>
             <ApolloProvider client={api}>
                 <Routes>
-                    <Route path="/test" element={<Home />} />
-                    <Route path="/test2" element={<Dashboard />} />
+                    <Route path="/leaderboard" element={<Home />} />
+                    <Route path="/leaderboardadmin" element={<Dashboard />} />
                 </Routes>
             </ApolloProvider>
         </BrowserRouter>

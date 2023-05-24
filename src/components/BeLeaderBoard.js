@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from "@apollo/client";
 import { useState } from "react";
+import Loading from "./Loading";
 import {
     LB,
     DELETEENTRY,
@@ -8,6 +9,7 @@ import {
 } from "../components/Queries";
 
 export default function BeLeaderBoard() {
+    const [isLoading, setIsLoading] = useState(false);
     const [formState, setFormState] = useState({
         name: "",
         score: 0,
@@ -70,11 +72,15 @@ export default function BeLeaderBoard() {
                     variables: { id: data.lbs.data[index].id },
                 });
             }
-            window.location.reload();
+            setIsLoading(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
         } else {
             console.log("Canceled");
         }
     }
+    if (isLoading) return <Loading />;
     return (
         <>
             <div className="row mb-4">
