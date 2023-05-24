@@ -1,5 +1,6 @@
 import BeLeaderBoard from "../components/BeLeaderBoard";
 import EntryForm from "../components/EntryForm";
+import Archive from "../components/Archived";
 
 export default function Dashboard() {
     return (
@@ -9,6 +10,7 @@ export default function Dashboard() {
                     <div className="leaderboard">
                         <BeLeaderBoard />
                         <EntryForm />
+                        <Archive />
                     </div>
                 </div>
             </div>

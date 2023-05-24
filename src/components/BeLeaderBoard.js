@@ -1,6 +1,11 @@
 import { useQuery, useMutation } from "@apollo/client";
 import { useState } from "react";
-import { LB, DELETEENTRY, EDITENTRY } from "../components/Queries";
+import {
+    LB,
+    DELETEENTRY,
+    EDITENTRY,
+    CREATEARCHIVE,
+} from "../components/Queries";
 
 export default function BeLeaderBoard() {
     const [formState, setFormState] = useState({
@@ -8,10 +13,14 @@ export default function BeLeaderBoard() {
         score: 0,
     });
     const [Edit, setEdit] = useState(0);
+    const [archiveBoard, setArchiveBoard] = useState([{}]);
+
     const [deleteEntry, { loadingDelete, errorDelete, dataDelete }] =
         useMutation(DELETEENTRY);
     const [editEntry, { loadingEdit, errorEdit, dataEdit }] =
         useMutation(EDITENTRY);
+    const [createArchive, { loadingArchive, errorArchive, dataArchive }] =
+        useMutation(CREATEARCHIVE);
     const { loading, error, data } = useQuery(LB, { pollInterval: 500 });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;
@@ -19,9 +28,67 @@ export default function BeLeaderBoard() {
         setEdit(id);
         setFormState({ name: name, score: score });
     }
+    function handleArchive() {
+        let text =
+            "Are you sure? This action will archive the leaderboard and cannot be undone.";
+
+        if (window.confirm(text) === true) {
+            var names = ["", "", "", "", "", "", "", "", "", ""];
+            var scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for (let index = 0; index < 10; index++) {
+                if (data.lbs.data[index]) {
+                    names[index] = data.lbs.data[index].attributes.name;
+                    scores[index] = data.lbs.data[index].attributes.score;
+                }
+            }
+            createArchive({
+                variables: {
+                    name1: names[0],
+                    score1: scores[0],
+                    name2: names[1],
+                    score2: scores[1],
+                    name3: names[2],
+                    score3: scores[2],
+                    name4: names[3],
+                    score4: scores[3],
+                    name5: names[4],
+                    score5: scores[4],
+                    name6: names[5],
+                    score6: scores[5],
+                    name7: names[6],
+                    score7: scores[6],
+                    name8: names[7],
+                    score8: scores[7],
+                    name9: names[8],
+                    score9: scores[8],
+                    name10: names[9],
+                    score10: scores[9],
+                },
+            });
+            for (let index = 0; index < data.lbs.data.length; index++) {
+                deleteEntry({
+                    variables: { id: data.lbs.data[index].id },
+                });
+            }
+            window.location.reload();
+        } else {
+            console.log("Canceled");
+        }
+    }
     return (
         <>
-            {data.lbs.data.slice(0, 10).map((contestant) => {
+            <div className="row mb-4">
+                <div className="col-3">
+                    <button
+                        onClick={handleArchive}
+                        type="submit"
+                        className="btn btn-danger">
+                        (!) Clear Board (!)
+                    </button>
+                </div>
+            </div>
+
+            {data.lbs.data.slice(0, 10).map((contestant, index) => {
                 if (contestant.id == Edit) {
                     return (
                         <form
@@ -37,7 +104,7 @@ export default function BeLeaderBoard() {
                                     },
                                 });
                             }}
-                            className="row contestant">
+                            className="row entry">
                             <div className="col-4">
                                 <input
                                     required
@@ -89,14 +156,21 @@ export default function BeLeaderBoard() {
                     return (
                         <div
                             key={contestant.attributes.name}
-                            className="row entry contestant fade-in">
-                            <div className="col-5">
-                                <h3> Name: {contestant.attributes.name}</h3>
+                            className={
+                                index === 0
+                                    ? "row contestant winner fade-in"
+                                    : "row contestant fade-in"
+                            }>
+                            <div className="col-2 text-center">
+                                <h3>{index + 1}</h3>
+                            </div>
+                            <div className="col-4">
+                                <h3>{contestant.attributes.name}</h3>
                             </div>
                             <div className="col-4">
                                 <h3> Score: {contestant.attributes.score}</h3>
                             </div>
-                            <div className="col-3">
+                            <div className="col-2">
                                 <button
                                     className="btn btn-warning me-3 ms-3"
                                     onClick={() =>
@@ -121,6 +195,27 @@ export default function BeLeaderBoard() {
                         </div>
                     );
             })}
+            <EmptyRows amount={10 - data.lbs.data.length} />
         </>
     );
+}
+function EmptyRows(props) {
+    let filled = 10 - props.amount;
+    let rows = [];
+    for (let index = 0; index < props.amount; index++) {
+        rows.push(
+            <div key={filled + index + 1} className="row contestant">
+                <div className="col-2 text-center">
+                    <h3>{filled + index + 1}</h3>
+                </div>
+                <div className="col-4">
+                    <h3></h3>
+                </div>
+                <div className="col-4">
+                    <h3> Score: </h3>
+                </div>
+            </div>
+        );
+    }
+    return rows;
 }

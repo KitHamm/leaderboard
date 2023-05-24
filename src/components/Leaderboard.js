@@ -11,7 +11,13 @@ export default function Leaderboard() {
         <>
             {data.lbs.data.slice(0, 10).map((contestant, index) => {
                 return (
-                    <div key={contestant.id} className="row contestant fade-in">
+                    <div
+                        key={contestant.id}
+                        className={
+                            index === 0
+                                ? "row contestant winner fade-in"
+                                : "row contestant fade-in"
+                        }>
                         <div className="col-2 text-center">
                             <h3>{index + 1}</h3>
                         </div>

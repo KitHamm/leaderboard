@@ -11,10 +11,10 @@
         background-color: green;
     }
     50% {
-        opacity: 1;
+        opacity: 1 !important;
     }
     100% {
-        opacity: 1;
+        opacity: 1 !important;
         background-color: white;
     }
 }
