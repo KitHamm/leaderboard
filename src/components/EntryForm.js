@@ -6,7 +6,7 @@ export default function EntryForm() {
         name: "",
         score: "",
     });
-    console.log(formState);
+    //console.log(formState);
     const [createEntry, { loading, error, data }] = useMutation(NEWENTRY, {
         variables: {
             name: formState.name,
