@@ -6,7 +6,11 @@ export default function Home() {
             <div className="row top">
                 <div className="mt-auto row mb-auto">
                     <div className="col-1 m-auto">
-                        <img className="cup" src="leaderboard/cup.png" />
+                        <img
+                            alt="cup"
+                            className="cup"
+                            src="leaderboard/cup.png"
+                        />
                     </div>
                     <div className="col-8 m-auto">
                         <h1>LEADERBOARD</h1>

@@ -80,8 +80,24 @@ export const CREATEARCHIVE = gql`
 `;
 
 export const NEWENTRY = gql`
-    mutation CREATE_ENTRY($name: String!, $score: Int) {
-        createLb(data: { name: $name, score: $score }) {
+    mutation CREATE_ENTRY(
+        $displayName: String!
+        $email: String!
+        $firstName: String!
+        $lastName: String!
+        $scoreOne: Int
+        $scoreTwo: Int
+    ) {
+        createLb(
+            data: {
+                displayName: $displayName
+                email: $email
+                firstName: $firstName
+                lastName: $lastName
+                scoreOne: $scoreOne
+                scoreTwo: $scoreTwo
+            }
+        ) {
             data {
                 id
             }

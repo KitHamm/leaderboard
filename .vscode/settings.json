@@ -1,3 +1,9 @@
 {
-    "cSpell.words": ["Leaderboard"]
+    "cSpell.words": [
+        "CREATEARCHIVE",
+        "DELETEENTRY",
+        "EDITENTRY",
+        "Leaderboard",
+        "NEWENTRY"
+    ]
 }
