@@ -6,6 +6,7 @@ import {
     AllContestantBackend,
     EDITENTRY,
     DELETEENTRY,
+    setNoShow,
 } from "../components/Queries";
 
 export default function Dashboard() {
@@ -91,6 +92,17 @@ function View(props) {
 
 function Leaderboard() {
     const { loading, error, data } = useQuery(LBBackend, { pollInterval: 500 });
+    const [
+        updateShow,
+        { loading: loadingShow, error: errorShow, data: dataShow },
+    ] = useMutation(setNoShow);
+
+    function handleNoShow(data) {
+        data.forEach((element) => {
+            updateShow({ variables: { id: element.id } });
+        });
+    }
+
     if (loading) {
         return (
             <div className="row p-1 contestant">
@@ -108,6 +120,26 @@ function Leaderboard() {
     if (data)
         return (
             <>
+                <div className="row mt-5 mb-4">
+                    <div className="col-6 offset-3 text-center">
+                        <div style={{ color: "white" }}>
+                            Current Leaderboard
+                        </div>
+                    </div>
+                    {data.lbs.data.length > 0 ? (
+                        <div className="col-3 text-end">
+                            <button
+                                className="btn btn-danger"
+                                onClick={(e) => {
+                                    handleNoShow(data.lbs.data);
+                                }}>
+                                Clear
+                            </button>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                </div>
                 {data.lbs.data.length > 0 ? (
                     data.lbs.data.slice(0, 9).map((contestant, index) => {
                         return (
@@ -192,6 +224,7 @@ function LeaderboardAll() {
     const { loading, error, data } = useQuery(AllContestantBackend, {
         pollInterval: 500,
     });
+
     if (loading) {
         return (
             <div className="row p-1 contestant">
@@ -209,6 +242,24 @@ function LeaderboardAll() {
     if (data)
         return (
             <>
+                <div className="row mt-5 mb-4">
+                    <div className="col-6 offset-3 text-center">
+                        <div style={{ color: "white" }}>All Entries</div>
+                    </div>
+                    {data.lbs.data.length > 0 ? (
+                        <div className="col-3 text-end">
+                            <button
+                                className="btn btn-success"
+                                onClick={(e) => {
+                                    console.log("Download");
+                                }}>
+                                Download
+                            </button>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                </div>
                 {data.lbs.data.length > 0 ? (
                     data.lbs.data.slice(0, 9).map((contestant, index) => {
                         return (

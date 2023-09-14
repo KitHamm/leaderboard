@@ -2,7 +2,10 @@ import { gql } from "@apollo/client";
 
 export const LB = gql`
     query GetLeaderBoard {
-        lbs(sort: ["score:asc", "createdAt:asc"]) {
+        lbs(
+            filters: { show: { eq: true } }
+            sort: ["score:asc", "createdAt:asc"]
+        ) {
             data {
                 id
                 attributes {
@@ -16,7 +19,10 @@ export const LB = gql`
 
 export const LBBackend = gql`
     query GetLeaderBoard {
-        lbs(sort: ["score:asc", "createdAt:asc"]) {
+        lbs(
+            filters: { show: { eq: true } }
+            sort: ["score:asc", "createdAt:asc"]
+        ) {
             data {
                 id
                 attributes {
@@ -114,6 +120,16 @@ export const EDITENTRY = gql`
                 score: $score
             }
         ) {
+            data {
+                id
+            }
+        }
+    }
+`;
+
+export const setNoShow = gql`
+    mutation setNoShow($id: ID!) {
+        updateLb(id: $id, data: { show: false }) {
             data {
                 id
             }
