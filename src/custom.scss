@@ -1,6 +1,59 @@
+$primaryGreen: #71be23;
+$secondaryGreen: #419253;
+$accentGreen: #e2f0dd;
+$gold: #fbe9b6;
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P:regular");
+
+body {
+    background-color: $accentGreen;
+    background-image: url("background.png");
+    //background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Press Start 2P";
+    color: $secondaryGreen;
+}
+h1 {
+    font-size: 40pt;
+}
+h3 {
+    margin-bottom: 0 !important;
+    font-size: 32pt;
+}
+p {
+    align-self: baseline;
+}
+.cup {
+    width: auto;
+    height: 160px;
+}
+.place {
+    display: inline-flex;
+    align-items: center;
+    height: 80%;
+    padding-left: 35px;
+    font-size: 15pt;
+}
+.suffix {
+    align-self: baseline;
+}
+.top,
+.bottom {
+    height: 15vh;
+}
+.middle {
+    height: 70vh;
+}
+.score {
+    font-size: 30pt;
+}
+.name {
+    font-size: 18pt;
+    text-transform: uppercase;
+}
 .leaderboard {
-    background-color: grey;
-    border-radius: 2rem;
+    //background-color: $primaryGreen;
+    //border-radius: 2rem;
     padding: 3rem;
 }
 .entry {
@@ -12,18 +65,17 @@
     box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.75);
 }
 .contestant {
-    //opacity: 0;
+    height: 5vh;
+    color: white;
     overflow: hidden;
     display: flex;
-    //max-height: 0;
     align-items: center;
-    background-color: white;
-    margin-bottom: 1rem;
-    border-radius: 1rem;
-    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.75);
+    background-color: $secondaryGreen;
+    margin-bottom: 3rem;
+    border-radius: 5rem;
 }
 .winner {
-    background-color: gold !important;
+    color: $gold;
 }
 input[type="text"],
 input[type="number"] {

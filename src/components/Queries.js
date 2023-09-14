@@ -19,13 +19,14 @@ export const AllLb = gql`
 `;
 
 export const LB = gql`
-    query Getleaderboard {
-        lbs(sort: ["score:desc", "createdAt:asc"]) {
+    query GetLeaderBoard {
+        lbs(sort: ["score:asc", "createdAt:asc"]) {
             data {
                 id
                 attributes {
-                    name
-                    score
+                    displayName
+                    scoreOne
+                    scoreTwo
                 }
             }
         }

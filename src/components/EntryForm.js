@@ -47,7 +47,7 @@ export default function EntryForm() {
                                 required
                                 value={formState.score}
                                 onChange={(e) => {
-                                    if (e.target.value != "") {
+                                    if (e.target.value !== "") {
                                         setFormState({
                                             ...formState,
                                             score: parseInt(e.target.value),
@@ -102,7 +102,7 @@ export default function EntryForm() {
                             required
                             value={formState.score}
                             onChange={(e) => {
-                                if (e.target.value != "") {
+                                if (e.target.value !== "") {
                                     setFormState({
                                         ...formState,
                                         score: parseInt(e.target.value),
