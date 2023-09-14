@@ -72,8 +72,24 @@ p {
     display: flex;
     align-items: center;
     background-color: $secondaryGreen;
-    margin-bottom: 3rem;
     border-radius: 5rem;
+}
+.contestant-back {
+    color: white;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background-color: $secondaryGreen;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.ays {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.front {
+    margin-bottom: 3rem;
+}
+.back {
+    margin-bottom: 1rem;
 }
 .winner {
     color: $gold;
@@ -143,4 +159,16 @@ input[type="number"] {
     color: white;
     background-color: #555;
     max-height: fit-content !important;
+}
+dialog {
+    top: 0;
+    bottom: 0;
+    border: none !important;
+    border-radius: 1rem;
+    box-shadow: 0 0 #0000, 0 0 #0000, 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    padding: 1.6rem;
+    max-width: 90vw;
+}
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
 }

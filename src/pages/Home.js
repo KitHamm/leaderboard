@@ -20,7 +20,7 @@ export default function Home() {
             <div className="row middle">
                 <div className="col-12">
                     <div className="leaderboard">
-                        <Leaderboard />
+                        <Leaderboard admin={false} />
                     </div>
                 </div>
             </div>

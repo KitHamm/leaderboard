@@ -1,8 +1,7 @@
 import { useMutation } from "@apollo/client";
 import { NEWENTRY } from "../components/Queries";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 export default function EntryForm() {
-    const [success, setSuccess] = useState(false);
     const [accept, setAccept] = useState(false);
     const [formState, setFormState] = useState({
         displayName: "",
@@ -11,6 +10,7 @@ export default function EntryForm() {
         email: "",
         scoreOne: 0,
         scoreTwo: 0,
+        score: 0,
     });
     const [createEntry, { loading, error, data }] = useMutation(NEWENTRY, {
         variables: {
@@ -20,16 +20,29 @@ export default function EntryForm() {
             email: formState.email,
             scoreOne: formState.scoreOne,
             scoreTwo: formState.scoreTwo,
+            score: formState.score,
         },
     });
-    useEffect(() => {
-        if (data !== undefined) {
-            if (data.id) {
-                console.log(data.id);
-                setSuccess(true);
-            }
+
+    function scoreCalc(scoreOne, scoreTwo) {
+        let score;
+        if (scoreOne > scoreTwo) {
+            score = scoreOne - scoreTwo;
+        } else if (scoreOne < scoreTwo) {
+            score = scoreTwo - scoreOne;
+        } else {
+            score = 0;
         }
-    }, [data]);
+        return score;
+    }
+
+    useEffect(() => {
+        setFormState({
+            ...formState,
+            score: scoreCalc(formState.scoreOne, formState.scoreTwo),
+        });
+    }, [formState.scoreOne, formState.scoreTwo]);
+
     if (loading)
         return (
             <div className="row">
@@ -55,24 +68,6 @@ export default function EntryForm() {
                 </div>
             </div>
         );
-    if (success) {
-        return (
-            <div className="row">
-                <div className="col-12 entry text-center">
-                    <div className="col-8 offset-2">Success!</div>
-                    <div className="col-2">
-                        <button
-                            className="btn btn-success"
-                            onClick={() => {
-                                window.location.reload();
-                            }}>
-                            Finish
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
     if (data) {
         return (
             <div className="row">
@@ -110,6 +105,13 @@ export default function EntryForm() {
                         className="row entry"
                         onSubmit={(e) => {
                             e.preventDefault();
+                            setFormState({
+                                ...formState,
+                                score: scoreCalc(
+                                    formState.scoreOne,
+                                    formState.scoreTwo
+                                ),
+                            });
                             createEntry();
                             //window.location.reload();
                         }}>
@@ -189,14 +191,14 @@ export default function EntryForm() {
                                     <input
                                         required
                                         //value={formState.scoreOne}
-                                        onChange={(e) =>
+                                        onChange={(e) => {
                                             setFormState({
                                                 ...formState,
                                                 scoreOne: parseInt(
                                                     e.target.value
                                                 ),
-                                            })
-                                        }
+                                            });
+                                        }}
                                         type="number"
                                         min={1}
                                         placeholder="Score"
@@ -207,20 +209,34 @@ export default function EntryForm() {
                                     <input
                                         required
                                         //value={formState.scoreTwo}
-                                        onChange={(e) =>
+                                        onChange={(e) => {
                                             setFormState({
                                                 ...formState,
                                                 scoreTwo: parseInt(
                                                     e.target.value
                                                 ),
-                                            })
-                                        }
+                                            });
+                                        }}
                                         type="number"
                                         min={1}
                                         placeholder="Score"
                                     />
                                 </div>
-                                <div className="col-4">
+                                <div className="col-6 mb-4">
+                                    <label>Final Score</label>
+                                    <input
+                                        required
+                                        readOnly
+                                        value={scoreCalc(
+                                            formState.scoreOne,
+                                            formState.scoreTwo
+                                        )}
+                                        type="number"
+                                        min={1}
+                                        placeholder="Score"
+                                    />
+                                </div>
+                                <div className="col-6 text-end">
                                     <button
                                         className="btn btn-success"
                                         type="submit">
