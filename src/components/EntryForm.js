@@ -2,7 +2,8 @@ import { useMutation } from "@apollo/client";
 import { NEWENTRY } from "../components/Queries";
 import { useState, useEffect } from "react";
 export default function EntryForm() {
-    const [accept, setAccept] = useState(false);
+    const [acceptTerms, setAcceptTerms] = useState(false);
+    const [acceptPrivacy, setAcceptPrivacy] = useState(false);
     const [formState, setFormState] = useState({
         displayName: "",
         firstName: "",
@@ -113,7 +114,6 @@ export default function EntryForm() {
                                 ),
                             });
                             createEntry();
-                            //window.location.reload();
                         }}>
                         <div className="col-6 mb-4">
                             <label>Display Name</label>
@@ -177,14 +177,47 @@ export default function EntryForm() {
                         </div>
                         <div className="col-1 offset-1 mb-4">
                             <input
+                                id="terms-check"
                                 type="checkbox"
                                 onChange={() => {
-                                    setAccept(!accept);
+                                    setAcceptTerms(!acceptTerms);
                                 }}
                             />
                         </div>
-                        <div className="col-10 mb-4">I accept blah blah</div>
-                        {accept ? (
+                        <div className="col-10 mb-4">
+                            I have read and agree to the{" "}
+                            <strong
+                                onClick={(e) => {
+                                    document
+                                        .getElementById("terms-dialog")
+                                        .showModal();
+                                    document.body.style.overflow = "hidden";
+                                }}>
+                                Terms of Service
+                            </strong>
+                        </div>
+                        <div className="col-1 offset-1 mb-5">
+                            <input
+                                id="privacy-check"
+                                type="checkbox"
+                                onChange={() => {
+                                    setAcceptPrivacy(!acceptPrivacy);
+                                }}
+                            />
+                        </div>
+                        <div className="col-10 mb-5">
+                            I have read and agree to the{" "}
+                            <strong
+                                onClick={(e) => {
+                                    document
+                                        .getElementById("privacy-dialog")
+                                        .showModal();
+                                    document.body.style.overflow = "hidden";
+                                }}>
+                                Privacy Policy
+                            </strong>
+                        </div>
+                        {acceptPrivacy && acceptTerms ? (
                             <>
                                 <div className="col-6 mb-4">
                                     <label>First Score</label>
@@ -248,6 +281,114 @@ export default function EntryForm() {
                             <></>
                         )}
                     </form>
+                    <dialog id="privacy-dialog">
+                        <div className="row mb-5">
+                            <div className="col-12">
+                                <h3>Privacy Policy</h3>
+                            </div>
+                        </div>
+                        <div className="row mb-5">
+                            <div className="col-12">
+                                <div className="ays">
+                                    Lorem ipsum, dolor sit amet consectetur
+                                    adipisicing elit. Neque error harum dolor
+                                    quas possimus ullam commodi autem vero nisi,
+                                    itaque hic numquam beatae reprehenderit ut
+                                    asperiores? Reprehenderit omnis repellat
+                                    reiciendis. Lorem ipsum dolor sit amet
+                                    consectetur adipisicing elit. Laboriosam
+                                    tempore in rerum! Minima explicabo
+                                    quibusdam, esse veniam ipsum officiis dicta
+                                    quam magnam tempora pariatur velit corrupti,
+                                    porro nulla beatae modi.
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-2 text-start">
+                                <button
+                                    className="btn btn-success"
+                                    onClick={() => {
+                                        setAcceptPrivacy(true);
+                                        document.getElementById(
+                                            "privacy-check"
+                                        ).checked = true;
+                                        document
+                                            .getElementById("privacy-dialog")
+                                            .close();
+                                        document.body.style.overflow = "auto";
+                                    }}>
+                                    Agree
+                                </button>
+                            </div>
+                            <div className="col-2 offset-8 text-end">
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={() => {
+                                        document
+                                            .getElementById("privacy-dialog")
+                                            .close();
+                                        document.body.style.overflow = "auto";
+                                    }}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </dialog>
+                    <dialog id="terms-dialog">
+                        <div className="row mb-5">
+                            <div className="col-12">
+                                <h3>Terms of Service</h3>
+                            </div>
+                        </div>
+                        <div className="row mb-5">
+                            <div className="col-12">
+                                <div className="ays">
+                                    Lorem ipsum, dolor sit amet consectetur
+                                    adipisicing elit. Neque error harum dolor
+                                    quas possimus ullam commodi autem vero nisi,
+                                    itaque hic numquam beatae reprehenderit ut
+                                    asperiores? Reprehenderit omnis repellat
+                                    reiciendis. Lorem ipsum dolor sit amet
+                                    consectetur adipisicing elit. Laboriosam
+                                    tempore in rerum! Minima explicabo
+                                    quibusdam, esse veniam ipsum officiis dicta
+                                    quam magnam tempora pariatur velit corrupti,
+                                    porro nulla beatae modi.
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-2 text-start">
+                                <button
+                                    className="btn btn-success"
+                                    onClick={() => {
+                                        setAcceptTerms(true);
+                                        document.getElementById(
+                                            "terms-check"
+                                        ).checked = true;
+                                        document
+                                            .getElementById("terms-dialog")
+                                            .close();
+                                        document.body.style.overflow = "auto";
+                                    }}>
+                                    Agree
+                                </button>
+                            </div>
+                            <div className="col-2 offset-8 text-end">
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={() => {
+                                        document
+                                            .getElementById("terms-dialog")
+                                            .close();
+                                        document.body.style.overflow = "auto";
+                                    }}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </dialog>
                 </div>
             </div>
         </>
