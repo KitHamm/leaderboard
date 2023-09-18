@@ -190,72 +190,11 @@ function Leaderboard() {
                 {data.lbs.data.length > 0 ? (
                     data.lbs.data.slice(0, 9).map((contestant, index) => {
                         return (
-                            <div
-                                key={contestant.attributes.displayName + index}>
-                                <div className="row p-1 contestant-back mb-1">
-                                    <div className="col-1">{index + 1}</div>
-                                    <div className="col-5">
-                                        Display:{" "}
-                                        {contestant.attributes.displayName}
-                                    </div>
-                                    <div className="col-2">
-                                        1st: {contestant.attributes.scoreOne}
-                                    </div>
-                                    <div className="col-2">
-                                        2nd: {contestant.attributes.scoreTwo}
-                                    </div>
-                                    <div className="col-2">
-                                        Final: {contestant.attributes.score}
-                                    </div>
-                                    <div className="col-5 offset-1">
-                                        Name:{" "}
-                                        {contestant.attributes.firstName +
-                                            " " +
-                                            contestant.attributes.lastName}
-                                    </div>
-
-                                    <div className="col-5">
-                                        Email: {contestant.attributes.email}
-                                    </div>
-                                    <div className="col-2 offset-8 mt-2 mb-2 text-center">
-                                        <button
-                                            className="btn btn-danger"
-                                            onClick={() => {
-                                                document
-                                                    .getElementById(
-                                                        "delete-" +
-                                                            contestant.id
-                                                    )
-                                                    .showModal();
-                                                document.body.style.overflow =
-                                                    "hidden";
-                                            }}>
-                                            Delete
-                                        </button>
-                                    </div>
-                                    <div
-                                        className="col-2 mt-2 mb-2 text-center"
-                                        onClick={() => {
-                                            document
-                                                .getElementById(contestant.id)
-                                                .showModal();
-                                            document.body.style.overflow =
-                                                "hidden";
-                                        }}>
-                                        <button className="btn btn-success">
-                                            Edit
-                                        </button>
-                                    </div>
-                                </div>
-                                <DeleteModal
-                                    id={contestant.id}
-                                    data={contestant}
-                                />
-                                <EditModal
-                                    id={contestant.id}
-                                    data={contestant}
-                                />
-                            </div>
+                            <ContestantRow
+                                key={contestant.attributes.displayName + index}
+                                contestant={contestant}
+                                index={index}
+                            />
                         );
                     })
                 ) : (
@@ -358,72 +297,11 @@ function LeaderboardAll() {
                 {data.lbs.data.length > 0 ? (
                     data.lbs.data.slice(0, 9).map((contestant, index) => {
                         return (
-                            <div
-                                key={contestant.attributes.displayName + index}>
-                                <div className="row p-1 contestant-back mb-1">
-                                    <div className="col-1">{index + 1}</div>
-                                    <div className="col-5">
-                                        Display:{" "}
-                                        {contestant.attributes.displayName}
-                                    </div>
-                                    <div className="col-2">
-                                        1st: {contestant.attributes.scoreOne}
-                                    </div>
-                                    <div className="col-2">
-                                        2nd: {contestant.attributes.scoreTwo}
-                                    </div>
-                                    <div className="col-2">
-                                        Final: {contestant.attributes.score}
-                                    </div>
-                                    <div className="col-5 offset-1">
-                                        Name:{" "}
-                                        {contestant.attributes.firstName +
-                                            " " +
-                                            contestant.attributes.lastName}
-                                    </div>
-
-                                    <div className="col-5">
-                                        Email: {contestant.attributes.email}
-                                    </div>
-                                    <div className="col-2 offset-8 mt-2 mb-2 text-center">
-                                        <button
-                                            className="btn btn-danger"
-                                            onClick={() => {
-                                                document
-                                                    .getElementById(
-                                                        "delete-" +
-                                                            contestant.id
-                                                    )
-                                                    .showModal();
-                                                document.body.style.overflow =
-                                                    "hidden";
-                                            }}>
-                                            Delete
-                                        </button>
-                                    </div>
-                                    <div
-                                        className="col-2 mt-2 mb-2 text-center"
-                                        onClick={() => {
-                                            document
-                                                .getElementById(contestant.id)
-                                                .showModal();
-                                            document.body.style.overflow =
-                                                "hidden";
-                                        }}>
-                                        <button className="btn btn-success">
-                                            Edit
-                                        </button>
-                                    </div>
-                                </div>
-                                <DeleteModal
-                                    id={contestant.id}
-                                    data={contestant}
-                                />
-                                <EditModal
-                                    id={contestant.id}
-                                    data={contestant}
-                                />
-                            </div>
+                            <ContestantRow
+                                key={contestant.attributes.displayName + index}
+                                contestant={contestant}
+                                index={index}
+                            />
                         );
                     })
                 ) : (
@@ -575,7 +453,7 @@ function EditModal(props) {
             ) : (
                 <>
                     <h5 className="mb-5">
-                        Edit {props.data.attributes.displayName}
+                        Editing {props.data.attributes.displayName}
                     </h5>
                     <form
                         onSubmit={(e) => {
@@ -697,5 +575,65 @@ function EditModal(props) {
                 </>
             )}
         </dialog>
+    );
+}
+
+function ContestantRow(props) {
+    const contestant = props.contestant;
+    const index = props.index;
+    return (
+        <div>
+            <div className="row p-3 contestant-back mb-1">
+                <div className="col-1">
+                    <strong>{index + 1}</strong>
+                </div>
+                <div className="col-5 ">
+                    <strong>Display:</strong>{" "}
+                    {contestant.attributes.displayName}
+                </div>
+                <div className="col-3">
+                    <strong>1st:</strong> {contestant.attributes.scoreOne}
+                </div>
+                <div className="col-3 text-end">
+                    <button
+                        onClick={() => {
+                            document.getElementById(contestant.id).showModal();
+                            document.body.style.overflow = "hidden";
+                        }}
+                        className="btn btn-warning">
+                        Edit
+                    </button>
+                </div>
+                <div className="col-5 offset-1">
+                    <strong>Name:</strong>{" "}
+                    {contestant.attributes.firstName +
+                        " " +
+                        contestant.attributes.lastName}
+                </div>
+                <div className="col-2">
+                    <strong>2nd:</strong> {contestant.attributes.scoreTwo}
+                </div>
+                <div className="col-5 offset-1">
+                    <strong>Email:</strong> {contestant.attributes.email}
+                </div>
+                <div className="col-3">
+                    <strong>Final:</strong> {contestant.attributes.score}
+                </div>
+                <div className="col-3 text-end">
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                            document
+                                .getElementById("delete-" + contestant.id)
+                                .showModal();
+                            document.body.style.overflow = "hidden";
+                        }}>
+                        Delete
+                    </button>
+                </div>
+            </div>
+            <DeleteModal id={contestant.id} data={contestant} />
+            <EditModal id={contestant.id} data={contestant} />
+        </div>
     );
 }
