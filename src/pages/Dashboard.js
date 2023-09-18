@@ -12,7 +12,7 @@ import {
     setNoShow,
 } from "../components/Queries";
 export const loggedInContext = createContext();
-
+export const viewContext = createContext();
 export default function Dashboard() {
     /* eslint-disable no-unused-vars */
     const [token, setToken] = useContext(tokenContext);
@@ -20,7 +20,8 @@ export default function Dashboard() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [view, setView] = useState(1);
     var body = document.getElementsByTagName("body")[0];
-    body.style.backgroundImage = "none";
+    body.style.backgroundImage = "url('/leaderboardadmin/backgroundadmin.png')";
+    body.style.backgroundSize = "cover";
 
     useEffect(() => {
         if (!cookies.get("jwt")) {
@@ -42,25 +43,11 @@ export default function Dashboard() {
         <>
             <div className="container">
                 <div className="row mt-5 mb-5">
-                    <div className="col-8 offset-2 text-center">
+                    <div className="col-12 text-center">
                         <h3>Leaderboard</h3>
                     </div>
-                    <div className="col-2">
-                        <button
-                            className="btn btn-danger"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                cookies.remove("jwt", {
-                                    path: "/leaderboardadmin",
-                                });
-                                setLoggedIn(false);
-                                window.location.reload();
-                            }}>
-                            Log Out
-                        </button>
-                    </div>
                 </div>
-                {view === 2 ? (
+                {view !== 1 ? (
                     <></>
                 ) : (
                     <>
@@ -74,17 +61,6 @@ export default function Dashboard() {
                                     Add Contestant
                                 </button>
                             </div>
-                            {view !== 1 ? (
-                                <div className="col-2">
-                                    <button
-                                        onClick={() => setView(1)}
-                                        className="btn btn-danger">
-                                        Close
-                                    </button>
-                                </div>
-                            ) : (
-                                <></>
-                            )}
                         </div>
                         <div className="row mb-3">
                             <div className="col-12 text-center">
@@ -108,9 +84,27 @@ export default function Dashboard() {
                                 </button>
                             </div>
                         </div>
+                        <div className="row">
+                            <div className="col-12 text-center">
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        cookies.remove("jwt", {
+                                            path: "/leaderboardadmin",
+                                        });
+                                        setLoggedIn(false);
+                                        window.location.reload();
+                                    }}>
+                                    Log Out
+                                </button>
+                            </div>
+                        </div>
                     </>
                 )}
-                <View view={view} />
+                <viewContext.Provider value={[view, setView]}>
+                    <View view={view} />
+                </viewContext.Provider>
             </div>
         </>
     );
@@ -132,8 +126,9 @@ function View(props) {
 }
 
 function Leaderboard() {
-    const { loading, error, data } = useQuery(LBBackend, { pollInterval: 500 });
     /* eslint-disable no-unused-vars */
+    const [view, setView] = useContext(viewContext);
+    const { loading, error, data } = useQuery(LBBackend, { pollInterval: 500 });
     const [
         updateShow,
         { loading: loadingShow, error: errorShow, data: dataShow },
@@ -147,14 +142,14 @@ function Leaderboard() {
 
     if (loading) {
         return (
-            <div className="row p-1 contestant">
+            <div className="row mt-5 p-1 contestant">
                 <div className="col-12 text-center">Loading...</div>
             </div>
         );
     }
     if (error) {
         return (
-            <div className="row p-1 contestant">
+            <div className="row mt-5 p-1 contestant">
                 <div className="col-12  text-center">Error.</div>
             </div>
         );
@@ -163,7 +158,16 @@ function Leaderboard() {
         return (
             <>
                 <div className="row mt-5 mb-4">
-                    <div className="col-6 offset-3 text-center">
+                    <div className="col-3">
+                        <button
+                            className="btn btn-danger"
+                            onClick={(e) => {
+                                setView(1);
+                            }}>
+                            Close
+                        </button>
+                    </div>
+                    <div className="col-6 text-center">
                         <div>Current Leaderboard</div>
                     </div>
                     {data.lbs.data.length > 0 ? (
@@ -171,7 +175,10 @@ function Leaderboard() {
                             <button
                                 className="btn btn-danger"
                                 onClick={(e) => {
-                                    handleNoShow(data.lbs.data);
+                                    document
+                                        .getElementById("clear-dialog")
+                                        .showModal();
+                                    document.body.style.overflow = "hidden";
                                 }}>
                                 Clear
                             </button>
@@ -256,25 +263,64 @@ function Leaderboard() {
                         <div className="col-12 text-center">No Entries.</div>
                     </div>
                 )}
+                <dialog id="clear-dialog">
+                    <div className="row mb-4">
+                        <div className="col-12 text-center">
+                            <h4>Are you sure?</h4>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-6">
+                            <button
+                                className="btn btn-danger"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleNoShow(data.lbs.data);
+                                    document
+                                        .getElementById("clear-dialog")
+                                        .close();
+                                    document.body.style.overflow = "auto";
+                                }}>
+                                Clear
+                            </button>
+                        </div>
+                        <div className="col-6 text-end">
+                            <button
+                                className="btn btn-danger"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    document
+                                        .getElementById("clear-dialog")
+                                        .close();
+                                    document.body.style.overflow = "auto";
+                                }}>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </dialog>
             </>
         );
 }
 
 function LeaderboardAll() {
+    /* eslint-disable no-unused-vars */
+    const [view, setView] = useContext(viewContext);
+    /* eslint-enable no-unused-vars */
     const { loading, error, data } = useQuery(AllContestantBackend, {
         pollInterval: 500,
     });
 
     if (loading) {
         return (
-            <div className="row p-1 contestant">
+            <div className="row mt-5 p-1 contestant">
                 <div className="col-12 text-center">Loading...</div>
             </div>
         );
     }
     if (error) {
         return (
-            <div className="row p-1 contestant">
+            <div className="row mt-5 p-1 contestant">
                 <div className="col-12  text-center">Error.</div>
             </div>
         );
@@ -283,7 +329,16 @@ function LeaderboardAll() {
         return (
             <>
                 <div className="row mt-5 mb-4">
-                    <div className="col-6 offset-3 text-center">
+                    <div className="col-3">
+                        <button
+                            className="btn btn-danger"
+                            onClick={(e) => {
+                                setView(1);
+                            }}>
+                            Close
+                        </button>
+                    </div>
+                    <div className="col-6 text-center">
                         <div>All Entries</div>
                     </div>
                     {data.lbs.data.length > 0 ? (
@@ -496,7 +551,7 @@ function EditModal(props) {
             ...editFormState,
             score: scoreCalc(editFormState.scoreOne, editFormState.scoreTwo),
         });
-    }, [editFormState.scoreOne, editFormState.scoreTwo, editFormState]);
+    }, [editFormState.scoreOne, editFormState.scoreTwo]);
 
     return (
         <dialog id={props.id}>
