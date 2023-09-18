@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import EntryForm from "../components/EntryForm";
 import { useQuery, useMutation } from "@apollo/client";
+import { cookies } from "../App";
+import { tokenContext } from "../App";
+import Login from "../components/Login";
 import {
     LBBackend,
     AllContestantBackend,
@@ -8,15 +11,53 @@ import {
     DELETEENTRY,
     setNoShow,
 } from "../components/Queries";
+export const loggedInContext = createContext();
 
 export default function Dashboard() {
+    /* eslint-disable no-unused-vars */
+    const [token, setToken] = useContext(tokenContext);
+    /* eslint-enable no-unused-vars */
+    const [loggedIn, setLoggedIn] = useState(false);
     const [view, setView] = useState(1);
+    var body = document.getElementsByTagName("body")[0];
+    body.style.backgroundImage = "none";
+
+    useEffect(() => {
+        if (!cookies.get("jwt")) {
+            setLoggedIn(false);
+        } else {
+            cookies.set("jwt", cookies.get("jwt"));
+            setLoggedIn(true);
+        }
+    }, []);
+
+    if (!loggedIn) {
+        return (
+            <loggedInContext.Provider value={[loggedIn, setLoggedIn]}>
+                <Login />
+            </loggedInContext.Provider>
+        );
+    }
     return (
         <>
             <div className="container">
                 <div className="row mt-5 mb-5">
-                    <div className="col-12 text-center">
+                    <div className="col-8 offset-2 text-center">
                         <h3>Leaderboard</h3>
+                    </div>
+                    <div className="col-2">
+                        <button
+                            className="btn btn-danger"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                cookies.remove("jwt", {
+                                    path: "/leaderboardadmin",
+                                });
+                                setLoggedIn(false);
+                                window.location.reload();
+                            }}>
+                            Log Out
+                        </button>
                     </div>
                 </div>
                 {view === 2 ? (
@@ -92,11 +133,12 @@ function View(props) {
 
 function Leaderboard() {
     const { loading, error, data } = useQuery(LBBackend, { pollInterval: 500 });
+    /* eslint-disable no-unused-vars */
     const [
         updateShow,
         { loading: loadingShow, error: errorShow, data: dataShow },
     ] = useMutation(setNoShow);
-
+    /* eslint-enable no-unused-vars */
     function handleNoShow(data) {
         data.forEach((element) => {
             updateShow({ variables: { id: element.id } });
@@ -122,9 +164,7 @@ function Leaderboard() {
             <>
                 <div className="row mt-5 mb-4">
                     <div className="col-6 offset-3 text-center">
-                        <div style={{ color: "white" }}>
-                            Current Leaderboard
-                        </div>
+                        <div>Current Leaderboard</div>
                     </div>
                     {data.lbs.data.length > 0 ? (
                         <div className="col-3 text-end">
@@ -244,7 +284,7 @@ function LeaderboardAll() {
             <>
                 <div className="row mt-5 mb-4">
                     <div className="col-6 offset-3 text-center">
-                        <div style={{ color: "white" }}>All Entries</div>
+                        <div>All Entries</div>
                     </div>
                     {data.lbs.data.length > 0 ? (
                         <div className="col-3 text-end">
@@ -456,7 +496,7 @@ function EditModal(props) {
             ...editFormState,
             score: scoreCalc(editFormState.scoreOne, editFormState.scoreTwo),
         });
-    }, [editFormState.scoreOne, editFormState.scoreTwo]);
+    }, [editFormState.scoreOne, editFormState.scoreTwo, editFormState]);
 
     return (
         <dialog id={props.id}>

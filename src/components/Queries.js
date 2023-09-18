@@ -136,3 +136,14 @@ export const setNoShow = gql`
         }
     }
 `;
+
+export const LOGIN = gql`
+    mutation LogIn($username: String!, $password: String!) {
+        login(input: { identifier: $username, password: $password }) {
+            jwt
+            user {
+                username
+            }
+        }
+    }
+`;

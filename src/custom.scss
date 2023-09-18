@@ -105,7 +105,8 @@ input[type="checkbox"]:checked {
     accent-color: $secondaryGreen;
 }
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+input[type="password"] {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
@@ -159,6 +160,9 @@ input[type="number"] {
     color: white;
     background-color: #555;
     max-height: fit-content !important;
+}
+.vh-100 {
+    height: 100vh;
 }
 dialog {
     top: 0;
