@@ -37,7 +37,14 @@ function App() {
         <BrowserRouter>
             <ApolloProvider client={client}>
                 <Routes>
-                    <Route path="/leaderboard" element={<Home />} />
+                    <Route
+                        path="/leaderboard"
+                        element={
+                            <tokenContext.Provider value={[token, setToken]}>
+                                <Home />
+                            </tokenContext.Provider>
+                        }
+                    />
 
                     <Route
                         path="/leaderboardadmin"

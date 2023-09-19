@@ -3,11 +3,21 @@ import { useState, useEffect, useContext } from "react";
 import { LOGIN } from "./Queries";
 import { useMutation } from "@apollo/client";
 import { loggedInContext } from "../pages/Dashboard";
+import { loggedInContextFront } from "../pages/Home";
 import { tokenContext } from "../App";
 
 export default function Login() {
     /* eslint-disable no-unused-vars */
-    const [loggedIn, setLoggedIn] = useContext(loggedInContext);
+    const currentUrl =
+        window.location.href.split("/")[
+            window.location.href.split("/").length - 1
+        ];
+    if (currentUrl === "leaderboard") {
+        var context = loggedInContextFront;
+    } else if (currentUrl === "leaderboardadmin") {
+        var context = loggedInContext;
+    }
+    const [loggedIn, setLoggedIn] = useContext(context);
     const [token, setToken] = useContext(tokenContext);
     const [formState, setFormState] = useState({
         username: "",
@@ -24,7 +34,7 @@ export default function Login() {
         if (data !== undefined) {
             cookies.set("jwt", data.login.jwt, {
                 maxAge: 21600,
-                path: "/leaderboardadmin",
+                path: "/" + currentUrl,
             });
             setToken(data.login.jwt);
             setLoggedIn(true);

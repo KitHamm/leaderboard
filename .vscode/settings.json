@@ -4,6 +4,7 @@
         "DELETEENTRY",
         "EDITENTRY",
         "Leaderboard",
+        "leaderboardadmin",
         "NEWENTRY"
     ]
 }
