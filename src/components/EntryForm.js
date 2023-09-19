@@ -1,7 +1,9 @@
 import { useMutation } from "@apollo/client";
 import { NEWENTRY } from "../components/Queries";
 import { useState, useEffect } from "react";
+import Placed from "./Placed";
 export default function EntryForm() {
+    const [view, setView] = useState(1);
     const [acceptTerms, setAcceptTerms] = useState(false);
     const [acceptPrivacy, setAcceptPrivacy] = useState(false);
     const [formState, setFormState] = useState({
@@ -24,7 +26,6 @@ export default function EntryForm() {
             score: formState.score,
         },
     });
-
     function scoreCalc(scoreOne, scoreTwo) {
         let score;
         if (scoreOne > scoreTwo) {
@@ -70,22 +71,7 @@ export default function EntryForm() {
             </div>
         );
     if (data) {
-        return (
-            <div className="row">
-                <div className="col-12 entry text-center">
-                    <div className="col-8 offset-2">Success!</div>
-                    <div className="col-2">
-                        <button
-                            className="btn btn-success"
-                            onClick={() => {
-                                window.location.reload();
-                            }}>
-                            Finish
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
+        return <Placed id={data.createLb.data.id} />;
     }
     return (
         <>
@@ -101,7 +87,6 @@ export default function EntryForm() {
                             Cancel
                         </button>
                     </div>
-
                     <form
                         className="row entry"
                         onSubmit={(e) => {
@@ -115,109 +100,135 @@ export default function EntryForm() {
                             });
                             createEntry();
                         }}>
-                        <div className="col-6 mb-4">
-                            <label>Display Name</label>
-                            <input
-                                required
-                                value={formState.displayName}
-                                onChange={(e) =>
-                                    setFormState({
-                                        ...formState,
-                                        displayName: e.target.value,
-                                    })
-                                }
-                                type="text"
-                                placeholder="Name"
-                            />
-                        </div>
-                        <div className="col-6 mb-4">
-                            <label>Email</label>
-                            <input
-                                required
-                                value={formState.email}
-                                onChange={(e) =>
-                                    setFormState({
-                                        ...formState,
-                                        email: e.target.value,
-                                    })
-                                }
-                                type="text"
-                                placeholder="Email"
-                            />
-                        </div>
-                        <div className="col-6 mb-4">
-                            <label>First Name</label>
-                            <input
-                                required
-                                value={formState.firstName}
-                                onChange={(e) =>
-                                    setFormState({
-                                        ...formState,
-                                        firstName: e.target.value,
-                                    })
-                                }
-                                type="text"
-                                placeholder="First Name"
-                            />
-                        </div>
-                        <div className="col-6 mb-4">
-                            <label>Last Name</label>
-                            <input
-                                required
-                                value={formState.lastName}
-                                onChange={(e) =>
-                                    setFormState({
-                                        ...formState,
-                                        lastName: e.target.value,
-                                    })
-                                }
-                                type="text"
-                                placeholder="Last Name"
-                            />
-                        </div>
-                        <div className="col-1 offset-1 mb-4">
-                            <input
-                                id="terms-check"
-                                type="checkbox"
-                                onChange={() => {
-                                    setAcceptTerms(!acceptTerms);
-                                }}
-                            />
-                        </div>
-                        <div className="col-10 mb-4">
-                            I have read and agree to the{" "}
-                            <strong
-                                onClick={(e) => {
-                                    document
-                                        .getElementById("terms-dialog")
-                                        .showModal();
-                                    document.body.style.overflow = "hidden";
-                                }}>
-                                Terms of Service
-                            </strong>
-                        </div>
-                        <div className="col-1 offset-1 mb-5">
-                            <input
-                                id="privacy-check"
-                                type="checkbox"
-                                onChange={() => {
-                                    setAcceptPrivacy(!acceptPrivacy);
-                                }}
-                            />
-                        </div>
-                        <div className="col-10 mb-5">
-                            I have read and agree to the{" "}
-                            <strong
-                                onClick={(e) => {
-                                    document
-                                        .getElementById("privacy-dialog")
-                                        .showModal();
-                                    document.body.style.overflow = "hidden";
-                                }}>
-                                Privacy Policy
-                            </strong>
-                        </div>
-                        {acceptPrivacy && acceptTerms ? (
+                        {view === 1 ? (
+                            <>
+                                <div className="col-6 mb-4">
+                                    <label>Display Name</label>
+                                    <input
+                                        required
+                                        value={formState.displayName}
+                                        onChange={(e) =>
+                                            setFormState({
+                                                ...formState,
+                                                displayName: e.target.value,
+                                            })
+                                        }
+                                        type="text"
+                                        placeholder="Name"
+                                    />
+                                </div>
+                                <div className="col-6 mb-4">
+                                    <label>Email</label>
+                                    <input
+                                        required
+                                        value={formState.email}
+                                        onChange={(e) =>
+                                            setFormState({
+                                                ...formState,
+                                                email: e.target.value,
+                                            })
+                                        }
+                                        type="text"
+                                        placeholder="Email"
+                                    />
+                                </div>
+                                <div className="col-6 mb-4">
+                                    <label>First Name</label>
+                                    <input
+                                        required
+                                        value={formState.firstName}
+                                        onChange={(e) =>
+                                            setFormState({
+                                                ...formState,
+                                                firstName: e.target.value,
+                                            })
+                                        }
+                                        type="text"
+                                        placeholder="First Name"
+                                    />
+                                </div>
+                                <div className="col-6 mb-4">
+                                    <label>Last Name</label>
+                                    <input
+                                        required
+                                        value={formState.lastName}
+                                        onChange={(e) =>
+                                            setFormState({
+                                                ...formState,
+                                                lastName: e.target.value,
+                                            })
+                                        }
+                                        type="text"
+                                        placeholder="Last Name"
+                                    />
+                                </div>
+                                <div className="col-1 offset-1 mb-4">
+                                    <input
+                                        id="terms-check"
+                                        type="checkbox"
+                                        onChange={() => {
+                                            setAcceptTerms(!acceptTerms);
+                                        }}
+                                    />
+                                </div>
+                                <div className="col-10 mb-4">
+                                    I have read and agree to the{" "}
+                                    <strong
+                                        onClick={(e) => {
+                                            document
+                                                .getElementById("terms-dialog")
+                                                .showModal();
+                                            document.body.style.overflow =
+                                                "hidden";
+                                        }}>
+                                        Terms of Service
+                                    </strong>
+                                </div>
+                                <div className="col-1 offset-1 mb-5">
+                                    <input
+                                        id="privacy-check"
+                                        type="checkbox"
+                                        onChange={() => {
+                                            setAcceptPrivacy(!acceptPrivacy);
+                                        }}
+                                    />
+                                </div>
+                                <div className="col-10 mb-5">
+                                    I have read and agree to the{" "}
+                                    <strong
+                                        onClick={(e) => {
+                                            document
+                                                .getElementById(
+                                                    "privacy-dialog"
+                                                )
+                                                .showModal();
+                                            document.body.style.overflow =
+                                                "hidden";
+                                        }}>
+                                        Privacy Policy
+                                    </strong>
+                                </div>
+                                {acceptPrivacy &&
+                                acceptTerms &&
+                                formState.displayName !== "" &&
+                                formState.firstName !== "" &&
+                                formState.lastName !== "" &&
+                                formState.email !== "" ? (
+                                    <div className="col-12 text-end">
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setView(2);
+                                            }}
+                                            className="btn btn-success">
+                                            Next
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
+                            </>
+                        ) : (
                             <>
                                 <div className="col-6 mb-4">
                                     <label>First Score</label>
@@ -277,14 +288,12 @@ export default function EntryForm() {
                                     </button>
                                 </div>
                             </>
-                        ) : (
-                            <></>
                         )}
                     </form>
                     <dialog id="privacy-dialog">
                         <div className="row mb-5">
                             <div className="col-12">
-                                <h3>Privacy Policy</h3>
+                                <h4>Privacy Policy</h4>
                             </div>
                         </div>
                         <div className="row mb-5">
@@ -338,7 +347,7 @@ export default function EntryForm() {
                     <dialog id="terms-dialog">
                         <div className="row mb-5">
                             <div className="col-12">
-                                <h3>Terms of Service</h3>
+                                <h4>Terms of Service</h4>
                             </div>
                         </div>
                         <div className="row mb-5">

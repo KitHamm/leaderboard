@@ -30,55 +30,61 @@ export default function Leaders(props) {
             </div>
         );
     }
-    //console.log(dataToday);
-    return (
-        <div className="row backend-boards mt-3">
-            <div className="col-12 text-center">
-                <div className="col-12 mt-4">
-                    <h5>Todays Leaderboard</h5>
+    if (dataToday && dataAllTime)
+        return (
+            <div className="row backend-boards mt-3">
+                <div className="col-12 text-center">
+                    <div className="col-12 mt-4">
+                        <h5>Todays Leaderboard</h5>
+                    </div>
+                    <div className="row mt-3 mb-3">
+                        <div className="col-6 offset-2 text-start">Name</div>
+                        <div className="col-3 text-end">Score</div>
+                    </div>
+                    {dataToday.lbs.data.length > 0 ? (
+                        dataToday.lbs.data.map((contestant, index) => {
+                            return (
+                                <Contestant
+                                    key={
+                                        contestant.attributes.displayName +
+                                        index
+                                    }
+                                    contestant={contestant}
+                                    index={index}
+                                />
+                            );
+                        })
+                    ) : (
+                        <div>No Entries</div>
+                    )}
                 </div>
-                <div className="row mt-3 mb-3">
-                    <div className="col-6 offset-2 text-start">Name</div>
-                    <div className="col-3 text-end">Score</div>
+                <div className="col-12 text-center">
+                    <div className="col-12 mt-4">
+                        <h5>All Time Leaderboard</h5>
+                    </div>
+                    <div className="row mt-3 mb-3">
+                        <div className="col-6 offset-2 text-start">Name</div>
+                        <div className="col-3 text-end">Score</div>
+                    </div>
+                    {dataAllTime.lbs.data.length > 0 ? (
+                        dataAllTime.lbs.data.map((contestant, index) => {
+                            return (
+                                <Contestant
+                                    key={
+                                        contestant.attributes.displayName +
+                                        index
+                                    }
+                                    contestant={contestant}
+                                    index={index}
+                                />
+                            );
+                        })
+                    ) : (
+                        <div>No Entries</div>
+                    )}
                 </div>
-                {dataToday.lbs.data.length > 0 ? (
-                    dataToday.lbs.data.map((contestant, index) => {
-                        return (
-                            <Contestant
-                                key={contestant.attributes.displayName + index}
-                                contestant={contestant}
-                                index={index}
-                            />
-                        );
-                    })
-                ) : (
-                    <div>No Entries</div>
-                )}
             </div>
-            <div className="col-12 text-center">
-                <div className="col-12 mt-4">
-                    <h5>All Time Leaderboard</h5>
-                </div>
-                <div className="row mt-3 mb-3">
-                    <div className="col-6 offset-2 text-start">Name</div>
-                    <div className="col-3 text-end">Score</div>
-                </div>
-                {dataAllTime.lbs.data.length > 0 ? (
-                    dataAllTime.lbs.data.map((contestant, index) => {
-                        return (
-                            <Contestant
-                                key={contestant.attributes.displayName + index}
-                                contestant={contestant}
-                                index={index}
-                            />
-                        );
-                    })
-                ) : (
-                    <div>No Entries</div>
-                )}
-            </div>
-        </div>
-    );
+        );
 }
 
 function Contestant(props) {

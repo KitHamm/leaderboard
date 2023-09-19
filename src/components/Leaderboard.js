@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { LB } from "../components/Queries";
 
-const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
+export const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
 
 export default function Leaderboard(props) {
     const { loading, error, data } = useQuery(LB, { pollInterval: 500 });

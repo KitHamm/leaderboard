@@ -190,3 +190,32 @@ export const TodayLeadersBoard = gql`
         }
     }
 `;
+
+export const PlaceToday = gql`
+    query PlaceToday($today: DateTime) {
+        lbs(
+            sort: ["score:asc", "createdAt:asc"]
+            filters: { createdAt: { gte: $today } }
+        ) {
+            data {
+                id
+                attributes {
+                    score
+                }
+            }
+        }
+    }
+`;
+
+export const PlaceAllTime = gql`
+    query PlaceToday {
+        lbs(sort: ["score:asc", "createdAt:asc"]) {
+            data {
+                id
+                attributes {
+                    score
+                }
+            }
+        }
+    }
+`;
