@@ -137,6 +137,16 @@ export const setNoShow = gql`
     }
 `;
 
+export const setShow = gql`
+    mutation setNoShow($id: ID!) {
+        updateLb(id: $id, data: { show: true }) {
+            data {
+                id
+            }
+        }
+    }
+`;
+
 export const LOGIN = gql`
     mutation LogIn($username: String!, $password: String!) {
         login(input: { identifier: $username, password: $password }) {
@@ -214,6 +224,18 @@ export const PlaceAllTime = gql`
                 id
                 attributes {
                     score
+                }
+            }
+        }
+    }
+`;
+
+export const LeaderboardView = gql`
+    query leaderBoardView {
+        leaderboardView {
+            data {
+                attributes {
+                    view
                 }
             }
         }

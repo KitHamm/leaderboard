@@ -1,5 +1,11 @@
-import { useQuery } from "@apollo/client";
-import { TodayLeadersBoard, AllTimeLeaders } from "./Queries";
+import { useQuery, useMutation } from "@apollo/client";
+import {
+    TodayLeadersBoard,
+    AllTimeLeaders,
+    LB,
+    setShow,
+    setNoShow,
+} from "./Queries";
 
 export default function Leaders(props) {
     return (
@@ -28,6 +34,8 @@ export default function Leaders(props) {
     );
 }
 function Today() {
+    const [updateNoShow] = useMutation(setNoShow);
+    const [updateShow] = useMutation(setShow);
     const today = new Date().toJSON().split("T")[0];
     var todayVar = today + "T00:00:00.000Z";
     const {
@@ -43,6 +51,23 @@ function Today() {
             variables: { today: todayVar },
         }
     );
+    /* eslint-disable no-unused-vars */
+    const {
+        loading: loadingShowing,
+        error: errorShowing,
+        data: dataShowing,
+    } = useQuery(LB);
+    /* eslint-enable no-unused-vars */
+    function handleClick() {
+        if (dataShowing.lbs.data.length > 0) {
+            dataShowing.lbs.data.forEach((element) => {
+                updateNoShow({ variables: { id: element.id } });
+            });
+        }
+        dataToday.lbs.data.forEach((element) => {
+            updateShow({ variables: { id: element.id } });
+        });
+    }
     if (loadingToday) return <div>Loading...</div>;
     if (errorToday) return <div>Error.</div>;
     if (dataToday)
@@ -61,11 +86,27 @@ function Today() {
                 ) : (
                     <div>No Entries</div>
                 )}
+                {dataShowing ? (
+                    <div className="col-12 mt-3 text-end">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleClick();
+                            }}
+                            className="btn btn-success ays">
+                            Load to main board
+                        </button>
+                    </div>
+                ) : (
+                    <></>
+                )}
             </>
         );
 }
 
 function AllTime() {
+    const [updateNoShow] = useMutation(setNoShow);
+    const [updateShow] = useMutation(setShow);
     const {
         loading: loadingAllTime,
         error: errorAllTime,
@@ -73,7 +114,23 @@ function AllTime() {
     } = useQuery(AllTimeLeaders, {
         fetchPolicy: "no-cache",
     });
-
+    /* eslint-disable no-unused-vars */
+    const {
+        loading: loadingShowing,
+        error: errorShowing,
+        data: dataShowing,
+    } = useQuery(LB);
+    /* eslint-enable no-unused-vars */
+    function handleClick() {
+        if (dataShowing.lbs.data.length > 0) {
+            dataShowing.lbs.data.forEach((element) => {
+                updateNoShow({ variables: { id: element.id } });
+            });
+        }
+        dataAllTime.lbs.data.forEach((element) => {
+            updateShow({ variables: { id: element.id } });
+        });
+    }
     if (loadingAllTime) return <div>Loading...</div>;
 
     if (errorAllTime) return <div>Error</div>;
@@ -92,6 +149,20 @@ function AllTime() {
                     })
                 ) : (
                     <div>No Entries</div>
+                )}
+                {dataShowing ? (
+                    <div className="col-12 mt-3 text-end">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleClick();
+                            }}
+                            className="btn btn-success ays">
+                            Load to main board
+                        </button>
+                    </div>
+                ) : (
+                    <></>
                 )}
             </>
         );
