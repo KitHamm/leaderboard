@@ -2,6 +2,7 @@ import { useState, useEffect, createContext } from "react";
 import EntryForm from "../components/EntryForm";
 import LeaderboardBack from "../components/LeaderboardBack";
 import LeaderboardAll from "../components/LeaderboardAll";
+import Leaders from "../components/Leaders";
 import { cookies } from "../App";
 import Login from "../components/Login";
 export const loggedInContext = createContext();
@@ -13,7 +14,6 @@ export default function Dashboard() {
     var body = document.getElementsByTagName("body")[0];
     body.style.backgroundImage = "url('/leaderboardadmin/backgroundadmin.png')";
     body.style.backgroundSize = "cover";
-
     useEffect(() => {
         if (!cookies.get("jwt")) {
             setLoggedIn(false);
@@ -32,8 +32,22 @@ export default function Dashboard() {
     }
     return (
         <>
+            <div className="logout">
+                <button
+                    className="btn btn-danger"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        cookies.remove("jwt", {
+                            path: "/leaderboardadmin",
+                        });
+                        setLoggedIn(false);
+                        window.location.reload();
+                    }}>
+                    Log Out
+                </button>
+            </div>
             <div className="container">
-                <div className="row mt-5 mb-5">
+                <div className="row mt-3 mb-3">
                     <div className="col-12 text-center">
                         <h3>Leaderboard</h3>
                     </div>
@@ -64,7 +78,7 @@ export default function Dashboard() {
                                 </button>
                             </div>
                         </div>
-                        <div className="row mb-3">
+                        <div className="row">
                             <div className="col-12 text-center">
                                 <button
                                     onClick={() => {
@@ -75,22 +89,7 @@ export default function Dashboard() {
                                 </button>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-12 text-center">
-                                <button
-                                    className="btn btn-danger"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        cookies.remove("jwt", {
-                                            path: "/leaderboardadmin",
-                                        });
-                                        setLoggedIn(false);
-                                        window.location.reload();
-                                    }}>
-                                    Log Out
-                                </button>
-                            </div>
-                        </div>
+                        <Leaders />
                     </>
                 )}
                 <viewContext.Provider value={[view, setView]}>

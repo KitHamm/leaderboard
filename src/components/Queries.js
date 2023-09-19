@@ -147,3 +147,46 @@ export const LOGIN = gql`
         }
     }
 `;
+
+export const AllTimeLeaders = gql`
+    query AllTimeLeaders {
+        lbs(sort: ["score:asc", "createdAt:asc"], pagination: { limit: 9 }) {
+            data {
+                id
+                attributes {
+                    firstName
+                    lastName
+                    email
+                    displayName
+                    scoreOne
+                    scoreTwo
+                    score
+                }
+            }
+        }
+    }
+`;
+
+export const TodayLeadersBoard = gql`
+    query TodayLeaders($today: DateTime) {
+        lbs(
+            sort: ["score:asc", "createdAt:asc"]
+            filters: { createdAt: { gte: $today } }
+            pagination: { limit: 9 }
+        ) {
+            data {
+                id
+                attributes {
+                    createdAt
+                    firstName
+                    lastName
+                    email
+                    displayName
+                    scoreOne
+                    scoreTwo
+                    score
+                }
+            }
+        }
+    }
+`;
