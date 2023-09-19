@@ -8,9 +8,15 @@ export default function LeaderboardAll() {
     /* eslint-disable no-unused-vars */
     const [view, setView] = useContext(viewContext);
     /* eslint-enable no-unused-vars */
-    const { loading, error, data } = useQuery(AllContestantBackend, {
-        pollInterval: 500,
-    });
+    const { loading, error, data } = useQuery(
+        AllContestantBackend,
+        {
+            fetchPolicy: "no-cache",
+        },
+        {
+            pollInterval: 500,
+        }
+    );
 
     if (loading) {
         return (
