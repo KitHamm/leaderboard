@@ -42,15 +42,10 @@ function Today() {
         loading: loadingToday,
         error: errorToday,
         data: dataToday,
-    } = useQuery(
-        TodayLeadersBoard,
-        {
-            fetchPolicy: "no-cache",
-        },
-        {
-            variables: { today: todayVar },
-        }
-    );
+    } = useQuery(TodayLeadersBoard, {
+        variables: { today: todayVar },
+        fetchPolicy: "no-cache",
+    });
     /* eslint-disable no-unused-vars */
     const {
         loading: loadingShowing,
@@ -60,13 +55,16 @@ function Today() {
     /* eslint-enable no-unused-vars */
     function handleClick() {
         if (dataShowing.lbs.data.length > 0) {
-            dataShowing.lbs.data.forEach((element) => {
+            dataShowing.lbs.data.forEach((element, index) => {
                 updateNoShow({ variables: { id: element.id } });
             });
         }
-        dataToday.lbs.data.forEach((element) => {
+        dataToday.lbs.data.forEach((element, index) => {
             updateShow({ variables: { id: element.id } });
         });
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     }
     if (loadingToday) return <div>Loading...</div>;
     if (errorToday) return <div>Error.</div>;
@@ -86,7 +84,7 @@ function Today() {
                 ) : (
                     <div>No Entries</div>
                 )}
-                {dataShowing ? (
+                {dataShowing && dataToday ? (
                     <div className="col-12 mt-3 text-end">
                         <button
                             onClick={(e) => {
@@ -130,6 +128,10 @@ function AllTime() {
         dataAllTime.lbs.data.forEach((element) => {
             updateShow({ variables: { id: element.id } });
         });
+        console.log("Reload");
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     }
     if (loadingAllTime) return <div>Loading...</div>;
 
@@ -150,7 +152,7 @@ function AllTime() {
                 ) : (
                     <div>No Entries</div>
                 )}
-                {dataShowing ? (
+                {dataShowing && dataAllTime ? (
                     <div className="col-12 mt-3 text-end">
                         <button
                             onClick={(e) => {
