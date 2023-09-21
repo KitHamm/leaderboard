@@ -17,7 +17,13 @@ export default function Leaderboard() {
     if (dataView)
         switch (dataView.leaderboardView.data.attributes.view) {
             case "now":
-                return <NowLeaderboard />;
+                return (
+                    <NowLeaderboard
+                        updatedAt={
+                            dataView.leaderboardView.data.attributes.updatedAt
+                        }
+                    />
+                );
             case "allTime":
                 return <AllTimeLeaderboard />;
             default:

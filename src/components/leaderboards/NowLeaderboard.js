@@ -3,11 +3,10 @@ import { useEffect } from "react";
 import { NowLeadersBoard } from "../Queries";
 
 export const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
-const now = new Date().toJSON().toString();
 
 export default function NowLeaderboard(props) {
     const { loading, error, data } = useQuery(NowLeadersBoard, {
-        variables: { now: now },
+        variables: { now: props.updatedAt },
         pollInterval: 1000,
     });
     if (loading) return <div>Loading...</div>;
