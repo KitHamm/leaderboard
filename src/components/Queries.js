@@ -201,6 +201,30 @@ export const TodayLeadersBoard = gql`
     }
 `;
 
+export const NowLeadersBoard = gql`
+    query TodayLeaders($now: DateTime) {
+        lbs(
+            sort: ["score:asc", "createdAt:asc"]
+            filters: { createdAt: { gte: $now } }
+            pagination: { limit: 9 }
+        ) {
+            data {
+                id
+                attributes {
+                    createdAt
+                    firstName
+                    lastName
+                    email
+                    displayName
+                    scoreOne
+                    scoreTwo
+                    score
+                }
+            }
+        }
+    }
+`;
+
 export const PlaceToday = gql`
     query PlaceToday($today: DateTime) {
         lbs(

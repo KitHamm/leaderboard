@@ -40,7 +40,7 @@ export default function Home() {
                             }}
                             alt="cup"
                             className="cup"
-                            src="leaderboard/cup.png"
+                            src="cup.png"
                         />
                     </div>
                     <div className="col-8 m-auto">

@@ -1,50 +1,28 @@
 import { useQuery } from "@apollo/client";
-import { LB } from "../components/Queries";
+import { LeaderboardView } from "../components/Queries";
+import TodayLeaderboard from "./leaderboards/TodayLeaderboard";
+import AllTimeLeaderboard from "./leaderboards/AllTimeLeaderboardV";
+import NowLeaderboard from "./leaderboards/NowLeaderboard";
 
 export const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
 
 export default function Leaderboard(props) {
-    const { loading, error, data } = useQuery(LB, { pollInterval: 500 });
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error</div>;
-
-    return (
-        <>
-            {data.lbs.data.slice(0, 10).map((contestant, index) => {
-                return (
-                    <div
-                        key={contestant.id}
-                        className={
-                            props.admin === true
-                                ? index === 0
-                                    ? "row contestant back winner fade-in"
-                                    : "row contestant back fade-in"
-                                : index === 0
-                                ? "row contestant front winner fade-in"
-                                : "row contestant front fade-in"
-                        }>
-                        <div className="col-2 place text-center">
-                            <h3>{index + 1}</h3>
-                            <div className="suffix">{suffix[index]}</div>
-                        </div>
-
-                        <div className="col-7">
-                            <h3 className="name">
-                                {contestant.attributes.displayName}
-                            </h3>
-                        </div>
-                        <div className="col-3">
-                            <h3 className="score">
-                                {contestant.attributes.score}
-                            </h3>
-                        </div>
-                    </div>
-                );
-            })}
-            <EmptyRows amount={9 - data.lbs.data.length} />
-            <div className="row"></div>
-        </>
-    );
+    const {
+        loading: loadingView,
+        error: errorView,
+        data: dataView,
+    } = useQuery(LeaderboardView, { pollInterval: 3000 });
+    if (loadingView) return <div>Loading...</div>;
+    if (errorView) return <div>Error</div>;
+    if (dataView)
+        switch (dataView.leaderboardView.data.attributes.view) {
+            case "now":
+                return <NowLeaderboard />;
+            case "allTime":
+                return <AllTimeLeaderboard />;
+            default:
+                return <TodayLeaderboard />;
+        }
 }
 
 function EmptyRows(props) {

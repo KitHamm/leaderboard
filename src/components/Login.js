@@ -8,16 +8,7 @@ import { tokenContext } from "../App";
 
 export default function Login() {
     /* eslint-disable no-unused-vars */
-    const currentUrl =
-        window.location.href.split("/")[
-            window.location.href.split("/").length - 1
-        ];
-    if (currentUrl === "leaderboard") {
-        var context = loggedInContextFront;
-    } else if (currentUrl === "leaderboardadmin") {
-        var context = loggedInContext;
-    }
-    const [loggedIn, setLoggedIn] = useContext(context);
+    const [loggedIn, setLoggedIn] = useContext(loggedInContextFront);
     const [token, setToken] = useContext(tokenContext);
     const [formState, setFormState] = useState({
         username: "",
@@ -33,8 +24,8 @@ export default function Login() {
     useEffect(() => {
         if (data !== undefined) {
             cookies.set("jwt", data.login.jwt, {
-                maxAge: 21600,
-                path: "/" + currentUrl,
+                //maxAge: 21600,
+                path: "/leaderboard",
             });
             setToken(data.login.jwt);
             setLoggedIn(true);
