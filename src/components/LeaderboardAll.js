@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { viewContext } from "../pages/Dashboard";
 import { AllContestantBackend } from "./Queries";
 import ContestantRow from "./ContestantRow";
+import { CSVLink } from "react-csv";
 
 export default function LeaderboardAll() {
     /* eslint-disable no-unused-vars */
@@ -32,7 +33,29 @@ export default function LeaderboardAll() {
             </div>
         );
     }
-    if (data)
+    if (data) {
+        var CSVdata = [
+            [
+                "Display Name",
+                "First Name",
+                "Last Name",
+                "Email",
+                "Score One",
+                "Score Two",
+                "Final Score",
+            ],
+        ];
+        data.lbs.data.forEach((contestant) => {
+            CSVdata.push([
+                contestant.attributes.displayName,
+                contestant.attributes.firstName,
+                contestant.attributes.lastName,
+                contestant.attributes.email,
+                contestant.attributes.scoreOne,
+                contestant.attributes.scoreTwo,
+                contestant.attributes.score,
+            ]);
+        });
         return (
             <>
                 <div className="row mt-5 mb-4">
@@ -50,13 +73,12 @@ export default function LeaderboardAll() {
                     </div>
                     {data.lbs.data.length > 0 ? (
                         <div className="col-3 text-end">
-                            <button
+                            <CSVLink
                                 className="btn btn-success"
-                                onClick={(e) => {
-                                    console.log("Download");
-                                }}>
+                                filename={"ContestantData.csv"}
+                                data={CSVdata}>
                                 Download
-                            </button>
+                            </CSVLink>
                         </div>
                     ) : (
                         <></>
@@ -79,4 +101,5 @@ export default function LeaderboardAll() {
                 )}
             </>
         );
+    }
 }
