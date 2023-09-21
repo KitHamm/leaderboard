@@ -8,14 +8,15 @@
 @keyframes fadeIn {
     0% {
         opacity: 0;
-        background-color: green;
+        background-color: #419253;
     }
     50% {
         opacity: 1 !important;
+        background-color: white;
     }
     100% {
         opacity: 1 !important;
-        background-color: white;
+        background-color: #419253;
     }
 }
 

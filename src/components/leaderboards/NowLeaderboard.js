@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { useEffect } from "react";
 import { NowLeadersBoard } from "../Queries";
+import EmptyRows from "../EmptyRows";
 
 export const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
 
@@ -49,30 +49,4 @@ export default function NowLeaderboard(props) {
                 <div className="row"></div>
             </>
         );
-}
-
-function EmptyRows(props) {
-    let filled = 9 - props.amount;
-    let rows = [];
-    for (let index = 0; index < props.amount; index++) {
-        rows.push(
-            <div
-                key={filled + index + 1}
-                className={
-                    props.admin === true
-                        ? "row back contestant"
-                        : "row front contestant"
-                }>
-                <div className="col-2 place text-center">
-                    <h3>{filled + index + 1}</h3>
-                    <div className="suffix">{suffix[filled + index]}</div>
-                </div>
-                <div className="col-7"></div>
-                <div className="col-3">
-                    <h3>0</h3>
-                </div>
-            </div>
-        );
-    }
-    return rows;
 }

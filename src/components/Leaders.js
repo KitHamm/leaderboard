@@ -1,12 +1,5 @@
 import { useQuery, useMutation } from "@apollo/client";
-import {
-    TodayLeadersBoard,
-    AllTimeLeaders,
-    LB,
-    setShow,
-    setNoShow,
-    updateView,
-} from "./Queries";
+import { TodayLeadersBoard, AllTimeLeaders, LB, updateView } from "./Queries";
 
 export default function Leaders(props) {
     return (
