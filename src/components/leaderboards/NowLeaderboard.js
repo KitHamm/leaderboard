@@ -8,6 +8,7 @@ export default function NowLeaderboard(props) {
     const { loading, error, data } = useQuery(NowLeadersBoard, {
         variables: { now: props.updatedAt },
         pollInterval: 1000,
+        fetchPolicy: "no-cache",
     });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;

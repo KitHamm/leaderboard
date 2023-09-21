@@ -10,6 +10,7 @@ export default function TodayLeaderboard(props) {
     const { loading, error, data } = useQuery(TodayLeadersBoard, {
         variables: { today: todayVar },
         pollInterval: 1000,
+        fetchPolicy: "no-cache",
     });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;

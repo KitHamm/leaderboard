@@ -9,15 +9,10 @@ export default function LeaderboardAll() {
     /* eslint-disable no-unused-vars */
     const [view, setView] = useContext(viewContext);
     /* eslint-enable no-unused-vars */
-    const { loading, error, data } = useQuery(
-        AllContestantBackend,
-        {
-            fetchPolicy: "no-cache",
-        },
-        {
-            pollInterval: 500,
-        }
-    );
+    const { loading, error, data } = useQuery(AllContestantBackend, {
+        fetchPolicy: "no-cache",
+        pollInterval: 1000,
+    });
 
     if (loading) {
         return (
@@ -85,7 +80,7 @@ export default function LeaderboardAll() {
                     )}
                 </div>
                 {data.lbs.data.length > 0 ? (
-                    data.lbs.data.slice(0, 9).map((contestant, index) => {
+                    data.lbs.data.map((contestant, index) => {
                         return (
                             <ContestantRow
                                 key={contestant.attributes.displayName + index}

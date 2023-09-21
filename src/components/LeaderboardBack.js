@@ -15,7 +15,7 @@ export default function LeaderboardBack() {
     const [view, setView] = useContext(viewContext);
     const [selectView] = useMutation(updateView);
     const { loading, error, data } = useQuery(LeaderboardView, {
-        pollInterval: 3000,
+        pollInterval: 1000,
     });
     /* eslint-enable no-unused-vars */
     function handleClear() {
@@ -111,7 +111,6 @@ export default function LeaderboardBack() {
 }
 
 function LeaderboardViewSwitch(props) {
-    console.log("switch");
     switch (props.view) {
         case "now":
             return <NowLeaderboardComp updatedAt={props.updatedAt} />;
@@ -126,6 +125,7 @@ function NowLeaderboardComp(props) {
     const { loading, error, data } = useQuery(NowLeadersBoard, {
         variables: { now: props.updatedAt },
         pollInterval: 1000,
+        fetchPolicy: "no-cache",
     });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;
@@ -153,6 +153,7 @@ function TodayLeaderboardComp() {
     const { loading, error, data } = useQuery(TodayLeadersBoard, {
         variables: { today: todayVar },
         pollInterval: 1000,
+        fetchPolicy: "no-cache",
     });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;
@@ -176,6 +177,7 @@ function TodayLeaderboardComp() {
 function AllTimeLeaderboardComp() {
     const { loading, error, data } = useQuery(AllTimeLeaders, {
         pollInterval: 1000,
+        fetchPolicy: "no-cache",
     });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;

@@ -4,7 +4,18 @@ import TodayLeaderboard from "./leaderboards/TodayLeaderboard";
 import AllTimeLeaderboard from "./leaderboards/AllTimeLeaderboardV";
 import NowLeaderboard from "./leaderboards/NowLeaderboard";
 
-export const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
+export const suffix = [
+    "ST",
+    "ND",
+    "RD",
+    "TH",
+    "TH",
+    "TH",
+    "TH",
+    "TH",
+    "TH",
+    "TH",
+];
 
 export default function Leaderboard() {
     const {

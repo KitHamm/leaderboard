@@ -7,6 +7,7 @@ export const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
 export default function AllTimeLeaderboard(props) {
     const { loading, error, data } = useQuery(AllTimeLeaders, {
         pollInterval: 1000,
+        fetchPolicy: "no-cache",
     });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;

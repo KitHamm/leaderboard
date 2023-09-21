@@ -11,12 +11,13 @@ export default function Placed(props) {
         data: dataToday,
     } = useQuery(PlaceToday, {
         variables: { today: todayVar },
+        fetchPolicy: "no-cache",
     });
     const {
         loading: loadingAllTime,
         error: errorAllTime,
         data: dataAllTime,
-    } = useQuery(PlaceAllTime);
+    } = useQuery(PlaceAllTime, { fetchPolicy: "no-cache" });
     if (loadingToday || loadingAllTime)
         return (
             <div className="row">
@@ -36,6 +37,8 @@ export default function Placed(props) {
         );
 
     if (dataToday && dataAllTime) {
+        console.log(dataToday);
+        console.log(dataAllTime);
         var todayIDs = [];
         var allTimeIDs = [];
         dataToday.lbs.data.map((id, index) => {
@@ -48,6 +51,7 @@ export default function Placed(props) {
         });
         var placeToday = todayIDs.indexOf(props.id) + 1;
         var placeAllTime = allTimeIDs.indexOf(props.id) + 1;
+
         return (
             <div className="row entry">
                 <div className="col-12 text-center mb-4">
@@ -56,10 +60,10 @@ export default function Placed(props) {
                 <div className="col-6 text-center mb-4">Today</div>
                 <div className="col-6 text-center mb-4">All Time</div>
                 <div className="col-6 text-center mb-4">
-                    You Placed {placeToday + suffix[placeToday - 1]}
+                    You Placed {placeToday + suffix[placeToday]}
                 </div>
                 <div className="col-6 text-center mb-4">
-                    You Placed {placeAllTime + suffix[placeAllTime - 1]}
+                    You Placed {ordinal_suffix_of(placeAllTime)}
                 </div>
                 <div className="col-12 text-end">
                     <button
@@ -73,4 +77,19 @@ export default function Placed(props) {
             </div>
         );
     }
+}
+
+function ordinal_suffix_of(i) {
+    var j = i % 10,
+        k = i % 100;
+    if (j === 1 && k !== 11) {
+        return i + "ST";
+    }
+    if (j === 2 && k !== 12) {
+        return i + "ND";
+    }
+    if (j === 3 && k !== 13) {
+        return i + "RD";
+    }
+    return i + "TH";
 }

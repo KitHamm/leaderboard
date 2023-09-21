@@ -42,7 +42,7 @@ export const LBBackend = gql`
 
 export const AllContestantBackend = gql`
     query GetLeaderBoard {
-        lbs(sort: ["createdAt:asc"]) {
+        lbs(sort: ["createdAt:desc"]) {
             data {
                 id
                 attributes {

@@ -3,6 +3,7 @@ import { NEWENTRY } from "../components/Queries";
 import { useState, useEffect } from "react";
 import Placed from "./Placed";
 export default function EntryForm() {
+    const [emailText, setEmailText] = useState("");
     const [view, setView] = useState(1);
     const [acceptTerms, setAcceptTerms] = useState(false);
     const [acceptPrivacy, setAcceptPrivacy] = useState(false);
@@ -44,6 +45,40 @@ export default function EntryForm() {
             score: scoreCalc(formState.scoreOne, formState.scoreTwo),
         });
     }, [formState.scoreOne, formState.scoreTwo]);
+
+    function handleValidation() {
+        var div = document.getElementById("emailText");
+        setEmailText("");
+        if (formState.email.split("@").length === 2) {
+            if (
+                formState.email.split("@")[1].split(".").length > 1 &&
+                formState.email.split("@")[1].split(".").length < 4
+            ) {
+                if (formState.email.split("@")[1].split(".")[1].length > 0) {
+                    console.log("Valid");
+                    setView(2);
+                } else {
+                    console.log("Not Valid");
+                    setEmailText("Please enter a valid email.");
+                    div.classList.contains("fade-in-2")
+                        ? div.classList.replace("fade-in-2", "fade-in-3")
+                        : div.classList.replace("fade-in-3", "fade-in-2");
+                }
+            } else {
+                console.log("Not Valid");
+                setEmailText("Please enter a valid email.");
+                div.classList.contains("fade-in-2")
+                    ? div.classList.replace("fade-in-2", "fade-in-3")
+                    : div.classList.replace("fade-in-3", "fade-in-2");
+            }
+        } else {
+            console.log("Not Valid");
+            setEmailText("Please enter a valid email.");
+            div.classList.contains("fade-in-2")
+                ? div.classList.replace("fade-in-2", "fade-in-3")
+                : div.classList.replace("fade-in-3", "fade-in-2");
+        }
+    }
 
     if (loading)
         return (
@@ -128,7 +163,7 @@ export default function EntryForm() {
                                                 email: e.target.value,
                                             })
                                         }
-                                        type="text"
+                                        type="email"
                                         placeholder="Email"
                                     />
                                 </div>
@@ -214,16 +249,24 @@ export default function EntryForm() {
                                 formState.firstName !== "" &&
                                 formState.lastName !== "" &&
                                 formState.email !== "" ? (
-                                    <div className="col-12 text-end">
-                                        <button
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                setView(2);
-                                            }}
-                                            className="btn btn-success">
-                                            Next
-                                        </button>
-                                    </div>
+                                    <>
+                                        <div
+                                            id="emailText"
+                                            className="col-10 fade-in-2">
+                                            {emailText}
+                                        </div>
+                                        <div className="col-2 text-end">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleValidation();
+                                                    //setView(2);
+                                                }}
+                                                className="btn btn-success">
+                                                Next
+                                            </button>
+                                        </div>
+                                    </>
                                 ) : (
                                     <></>
                                 )}
