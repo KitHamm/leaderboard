@@ -2,21 +2,24 @@ import { useContext } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import ContestantRow from "./ContestantRow";
 import { viewContext } from "../pages/Dashboard";
-import { LBBackend, setNoShow } from "./Queries";
+import {
+    LeaderboardView,
+    updateView,
+    AllTimeLeaders,
+    TodayLeadersBoard,
+    NowLeadersBoard,
+} from "./Queries";
 
 export default function LeaderboardBack() {
     /* eslint-disable no-unused-vars */
     const [view, setView] = useContext(viewContext);
-    const { loading, error, data } = useQuery(LBBackend, { pollInterval: 500 });
-    const [
-        updateShow,
-        { loading: loadingShow, error: errorShow, data: dataShow },
-    ] = useMutation(setNoShow);
+    const [selectView] = useMutation(updateView);
+    const { loading, error, data } = useQuery(LeaderboardView, {
+        pollInterval: 3000,
+    });
     /* eslint-enable no-unused-vars */
-    function handleNoShow(data) {
-        data.forEach((element) => {
-            updateShow({ variables: { id: element.id } });
-        });
+    function handleClear() {
+        selectView({ variables: { view: "now" } });
     }
 
     if (loading) {
@@ -49,38 +52,24 @@ export default function LeaderboardBack() {
                     <div className="col-6 text-center">
                         <div>Current Leaderboard</div>
                     </div>
-                    {data.lbs.data.length > 0 ? (
-                        <div className="col-3 text-end">
-                            <button
-                                className="btn btn-danger"
-                                onClick={(e) => {
-                                    document
-                                        .getElementById("clear-dialog")
-                                        .showModal();
-                                    document.body.style.overflow = "hidden";
-                                }}>
-                                Clear
-                            </button>
-                        </div>
-                    ) : (
-                        <></>
-                    )}
-                </div>
-                {data.lbs.data.length > 0 ? (
-                    data.lbs.data.slice(0, 9).map((contestant, index) => {
-                        return (
-                            <ContestantRow
-                                key={contestant.attributes.displayName + index}
-                                contestant={contestant}
-                                index={index}
-                            />
-                        );
-                    })
-                ) : (
-                    <div className="row p-1 contestant">
-                        <div className="col-12 text-center">No Entries.</div>
+
+                    <div className="col-3 text-end">
+                        <button
+                            className="btn btn-danger"
+                            onClick={(e) => {
+                                document
+                                    .getElementById("clear-dialog")
+                                    .showModal();
+                                document.body.style.overflow = "hidden";
+                            }}>
+                            Clear
+                        </button>
                     </div>
-                )}
+                </div>
+                <LeaderboardViewSwitch
+                    view={data.leaderboardView.data.attributes.view}
+                    updatedAt={data.leaderboardView.data.attributes.updatedAt}
+                />
                 <dialog id="clear-dialog">
                     <div className="row mb-4">
                         <div className="col-12 text-center">
@@ -93,7 +82,7 @@ export default function LeaderboardBack() {
                                 className="btn btn-danger"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    handleNoShow(data.lbs.data);
+                                    handleClear();
                                     document
                                         .getElementById("clear-dialog")
                                         .close();
@@ -118,5 +107,92 @@ export default function LeaderboardBack() {
                     </div>
                 </dialog>
             </>
+        );
+}
+
+function LeaderboardViewSwitch(props) {
+    console.log("switch");
+    switch (props.view) {
+        case "now":
+            return <NowLeaderboardComp updatedAt={props.updatedAt} />;
+        case "allTime":
+            return <AllTimeLeaderboardComp />;
+        default:
+            return <TodayLeaderboardComp />;
+    }
+}
+
+function NowLeaderboardComp(props) {
+    const { loading, error, data } = useQuery(NowLeadersBoard, {
+        variables: { now: props.updatedAt },
+        pollInterval: 1000,
+    });
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error</div>;
+    if (data)
+        return data.lbs.data.length > 0 ? (
+            data.lbs.data.slice(0, 9).map((contestant, index) => {
+                return (
+                    <ContestantRow
+                        key={contestant.attributes.displayName + index}
+                        contestant={contestant}
+                        index={index}
+                    />
+                );
+            })
+        ) : (
+            <div className="row p-1 contestant">
+                <div className="col-12 text-center">No Entries.</div>
+            </div>
+        );
+}
+
+function TodayLeaderboardComp() {
+    const today = new Date().toJSON().split("T")[0];
+    var todayVar = today + "T00:00:00.000Z";
+    const { loading, error, data } = useQuery(TodayLeadersBoard, {
+        variables: { today: todayVar },
+        pollInterval: 1000,
+    });
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error</div>;
+    return data.lbs.data.length > 0 ? (
+        data.lbs.data.slice(0, 9).map((contestant, index) => {
+            return (
+                <ContestantRow
+                    key={contestant.attributes.displayName + index}
+                    contestant={contestant}
+                    index={index}
+                />
+            );
+        })
+    ) : (
+        <div className="row p-1 contestant">
+            <div className="col-12 text-center">No Entries.</div>
+        </div>
+    );
+}
+
+function AllTimeLeaderboardComp() {
+    const { loading, error, data } = useQuery(AllTimeLeaders, {
+        pollInterval: 1000,
+    });
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error</div>;
+    if (data)
+        return data.lbs.data.length > 0 ? (
+            data.lbs.data.slice(0, 9).map((contestant, index) => {
+                return (
+                    <ContestantRow
+                        key={contestant.attributes.displayName + index}
+                        contestant={contestant}
+                        index={index}
+                    />
+                );
+            })
+        ) : (
+            <div className="row p-1 contestant">
+                <div className="col-12 text-center">No Entries.</div>
+            </div>
         );
 }

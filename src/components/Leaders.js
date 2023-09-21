@@ -5,6 +5,7 @@ import {
     LB,
     setShow,
     setNoShow,
+    updateView,
 } from "./Queries";
 
 export default function Leaders(props) {
@@ -34,8 +35,7 @@ export default function Leaders(props) {
     );
 }
 function Today() {
-    const [updateNoShow] = useMutation(setNoShow);
-    const [updateShow] = useMutation(setShow);
+    const [selectView] = useMutation(updateView);
     const today = new Date().toJSON().split("T")[0];
     var todayVar = today + "T00:00:00.000Z";
     const {
@@ -54,17 +54,7 @@ function Today() {
     } = useQuery(LB);
     /* eslint-enable no-unused-vars */
     function handleClick() {
-        if (dataShowing.lbs.data.length > 0) {
-            dataShowing.lbs.data.forEach((element, index) => {
-                updateNoShow({ variables: { id: element.id } });
-            });
-        }
-        dataToday.lbs.data.forEach((element, index) => {
-            updateShow({ variables: { id: element.id } });
-        });
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
+        selectView({ variables: { view: "today" } });
     }
     if (loadingToday) return <div>Loading...</div>;
     if (errorToday) return <div>Error.</div>;
@@ -103,8 +93,7 @@ function Today() {
 }
 
 function AllTime() {
-    const [updateNoShow] = useMutation(setNoShow);
-    const [updateShow] = useMutation(setShow);
+    const [selectView] = useMutation(updateView);
     const {
         loading: loadingAllTime,
         error: errorAllTime,
@@ -120,18 +109,7 @@ function AllTime() {
     } = useQuery(LB);
     /* eslint-enable no-unused-vars */
     function handleClick() {
-        if (dataShowing.lbs.data.length > 0) {
-            dataShowing.lbs.data.forEach((element) => {
-                updateNoShow({ variables: { id: element.id } });
-            });
-        }
-        dataAllTime.lbs.data.forEach((element) => {
-            updateShow({ variables: { id: element.id } });
-        });
-        console.log("Reload");
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
+        selectView({ variables: { view: "allTime" } });
     }
     if (loadingAllTime) return <div>Loading...</div>;
 

@@ -137,6 +137,18 @@ export const setNoShow = gql`
     }
 `;
 
+export const updateView = gql`
+    mutation updateView($view: ENUM_LEADERBOARDVIEW_VIEW) {
+        updateLeaderboardView(data: { view: $view }) {
+            data {
+                attributes {
+                    view
+                }
+            }
+        }
+    }
+`;
+
 export const setShow = gql`
     mutation setNoShow($id: ID!) {
         updateLb(id: $id, data: { show: true }) {
@@ -260,6 +272,7 @@ export const LeaderboardView = gql`
             data {
                 attributes {
                     view
+                    updatedAt
                 }
             }
         }

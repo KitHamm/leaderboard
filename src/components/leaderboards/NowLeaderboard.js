@@ -6,8 +6,6 @@ export const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
 const now = new Date().toJSON().toString();
 
 export default function NowLeaderboard(props) {
-    useEffect(() => {}, []);
-    console.log(now);
     const { loading, error, data } = useQuery(NowLeadersBoard, {
         variables: { now: now },
         pollInterval: 1000,

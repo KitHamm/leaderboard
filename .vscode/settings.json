@@ -5,6 +5,8 @@
         "EDITENTRY",
         "Leaderboard",
         "leaderboardadmin",
+        "leaderboards",
+        "LEADERBOARDVIEW",
         "NEWENTRY"
     ]
 }
