@@ -209,6 +209,7 @@ export default function EntryForm() {
                                 <div className="col-10 mb-4">
                                     I have read and agree to the{" "}
                                     <strong
+                                        style={{ textDecoration: "underline" }}
                                         onClick={(e) => {
                                             document
                                                 .getElementById("terms-dialog")
@@ -231,6 +232,7 @@ export default function EntryForm() {
                                 <div className="col-10 mb-5">
                                     I have read and agree to the{" "}
                                     <strong
+                                        style={{ textDecoration: "underline" }}
                                         onClick={(e) => {
                                             document
                                                 .getElementById(

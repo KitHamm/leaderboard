@@ -28,22 +28,24 @@ export default function Home() {
         <div className="container">
             <div className="row top">
                 <div className="mt-auto row mb-auto">
-                    <div className="col-1 m-auto">
-                        <img
-                            onClick={(e) => {
-                                e.preventDefault();
-                                cookies.remove("jwt", {
-                                    path: "/leaderboard",
-                                });
-                                setLoggedIn(false);
-                                window.location.reload();
-                            }}
-                            alt="cup"
-                            className="cup"
-                            src="cup.png"
-                        />
+                    <div className="col-2 m-auto text-center">
+                        {
+                            <img
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    cookies.remove("jwt", {
+                                        path: "/leaderboard",
+                                    });
+                                    setLoggedIn(false);
+                                    window.location.reload();
+                                }}
+                                alt="cup"
+                                className="cup"
+                                src="leaderboard/cup.png"
+                            />
+                        }
                     </div>
-                    <div className="col-8 m-auto">
+                    <div className="col-10 text-center m-auto">
                         <h1>LEADERBOARD</h1>
                     </div>
                 </div>

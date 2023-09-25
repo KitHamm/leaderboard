@@ -4,7 +4,7 @@ import { TodayLeadersBoard, AllTimeLeaders, LB, updateView } from "./Queries";
 export default function Leaders(props) {
     return (
         <div className="row backend-boards mt-3">
-            <div className="col-12 text-center">
+            <div className="col-12 lb text-center">
                 <div className="col-12 mt-4">
                     <h5>Todays Leaderboard</h5>
                 </div>
@@ -14,8 +14,8 @@ export default function Leaders(props) {
                 </div>
                 <Today />
             </div>
-            <div className="col-12 text-center">
-                <div className="col-12 mt-4">
+            <div className="col-12 lb mt-3 text-center">
+                <div className="collb mt-4">
                     <h5>All Time Leaderboard</h5>
                 </div>
                 <div className="row mt-3 mb-3">
@@ -143,7 +143,7 @@ function AllTime() {
 
 function Contestant(props) {
     return (
-        <div className="row">
+        <div className="row lb-in">
             <div className="col-1 offset-1 text-start">{props.index + 1}</div>
             <div className="col-6 text-start">
                 {props.contestant.attributes.displayName}

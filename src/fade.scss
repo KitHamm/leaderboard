@@ -1,3 +1,5 @@
+$deepSea: #005454;
+
 .fade-in {
     animation: fadeIn ease 2s;
     -webkit-animation: fadeIn ease 2s;
@@ -8,7 +10,7 @@
 @keyframes fadeIn {
     0% {
         opacity: 0;
-        background-color: #419253;
+        background-color: $deepSea;
     }
     50% {
         opacity: 1 !important;
@@ -16,7 +18,7 @@
     }
     100% {
         opacity: 1 !important;
-        background-color: #419253;
+        background-color: $deepSea;
     }
 }
 

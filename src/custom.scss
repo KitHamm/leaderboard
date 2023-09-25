@@ -1,6 +1,6 @@
 $primaryGreen: #71be23;
-$secondaryGreen: #419253;
-$accentGreen: #e2f0dd;
+$secondaryGreen: #005454;
+$accentGreen: #d8ecd8;
 $gold: #fbe9b6;
 @import url("https://fonts.googleapis.com/css?family=Press+Start+2P:regular");
 
@@ -10,11 +10,13 @@ body {
     //background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    font-family: "Press Start 2P";
+    font-family: "Specsavers Web";
+    font-weight: 500;
     color: $secondaryGreen;
 }
 h1 {
-    font-size: 40pt;
+    font-size: 65pt;
+    font-weight: bold;
 }
 h3 {
     margin-bottom: 0 !important;
@@ -23,9 +25,20 @@ h3 {
 p {
     align-self: baseline;
 }
+.lb {
+    background-color: $accentGreen;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+.lb-in {
+    background-color: white;
+    border-radius: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+}
 .cup {
     width: auto;
-    height: 160px;
+    height: 180px;
 }
 .place {
     display: inline-flex;
@@ -48,7 +61,7 @@ p {
     font-size: 30pt;
 }
 .name {
-    font-size: 18pt;
+    font-size: 25pt;
     text-transform: uppercase;
 }
 .leaderboard {
@@ -80,11 +93,11 @@ p {
     display: flex;
     align-items: center;
     background-color: $secondaryGreen;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Specsavers Web";
     border-radius: 2rem;
 }
 .ays {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Specsavers Web";
 }
 .front {
     margin-bottom: 3rem;

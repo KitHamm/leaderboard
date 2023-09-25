@@ -7,6 +7,7 @@ import App from "./App";
 import "./custom.scss";
 import "./fade.scss";
 import "./loader.scss";
+import "./fonts.scss";
 // import App from './final/App';
 
 ReactDOM.render(
