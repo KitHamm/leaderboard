@@ -2,11 +2,11 @@ import { useMutation } from "@apollo/client";
 import { NEWENTRY } from "../components/Queries";
 import { useState, useEffect } from "react";
 import Placed from "./Placed";
+import Terms from "./terms";
 export default function EntryForm() {
     const [emailText, setEmailText] = useState("");
     const [view, setView] = useState(1);
     const [acceptTerms, setAcceptTerms] = useState(false);
-    const [acceptPrivacy, setAcceptPrivacy] = useState(false);
     const [formState, setFormState] = useState({
         displayName: "",
         firstName: "",
@@ -80,6 +80,14 @@ export default function EntryForm() {
         }
     }
 
+    function handleSubmit() {
+        setFormState({
+            ...formState,
+            score: scoreCalc(formState.scoreOne, formState.scoreTwo),
+        });
+        createEntry();
+    }
+
     if (loading)
         return (
             <div className="row">
@@ -126,14 +134,7 @@ export default function EntryForm() {
                         className="row entry"
                         onSubmit={(e) => {
                             e.preventDefault();
-                            setFormState({
-                                ...formState,
-                                score: scoreCalc(
-                                    formState.scoreOne,
-                                    formState.scoreTwo
-                                ),
-                            });
-                            createEntry();
+                            handleSubmit();
                         }}>
                         {view === 1 ? (
                             <>
@@ -220,33 +221,7 @@ export default function EntryForm() {
                                         Terms of Service
                                     </strong>
                                 </div>
-                                <div className="col-1 offset-1 mb-5">
-                                    <input
-                                        id="privacy-check"
-                                        type="checkbox"
-                                        onChange={() => {
-                                            setAcceptPrivacy(!acceptPrivacy);
-                                        }}
-                                    />
-                                </div>
-                                <div className="col-10 mb-5">
-                                    I have read and agree to the{" "}
-                                    <strong
-                                        style={{ textDecoration: "underline" }}
-                                        onClick={(e) => {
-                                            document
-                                                .getElementById(
-                                                    "privacy-dialog"
-                                                )
-                                                .showModal();
-                                            document.body.style.overflow =
-                                                "hidden";
-                                        }}>
-                                        Privacy Policy
-                                    </strong>
-                                </div>
-                                {acceptPrivacy &&
-                                acceptTerms &&
+                                {acceptTerms &&
                                 formState.displayName !== "" &&
                                 formState.firstName !== "" &&
                                 formState.lastName !== "" &&
@@ -335,81 +310,10 @@ export default function EntryForm() {
                             </>
                         )}
                     </form>
-                    <dialog id="privacy-dialog">
-                        <div className="row mb-5">
-                            <div className="col-12">
-                                <h4>Privacy Policy</h4>
-                            </div>
-                        </div>
-                        <div className="row mb-5">
-                            <div className="col-12">
-                                <div className="ays">
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Neque error harum dolor
-                                    quas possimus ullam commodi autem vero nisi,
-                                    itaque hic numquam beatae reprehenderit ut
-                                    asperiores? Reprehenderit omnis repellat
-                                    reiciendis. Lorem ipsum dolor sit amet
-                                    consectetur adipisicing elit. Laboriosam
-                                    tempore in rerum! Minima explicabo
-                                    quibusdam, esse veniam ipsum officiis dicta
-                                    quam magnam tempora pariatur velit corrupti,
-                                    porro nulla beatae modi.
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-2 text-start">
-                                <button
-                                    className="btn btn-success"
-                                    onClick={() => {
-                                        setAcceptPrivacy(true);
-                                        document.getElementById(
-                                            "privacy-check"
-                                        ).checked = true;
-                                        document
-                                            .getElementById("privacy-dialog")
-                                            .close();
-                                        document.body.style.overflow = "auto";
-                                    }}>
-                                    Agree
-                                </button>
-                            </div>
-                            <div className="col-2 offset-8 text-end">
-                                <button
-                                    className="btn btn-danger"
-                                    onClick={() => {
-                                        document
-                                            .getElementById("privacy-dialog")
-                                            .close();
-                                        document.body.style.overflow = "auto";
-                                    }}>
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-                    </dialog>
                     <dialog id="terms-dialog">
                         <div className="row mb-5">
-                            <div className="col-12">
-                                <h4>Terms of Service</h4>
-                            </div>
-                        </div>
-                        <div className="row mb-5">
-                            <div className="col-12">
-                                <div className="ays">
-                                    Lorem ipsum, dolor sit amet consectetur
-                                    adipisicing elit. Neque error harum dolor
-                                    quas possimus ullam commodi autem vero nisi,
-                                    itaque hic numquam beatae reprehenderit ut
-                                    asperiores? Reprehenderit omnis repellat
-                                    reiciendis. Lorem ipsum dolor sit amet
-                                    consectetur adipisicing elit. Laboriosam
-                                    tempore in rerum! Minima explicabo
-                                    quibusdam, esse veniam ipsum officiis dicta
-                                    quam magnam tempora pariatur velit corrupti,
-                                    porro nulla beatae modi.
-                                </div>
+                            <div className="col-10 offset-1">
+                                <Terms />
                             </div>
                         </div>
                         <div className="row">

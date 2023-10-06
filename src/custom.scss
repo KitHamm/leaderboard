@@ -108,6 +108,11 @@ p {
 .winner {
     color: $gold;
 }
+.admin-select {
+    background-color: #e6eee6;
+    border-radius: 2rem;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
 input[type="checkbox"] {
     top: 0;
     left: 0;
@@ -190,6 +195,9 @@ input[type="email"] {
     button {
         font-size: 1.5vw;
     }
+}
+.terms-list {
+    font-weight: 400;
 }
 dialog {
     top: 0;

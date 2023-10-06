@@ -15,6 +15,7 @@ export default function LeaderboardBack() {
     const [view, setView] = useContext(viewContext);
     const [selectView] = useMutation(updateView);
     const { loading, error, data } = useQuery(LeaderboardView, {
+        fetchPolicy: "no-cache",
         pollInterval: 1000,
     });
     /* eslint-enable no-unused-vars */

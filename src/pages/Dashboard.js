@@ -14,6 +14,7 @@ export default function Dashboard() {
     var body = document.getElementsByTagName("body")[0];
     body.style.backgroundImage = "url('/leaderboardadmin/backgroundadmin.png')";
     body.style.backgroundSize = "cover";
+    body.style.backgroundRepeat = "repeat-y";
     useEffect(() => {
         if (!cookies.get("jwt")) {
             setLoggedIn(false);
@@ -22,7 +23,6 @@ export default function Dashboard() {
             setLoggedIn(true);
         }
     }, []);
-
     if (!loggedIn) {
         return (
             <loggedInContext.Provider value={[loggedIn, setLoggedIn]}>

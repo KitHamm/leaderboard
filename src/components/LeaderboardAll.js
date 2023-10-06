@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { viewContext } from "../pages/Dashboard";
 import { AllContestantBackend } from "./Queries";
@@ -6,14 +6,18 @@ import ContestantRow from "./ContestantRow";
 import { CSVLink } from "react-csv";
 
 export default function LeaderboardAll() {
+    document.body.style.overflow = "auto";
     /* eslint-disable no-unused-vars */
     const [view, setView] = useContext(viewContext);
+    const [boardView, setBoardView] = useState("date");
+    const [viewText, setViewText] = useState("All Time - Newest First");
     /* eslint-enable no-unused-vars */
     const { loading, error, data } = useQuery(AllContestantBackend, {
         fetchPolicy: "no-cache",
         pollInterval: 1000,
     });
-
+    var contestants = [];
+    var dates = [];
     if (loading) {
         return (
             <div className="row mt-5 p-1 contestant">
@@ -28,6 +32,7 @@ export default function LeaderboardAll() {
             </div>
         );
     }
+
     if (data) {
         var CSVdata = [
             [
@@ -50,11 +55,118 @@ export default function LeaderboardAll() {
                 contestant.attributes.scoreTwo,
                 contestant.attributes.score,
             ]);
+            contestants.push({
+                id: contestant.id,
+                createdAt: contestant.attributes.createdAt,
+                displayName: contestant.attributes.displayName,
+                firstName: contestant.attributes.firstName,
+                lastName: contestant.attributes.lastName,
+                email: contestant.attributes.email,
+                scoreOne: contestant.attributes.scoreOne,
+                scoreTwo: contestant.attributes.scoreTwo,
+                score: contestant.attributes.score,
+            });
+            if (
+                !dates.includes(contestant.attributes.createdAt.split("T")[0])
+            ) {
+                dates.push(contestant.attributes.createdAt.split("T")[0]);
+            }
         });
+        var showData = [];
+        if (boardView === "date") {
+            showData = contestants;
+        } else if (boardView === "score") {
+            contestants.reverse();
+            showData = contestants.sort(function (a, b) {
+                var keyA = parseInt(a.score),
+                    keyB = parseInt(b.score);
+                if (keyA < keyB) return -1;
+                if (keyA > keyB) return 1;
+                return 0;
+            });
+        } else {
+            var temp = [];
+            contestants.reverse();
+            contestants.forEach((contestant) => {
+                if (contestant.createdAt.split("T")[0] === boardView) {
+                    temp.push(contestant);
+                }
+            });
+            showData = temp.sort(function (a, b) {
+                var keyA = parseInt(a.score),
+                    keyB = parseInt(b.score);
+                if (keyA < keyB) return -1;
+                if (keyA > keyB) return 1;
+                return 0;
+            });
+        }
+        function sortCSVData(sort) {
+            var array = [
+                [
+                    "Display Name",
+                    "First Name",
+                    "Last Name",
+                    "Email",
+                    "Score One",
+                    "Score Two",
+                    "Final Score",
+                ],
+            ];
+            if (sort === "score") {
+                contestants.reverse();
+                var temp = contestants.sort(function (a, b) {
+                    var keyA = parseInt(a.score),
+                        keyB = parseInt(b.score);
+                    if (keyA < keyB) return -1;
+                    if (keyA > keyB) return 1;
+                    return 0;
+                });
+                temp.forEach((contestant) => {
+                    array.push([
+                        contestant.displayName,
+                        contestant.firstName,
+                        contestant.lastName,
+                        contestant.email,
+                        contestant.scoreOne,
+                        contestant.scoreTwo,
+                        contestant.score,
+                    ]);
+                });
+                return array;
+            } else {
+                var temp = [];
+                contestants.reverse();
+                contestants.forEach((contestant) => {
+                    if (contestant.createdAt.split("T")[0] === sort) {
+                        temp.push(contestant);
+                    }
+                });
+                var temp2 = temp.sort(function (a, b) {
+                    var keyA = parseInt(a.score),
+                        keyB = parseInt(b.score);
+                    if (keyA < keyB) return -1;
+                    if (keyA > keyB) return 1;
+                    return 0;
+                });
+                temp2.forEach((contestant) => {
+                    array.push([
+                        contestant.displayName,
+                        contestant.firstName,
+                        contestant.lastName,
+                        contestant.email,
+                        contestant.scoreOne,
+                        contestant.scoreTwo,
+                        contestant.score,
+                    ]);
+                });
+                return array;
+            }
+        }
+
         return (
             <>
                 <div className="row mt-5 mb-4">
-                    <div className="col-3">
+                    <div className="col-4">
                         <button
                             className="btn btn-danger"
                             onClick={(e) => {
@@ -63,27 +175,104 @@ export default function LeaderboardAll() {
                             Close
                         </button>
                     </div>
-                    <div className="col-6 text-center">
+                    <div className="col-4 text-center">
                         <div>All Entries</div>
                     </div>
                     {data.lbs.data.length > 0 ? (
-                        <div className="col-3 text-end">
-                            <CSVLink
+                        <div className="col-4 text-end">
+                            <button
                                 className="btn btn-success"
-                                filename={"ContestantData.csv"}
-                                data={CSVdata}>
-                                Download
-                            </CSVLink>
+                                onClick={() => {
+                                    document
+                                        .getElementById("download-options")
+                                        .show();
+                                    document.body.style.overflow = "hidden";
+                                }}>
+                                Download Options
+                            </button>
                         </div>
                     ) : (
                         <></>
                     )}
                 </div>
-                {data.lbs.data.length > 0 ? (
-                    data.lbs.data.map((contestant, index) => {
+                <div className="row mb-4">
+                    <div className="col text-center">{viewText}</div>
+                </div>
+
+                <div className="row pt-4 mb-4 admin-select">
+                    <div className="col-3 mb-4 text-center">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setBoardView("date");
+                                setViewText("All Time - Newest First");
+                            }}
+                            className={
+                                viewText === "All Time - Newest First"
+                                    ? "btn btn-warning"
+                                    : "btn gold btn-success"
+                            }>
+                            All Time
+                        </button>
+                    </div>
+                    <div className="col-3 mb-4 text-center">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setBoardView("score");
+                                setViewText("All Time - Lowest Score First");
+                            }}
+                            className={
+                                viewText === "All Time - Lowest Score First"
+                                    ? "btn btn-warning"
+                                    : "btn gold btn-success"
+                            }>
+                            All Score
+                        </button>
+                    </div>
+                    {dates.map((date) => {
+                        return (
+                            <div key={date} className="col-3 mb-4 text-center">
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setBoardView(date);
+                                        setViewText(
+                                            date.split("-")[2] +
+                                                "-" +
+                                                date.split("-")[1] +
+                                                "-" +
+                                                date.split("-")[0] +
+                                                " - Lowest Score First"
+                                        );
+                                    }}
+                                    className={
+                                        viewText ===
+                                        date.split("-")[2] +
+                                            "-" +
+                                            date.split("-")[1] +
+                                            "-" +
+                                            date.split("-")[0] +
+                                            " - Lowest Score First"
+                                            ? "btn btn-warning"
+                                            : "btn gold btn-success"
+                                    }>
+                                    {date.split("-")[2] +
+                                        "-" +
+                                        date.split("-")[1] +
+                                        "-" +
+                                        date.split("-")[0]}
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
+                {showData.length > 0 ? (
+                    showData.map((contestant, index) => {
                         return (
                             <ContestantRow
-                                key={contestant.attributes.displayName + index}
+                                boardView={boardView}
+                                key={contestant.displayName + index}
                                 contestant={contestant}
                                 index={index}
                             />
@@ -94,6 +283,75 @@ export default function LeaderboardAll() {
                         <div className="col-12 text-center">No Entries.</div>
                     </div>
                 )}
+                <dialog id="download-options">
+                    <div className="row">
+                        <div className="col-12 text-center">
+                            <h4>Download Options</h4>
+                        </div>
+                    </div>
+                    <div className="row mt-4 text-center">
+                        <div className="col-12 mb-4">
+                            <CSVLink
+                                className="btn btn-success"
+                                filename={"Contestant-Data-All-Sorted-Time.csv"}
+                                data={CSVdata}>
+                                Download All - Newest First
+                            </CSVLink>
+                        </div>
+                        <div className="col-12 mb-4">
+                            <CSVLink
+                                className="btn btn-success"
+                                filename={
+                                    "Contestant-Data-All-Sorted-Score.csv"
+                                }
+                                data={sortCSVData("score")}>
+                                Download All - Lowest Score First
+                            </CSVLink>
+                        </div>
+                        <div className="col-12 mb-4">
+                            All Daily Downloads are lowest score (winner) first
+                        </div>
+                        {dates.map((date, index) => {
+                            return (
+                                <div key={date + index} className="col-12 mb-4">
+                                    <CSVLink
+                                        className="btn btn-success"
+                                        filename={
+                                            "Contestant-Data-" +
+                                            date.split("-")[2] +
+                                            "-" +
+                                            date.split("-")[1] +
+                                            "-" +
+                                            date.split("-")[0] +
+                                            "-Sorted-Score.csv"
+                                        }
+                                        data={sortCSVData(date)}>
+                                        Download{" "}
+                                        {date.split("-")[2] +
+                                            "-" +
+                                            date.split("-")[1] +
+                                            "-" +
+                                            date.split("-")[0]}
+                                    </CSVLink>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className="row text-center">
+                        <div className="col-12 text-center">
+                            <button
+                                onClick={() => {
+                                    document
+                                        .getElementById("download-options")
+                                        .close();
+                                    document.body.style.overflow = "auto";
+                                }}
+                                className="btn btn-danger">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </dialog>
             </>
         );
     }

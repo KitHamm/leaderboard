@@ -8,14 +8,17 @@ export default function ContestantRow(props) {
         <div>
             <div className="row p-3 contestant-back mb-1">
                 <div className="col-1">
-                    <strong>{index + 1}</strong>
+                    {props.boardView === "date" ? (
+                        ""
+                    ) : (
+                        <strong>{index + 1}</strong>
+                    )}
                 </div>
                 <div className="col-5 ">
-                    <strong>Display:</strong>{" "}
-                    {contestant.attributes.displayName}
+                    <strong>Display:</strong> {contestant.displayName}
                 </div>
                 <div className="col-3">
-                    <strong>1st:</strong> {contestant.attributes.scoreOne}
+                    <strong>Final:</strong> {contestant.score}
                 </div>
                 <div className="col-3 text-end">
                     <button
@@ -29,18 +32,16 @@ export default function ContestantRow(props) {
                 </div>
                 <div className="col-5 offset-1">
                     <strong>Name:</strong>{" "}
-                    {contestant.attributes.firstName +
-                        " " +
-                        contestant.attributes.lastName}
+                    {contestant.firstName + " " + contestant.lastName}
                 </div>
                 <div className="col-2">
-                    <strong>2nd:</strong> {contestant.attributes.scoreTwo}
+                    <strong>First:</strong> {contestant.scoreOne}
                 </div>
                 <div className="col-5 offset-1">
-                    <strong>Email:</strong> {contestant.attributes.email}
+                    <strong>Email:</strong> {contestant.email}
                 </div>
                 <div className="col-3">
-                    <strong>Final:</strong> {contestant.attributes.score}
+                    <strong>Second:</strong> {contestant.scoreTwo}
                 </div>
                 <div className="col-3 text-end">
                     <button

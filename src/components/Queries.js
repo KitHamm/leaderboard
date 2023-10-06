@@ -46,6 +46,7 @@ export const AllContestantBackend = gql`
             data {
                 id
                 attributes {
+                    createdAt
                     displayName
                     firstName
                     lastName

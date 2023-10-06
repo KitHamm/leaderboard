@@ -60,7 +60,7 @@ export default function Placed(props) {
                 <div className="col-6 text-center mb-4">Today</div>
                 <div className="col-6 text-center mb-4">All Time</div>
                 <div className="col-6 text-center mb-4">
-                    You Placed {placeToday + suffix[placeToday]}
+                    You Placed {placeToday + suffix[placeToday - 1]}
                 </div>
                 <div className="col-6 text-center mb-4">
                     You Placed {ordinal_suffix_of(placeAllTime)}

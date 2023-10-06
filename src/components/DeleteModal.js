@@ -43,7 +43,7 @@ export default function DeleteModal(props) {
                 <div className="row">
                     <div className="col-12 mb-4 text-center">Are you sure?</div>
                     <div className="col-12 ays mb-4 text-center">
-                        <h4>Delete {props.data.attributes.displayName}?</h4>
+                        <h4>Delete {props.data.displayName}?</h4>
                     </div>
                     <div className="col-6">
                         <button

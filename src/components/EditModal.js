@@ -5,13 +5,13 @@ import { EDITENTRY } from "./Queries";
 export default function EditModal(props) {
     const [editFormState, setEditFormState] = useState({
         id: props.data.id,
-        displayName: props.data.attributes.displayName,
-        firstName: props.data.attributes.firstName,
-        lastName: props.data.attributes.lastName,
-        email: props.data.attributes.email,
-        scoreOne: props.data.attributes.scoreOne,
-        scoreTwo: props.data.attributes.scoreTwo,
-        score: props.data.attributes.score,
+        displayName: props.data.displayName,
+        firstName: props.data.firstName,
+        lastName: props.data.lastName,
+        email: props.data.email,
+        scoreOne: props.data.scoreOne,
+        scoreTwo: props.data.scoreTwo,
+        score: props.data.score,
     });
 
     const [editEntry, { loading, error, data }] = useMutation(EDITENTRY, {
@@ -58,7 +58,8 @@ export default function EditModal(props) {
                     <div className="col-2 text-end">
                         <button
                             className="btn btn-danger"
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.preventDefault();
                                 window.location.reload();
                             }}>
                             Close
@@ -67,9 +68,7 @@ export default function EditModal(props) {
                 </div>
             ) : (
                 <>
-                    <h5 className="mb-5">
-                        Editing {props.data.attributes.displayName}
-                    </h5>
+                    <h5 className="mb-5">Editing {props.data.displayName}</h5>
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -181,6 +180,7 @@ export default function EditModal(props) {
                                             .getElementById(props.id)
                                             .close();
                                         document.body.style.overflow = "auto";
+                                        window.location.reload();
                                     }}>
                                     Close
                                 </button>
