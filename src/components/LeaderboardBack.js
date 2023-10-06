@@ -176,18 +176,31 @@ function TodayLeaderboardComp() {
 }
 
 function AllTimeLeaderboardComp() {
+    var showData = [];
     const { loading, error, data } = useQuery(AllTimeLeaders, {
         pollInterval: 1000,
         fetchPolicy: "no-cache",
     });
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;
-    if (data)
+    if (data) {
+        data.lbs.data.forEach((contestant) => {
+            showData.push({
+                id: contestant.id,
+                displayName: contestant.attributes.displayName,
+                firstName: contestant.attributes.firstName,
+                lastName: contestant.attributes.lastName,
+                email: contestant.attributes.email,
+                scoreOne: contestant.attributes.scoreOne,
+                scoreTwo: contestant.attributes.scoreTwo,
+                score: contestant.attributes.score,
+            });
+        });
         return data.lbs.data.length > 0 ? (
-            data.lbs.data.slice(0, 9).map((contestant, index) => {
+            showData.map((contestant, index) => {
                 return (
                     <ContestantRow
-                        key={contestant.attributes.displayName + index}
+                        key={contestant.displayName + index}
                         contestant={contestant}
                         index={index}
                     />
@@ -198,4 +211,5 @@ function AllTimeLeaderboardComp() {
                 <div className="col-12 text-center">No Entries.</div>
             </div>
         );
+    }
 }

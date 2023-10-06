@@ -8,7 +8,7 @@ import { tokenContext } from "../App";
 
 export default function Login() {
     /* eslint-disable no-unused-vars */
-    const [loggedIn, setLoggedIn] = useContext(loggedInContextFront);
+    const [loggedIn, setLoggedIn] = useContext(loggedInContext);
     const [token, setToken] = useContext(tokenContext);
     const [formState, setFormState] = useState({
         username: "",
@@ -24,8 +24,8 @@ export default function Login() {
     useEffect(() => {
         if (data !== undefined) {
             cookies.set("jwt", data.login.jwt, {
-                //maxAge: 21600,
-                path: "/leaderboard",
+                maxAge: 21600,
+                path: "/leaderboardadmin",
             });
             setToken(data.login.jwt);
             setLoggedIn(true);

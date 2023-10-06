@@ -134,11 +134,11 @@ export default function LeaderboardAll() {
                 });
                 return array;
             } else {
-                var temp = [];
+                var temp1 = [];
                 contestants.reverse();
                 contestants.forEach((contestant) => {
                     if (contestant.createdAt.split("T")[0] === sort) {
-                        temp.push(contestant);
+                        temp1.push(contestant);
                     }
                 });
                 var temp2 = temp.sort(function (a, b) {
