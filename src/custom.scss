@@ -62,7 +62,7 @@ p {
 }
 .name {
     font-size: 25pt;
-    text-transform: uppercase;
+    //text-transform: uppercase;
 }
 .leaderboard {
     //background-color: $primaryGreen;
@@ -118,6 +118,11 @@ p {
     background-color: #e6eee6;
     border-radius: 2rem;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+.d-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 input[type="checkbox"] {
     top: 0;

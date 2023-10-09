@@ -34,7 +34,7 @@ export default function NowLeaderboard(props) {
                             </div>
 
                             <div className="col-7">
-                                <h3 className="name">
+                                <h3 className="name d-name">
                                     {contestant.attributes.displayName}
                                 </h3>
                             </div>

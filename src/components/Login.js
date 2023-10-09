@@ -9,7 +9,7 @@ import { tokenContext } from "../App";
 export default function Login() {
     document.body.style.overflow = "auto";
     /* eslint-disable no-unused-vars */
-    const [loggedIn, setLoggedIn] = useContext(loggedInContext);
+    const [loggedIn, setLoggedIn] = useContext(loggedInContextFront);
     const [token, setToken] = useContext(tokenContext);
     const [isError, setIsError] = useState("");
     const [formState, setFormState] = useState({
@@ -26,8 +26,8 @@ export default function Login() {
     useEffect(() => {
         if (data !== undefined) {
             cookies.set("jwt", data.login.jwt, {
-                maxAge: 21600,
-                path: "/leaderboardadmin",
+                //maxAge: 21600,
+                path: "/leaderboard",
             });
             setToken(data.login.jwt);
             setLoggedIn(true);
