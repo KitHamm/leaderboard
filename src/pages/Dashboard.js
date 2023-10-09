@@ -9,6 +9,7 @@ export const loggedInContext = createContext();
 export const viewContext = createContext();
 
 export default function Dashboard() {
+    document.body.style.overflow = "auto";
     const [loggedIn, setLoggedIn] = useState(false);
     const [view, setView] = useState(1);
     var body = document.getElementsByTagName("body")[0];

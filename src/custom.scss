@@ -108,6 +108,12 @@ p {
 .winner {
     color: $gold;
 }
+.login {
+    background-color: white;
+    border-radius: 2rem;
+    padding: 1rem;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.75);
+}
 .admin-select {
     background-color: #e6eee6;
     border-radius: 2rem;
