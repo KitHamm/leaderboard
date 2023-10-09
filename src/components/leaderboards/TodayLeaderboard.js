@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { TodayLeadersBoard } from "../Queries";
 import EmptyRows from "../EmptyRows";
-
+import { LodErView } from "../Leaderboard";
 export const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
 
 export default function TodayLeaderboard(props) {
@@ -12,8 +12,8 @@ export default function TodayLeaderboard(props) {
         pollInterval: 1000,
         fetchPolicy: "no-cache",
     });
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error</div>;
+    if (loading) return <LodErView text="Loading..." />;
+    if (error) return <LodErView text="Error" />;
     if (data)
         return (
             <>

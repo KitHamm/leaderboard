@@ -1,7 +1,7 @@
 {
     "homepage": "/leaderboard",
     "name": "react-router",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "private": true,
     "dependencies": {
         "@apollo/client": "^3.7.9",

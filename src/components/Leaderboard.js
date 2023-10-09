@@ -23,8 +23,8 @@ export default function Leaderboard() {
         error: errorView,
         data: dataView,
     } = useQuery(LeaderboardView, { pollInterval: 3000 });
-    if (loadingView) return <div>Loading...</div>;
-    if (errorView) return <div>Error</div>;
+    if (loadingView) return <LodErView text="Loading..." />;
+    if (errorView) return <LodErView text="Error" />;
     if (dataView)
         switch (dataView.leaderboardView.data.attributes.view) {
             case "now":
@@ -40,4 +40,14 @@ export default function Leaderboard() {
             default:
                 return <TodayLeaderboard />;
         }
+}
+
+export function LodErView(props) {
+    return (
+        <div className="row">
+            <div className="col-12 text-center">
+                <h2 className="lod-er-view">{props.text}</h2>
+            </div>
+        </div>
+    );
 }
