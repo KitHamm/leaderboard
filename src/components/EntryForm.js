@@ -55,24 +55,24 @@ export default function EntryForm() {
                 formState.email.split("@")[1].split(".").length < 4
             ) {
                 if (formState.email.split("@")[1].split(".")[1].length > 0) {
-                    console.log("Valid");
+                    //console.log("Valid");
                     setView(2);
                 } else {
-                    console.log("Not Valid");
+                    //console.log("Not Valid");
                     setEmailText("Please enter a valid email.");
                     div.classList.contains("fade-in-2")
                         ? div.classList.replace("fade-in-2", "fade-in-3")
                         : div.classList.replace("fade-in-3", "fade-in-2");
                 }
             } else {
-                console.log("Not Valid");
+                //console.log("Not Valid");
                 setEmailText("Please enter a valid email.");
                 div.classList.contains("fade-in-2")
                     ? div.classList.replace("fade-in-2", "fade-in-3")
                     : div.classList.replace("fade-in-3", "fade-in-2");
             }
         } else {
-            console.log("Not Valid");
+            //console.log("Not Valid");
             setEmailText("Please enter a valid email.");
             div.classList.contains("fade-in-2")
                 ? div.classList.replace("fade-in-2", "fade-in-3")

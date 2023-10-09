@@ -1,16 +1,16 @@
 export default function Terms() {
     return (
         <>
-            <h5 style={{ textDecoration: "underline" }}>
+            <h5 id="top" style={{ textDecoration: "underline" }}>
                 EGX 2023 Leaderboard Competition Terms and Conditions
             </h5>
+            <a href=""></a>
             <h5>Entry Requirements</h5>
             <ol className="terms-list">
                 <li>
                     Specsavers Optical Group Limited whose registered office is
                     at La Villiaze, St Andrews, Guernsey, GY6 8YP, is the legal
-                    promoter of this prize draw (‘
-                    <strong>Specsavers</strong>’).
+                    promoter of this prize draw (‘<strong>Specsavers</strong>’).
                 </li>
                 <li>
                     Information on how to enter forms part of the terms and
@@ -107,7 +107,7 @@ export default function Terms() {
                     prizes:
                     <ol type="a">
                         <li>
-                            1 st place: 64GB SteamDeck:{" "}
+                            1st place: 64GB SteamDeck:{" "}
                             <a
                                 target="_blank"
                                 rel="noreferrer"
@@ -116,18 +116,18 @@ export default function Terms() {
                             </a>
                         </li>
                         <li>
-                            2 nd place: £75 e-voucher for Xbox, PlayStation,
+                            2nd place: £75 e-voucher for Xbox, PlayStation,
                             Steam or Nintendo
                         </li>
                         <li>
-                            3 rd place: £50 e-voucher for Xbox, PlayStation,
+                            3rd place: £50 e-voucher for Xbox, PlayStation,
                             Steam or Nintendo
                         </li>
                     </ol>
                 </li>
                 <li>
                     From the Qualifying Entrants who have completed the Entry
-                    (as detailed in clause 7), and came 1 st place in one of the
+                    (as detailed in clause 7), and came 1st place in one of the
                     daily games, the person with the highest overall score for
                     the whole EGX exhibition will win the following additional
                     prize:{" "}
@@ -233,10 +233,10 @@ export default function Terms() {
             <ol start={"34"} className="terms-list">
                 <li>
                     Personal data obtained in the process of the prize draw will
-                    be cSpecsavers Groupr the purposes of administering the
-                    prize draw. It will be held by Specsavers and its
-                    subsidiaries and holding companies and any subsidiaries of
-                    its holding companies (the “
+                    be collected, stored and processed for the purposes of
+                    administering the prize draw. It will be held by Specsavers
+                    and its subsidiaries and holding companies and any
+                    subsidiaries of its holding companies (the “
                     <strong>Specsavers Group</strong>”) either manually or
                     electronically. The information will be restricted to
                     authorised users only and treated in the strictest

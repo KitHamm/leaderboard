@@ -76,7 +76,7 @@ export default function LeaderboardAll() {
             if (a > b) return -1;
             return 0;
         });
-        console.log(dates);
+        //console.log(dates);
         var showData = [];
         if (boardView === "date") {
             showData = contestants;

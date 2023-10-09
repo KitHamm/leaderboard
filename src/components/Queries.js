@@ -165,7 +165,27 @@ export const LOGIN = gql`
         login(input: { identifier: $username, password: $password }) {
             jwt
             user {
+                id
                 username
+            }
+        }
+    }
+`;
+
+export const ROLE = gql`
+    query Role($id: ID!) {
+        usersPermissionsUser(id: $id) {
+            data {
+                id
+                attributes {
+                    role {
+                        data {
+                            attributes {
+                                name
+                            }
+                        }
+                    }
+                }
             }
         }
     }

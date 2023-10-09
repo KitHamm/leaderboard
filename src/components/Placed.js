@@ -37,8 +37,8 @@ export default function Placed(props) {
         );
 
     if (dataToday && dataAllTime) {
-        console.log(dataToday);
-        console.log(dataAllTime);
+        //console.log(dataToday);
+        //console.log(dataAllTime);
         var todayIDs = [];
         var allTimeIDs = [];
         dataToday.lbs.data.map((id, index) => {

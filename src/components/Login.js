@@ -1,7 +1,7 @@
 import { cookies } from "../App";
 import { useState, useEffect, useContext } from "react";
-import { LOGIN } from "./Queries";
-import { useMutation } from "@apollo/client";
+import { LOGIN, ROLE } from "./Queries";
+import { skipToken, useMutation, useQuery } from "@apollo/client";
 import { loggedInContext } from "../pages/Dashboard";
 import { loggedInContextFront } from "../pages/Home";
 import { tokenContext } from "../App";
@@ -9,8 +9,9 @@ import { tokenContext } from "../App";
 export default function Login() {
     document.body.style.overflow = "auto";
     /* eslint-disable no-unused-vars */
-    const [loggedIn, setLoggedIn] = useContext(loggedInContextFront);
+    const [loggedIn, setLoggedIn] = useContext(loggedInContext);
     const [token, setToken] = useContext(tokenContext);
+    const [notAuth, setNotAuth] = useState(false);
     const [isError, setIsError] = useState("");
     const [formState, setFormState] = useState({
         username: "",
@@ -22,23 +23,57 @@ export default function Login() {
             password: formState.password.toLowerCase(),
         },
     });
+    const userId = data?.login?.user?.id;
+    const { data: roleData } = useQuery(ROLE, {
+        skip: !userId,
+        variables: { id: userId },
+    });
     /* eslint-enable no-unused-vars */
     useEffect(() => {
-        if (data !== undefined) {
-            cookies.set("jwt", data.login.jwt, {
-                //maxAge: 21600,
-                path: "/leaderboard",
-            });
-            setToken(data.login.jwt);
-            setLoggedIn(true);
+        if (roleData !== undefined) {
+            if (
+                roleData.usersPermissionsUser.data.attributes.role.data
+                    .attributes.name === "leaderboard"
+            ) {
+                cookies.set("jwt", data.login.jwt, {
+                    maxAge: 21600,
+                    path: "/leaderboardadmin",
+                });
+                setToken(data.login.jwt);
+                setLoggedIn(true);
+            } else {
+                setNotAuth(true);
+            }
         }
-    }, [data, setLoggedIn, setToken]);
+    }, [roleData, setLoggedIn, setToken]);
 
     useEffect(() => {
         if (error) {
             setIsError("Invalid Username or Password");
         }
     }, [error]);
+
+    if (notAuth) {
+        return (
+            <div className="container">
+                <div className="row vh-100">
+                    <div className="col-12 login p-4 offset-3 m-auto text-center">
+                        You are not authorised to view this page
+                        <div>
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    window.location.reload();
+                                }}
+                                className="btn btn-danger mt-4">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container">
