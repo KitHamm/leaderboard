@@ -14,7 +14,6 @@ export default function LeaderboardAll() {
     /* eslint-enable no-unused-vars */
     const { loading, error, data } = useQuery(AllContestantBackend, {
         fetchPolicy: "no-cache",
-        pollInterval: 1000,
     });
     var contestants = [];
     var dates = [];
@@ -72,6 +71,12 @@ export default function LeaderboardAll() {
                 dates.push(contestant.attributes.createdAt.split("T")[0]);
             }
         });
+        dates = dates.sort(function (a, b) {
+            if (a < b) return 1;
+            if (a > b) return -1;
+            return 0;
+        });
+        console.log(dates);
         var showData = [];
         if (boardView === "date") {
             showData = contestants;
@@ -99,68 +104,6 @@ export default function LeaderboardAll() {
                 if (keyA > keyB) return 1;
                 return 0;
             });
-        }
-        function sortCSVData(sort) {
-            var array = [
-                [
-                    "Display Name",
-                    "First Name",
-                    "Last Name",
-                    "Email",
-                    "Score One",
-                    "Score Two",
-                    "Final Score",
-                ],
-            ];
-            if (sort === "score") {
-                contestants.reverse();
-                var temp = contestants.sort(function (a, b) {
-                    var keyA = parseInt(a.score),
-                        keyB = parseInt(b.score);
-                    if (keyA < keyB) return -1;
-                    if (keyA > keyB) return 1;
-                    return 0;
-                });
-                temp.forEach((contestant) => {
-                    array.push([
-                        contestant.displayName,
-                        contestant.firstName,
-                        contestant.lastName,
-                        contestant.email,
-                        contestant.scoreOne,
-                        contestant.scoreTwo,
-                        contestant.score,
-                    ]);
-                });
-                return array;
-            } else {
-                var temp1 = [];
-                contestants.reverse();
-                contestants.forEach((contestant) => {
-                    if (contestant.createdAt.split("T")[0] === sort) {
-                        temp1.push(contestant);
-                    }
-                });
-                var temp2 = temp.sort(function (a, b) {
-                    var keyA = parseInt(a.score),
-                        keyB = parseInt(b.score);
-                    if (keyA < keyB) return -1;
-                    if (keyA > keyB) return 1;
-                    return 0;
-                });
-                temp2.forEach((contestant) => {
-                    array.push([
-                        contestant.displayName,
-                        contestant.firstName,
-                        contestant.lastName,
-                        contestant.email,
-                        contestant.scoreOne,
-                        contestant.scoreTwo,
-                        contestant.score,
-                    ]);
-                });
-                return array;
-            }
         }
 
         return (
@@ -304,7 +247,7 @@ export default function LeaderboardAll() {
                                 filename={
                                     "Contestant-Data-All-Sorted-Score.csv"
                                 }
-                                data={sortCSVData("score")}>
+                                data={sortCSVData("score", data.lbs.data)}>
                                 Download All - Lowest Score First
                             </CSVLink>
                         </div>
@@ -325,7 +268,7 @@ export default function LeaderboardAll() {
                                             date.split("-")[0] +
                                             "-Sorted-Score.csv"
                                         }
-                                        data={sortCSVData(date)}>
+                                        data={sortCSVData(date, data.lbs.data)}>
                                         Download{" "}
                                         {date.split("-")[2] +
                                             "-" +
@@ -354,5 +297,82 @@ export default function LeaderboardAll() {
                 </dialog>
             </>
         );
+    }
+}
+
+function sortCSVData(sort, contestants) {
+    var array = [
+        [
+            "Display Name",
+            "First Name",
+            "Last Name",
+            "Email",
+            "Score One",
+            "Score Two",
+            "Final Score",
+        ],
+    ];
+    var temp2 = [];
+    if (sort === "score") {
+        //contestants.reverse();
+        var temp = contestants.sort(function (a, b) {
+            var keyA = parseInt(a.attributes.score),
+                keyB = parseInt(b.attributes.score);
+            if (keyA < keyB) return 1;
+            if (keyA > keyB) return -1;
+            return 0;
+        });
+        temp.forEach((contestant) => {
+            temp2.push([
+                contestant.attributes.displayName,
+                contestant.attributes.firstName,
+                contestant.attributes.lastName,
+                contestant.attributes.email,
+                contestant.attributes.scoreOne,
+                contestant.attributes.scoreTwo,
+                contestant.attributes.score,
+            ]);
+        });
+        temp2.reverse();
+        temp2.forEach((contestant) => {
+            array.push(contestant);
+        });
+        return array;
+    } else {
+        contestants.forEach((contestant) => {
+            if (contestant.attributes.createdAt.split("T")[0] === sort) {
+                temp2.push({
+                    id: contestant.id,
+                    createdAt: contestant.attributes.createdAt,
+                    displayName: contestant.attributes.displayName,
+                    firstName: contestant.attributes.firstName,
+                    lastName: contestant.attributes.lastName,
+                    email: contestant.attributes.email,
+                    scoreOne: contestant.attributes.scoreOne,
+                    scoreTwo: contestant.attributes.scoreTwo,
+                    score: contestant.attributes.score,
+                });
+            }
+        });
+        var temp = temp2.sort(function (a, b) {
+            var keyA = parseInt(a.score),
+                keyB = parseInt(b.score);
+            if (keyA < keyB) return 1;
+            if (keyA > keyB) return -1;
+            return 0;
+        });
+        temp.reverse();
+        temp.forEach((contestant) => {
+            array.push([
+                contestant.displayName,
+                contestant.firstName,
+                contestant.lastName,
+                contestant.email,
+                contestant.scoreOne,
+                contestant.scoreTwo,
+                contestant.score,
+            ]);
+        });
+        return array;
     }
 }
