@@ -4,7 +4,7 @@ export const LB = gql`
     query GetLeaderBoard {
         lbs(
             filters: { show: { eq: true } }
-            sort: ["score:asc", "createdAt:asc"]
+            sort: ["score:desc", "createdAt:asc"]
         ) {
             data {
                 id
@@ -21,7 +21,7 @@ export const LBBackend = gql`
     query GetLeaderBoard {
         lbs(
             filters: { show: { eq: true } }
-            sort: ["score:asc", "createdAt:asc"]
+            sort: ["score:desc", "createdAt:asc"]
         ) {
             data {
                 id
@@ -34,6 +34,8 @@ export const LBBackend = gql`
                     scoreOne
                     scoreTwo
                     score
+                    age
+                    dob
                 }
             }
         }
@@ -54,6 +56,8 @@ export const AllContestantBackend = gql`
                     scoreOne
                     scoreTwo
                     score
+                    age
+                    dob
                 }
             }
         }
@@ -69,6 +73,8 @@ export const NEWENTRY = gql`
         $scoreOne: Int
         $scoreTwo: Int
         $score: Int
+        $dob: Date
+        $age: Int
     ) {
         createLb(
             data: {
@@ -79,6 +85,8 @@ export const NEWENTRY = gql`
                 scoreOne: $scoreOne
                 scoreTwo: $scoreTwo
                 score: $score
+                dob: $dob
+                age: $age
             }
         ) {
             data {
@@ -108,6 +116,8 @@ export const EDITENTRY = gql`
         $scoreOne: Int
         $scoreTwo: Int
         $score: Int
+        $dob: Date
+        $age: Int
     ) {
         updateLb(
             id: $id
@@ -119,6 +129,8 @@ export const EDITENTRY = gql`
                 scoreOne: $scoreOne
                 scoreTwo: $scoreTwo
                 score: $score
+                dob: $dob
+                age: $age
             }
         ) {
             data {
@@ -193,7 +205,7 @@ export const ROLE = gql`
 
 export const AllTimeLeaders = gql`
     query AllTimeLeaders {
-        lbs(sort: ["score:asc", "createdAt:asc"], pagination: { limit: 9 }) {
+        lbs(sort: ["score:desc", "createdAt:asc"], pagination: { limit: 9 }) {
             data {
                 id
                 attributes {
@@ -204,6 +216,8 @@ export const AllTimeLeaders = gql`
                     scoreOne
                     scoreTwo
                     score
+                    age
+                    dob
                 }
             }
         }
@@ -213,7 +227,7 @@ export const AllTimeLeaders = gql`
 export const TodayLeadersBoard = gql`
     query TodayLeaders($today: DateTime) {
         lbs(
-            sort: ["score:asc", "createdAt:asc"]
+            sort: ["score:desc", "createdAt:asc"]
             filters: { createdAt: { gte: $today } }
             pagination: { limit: 9 }
         ) {
@@ -228,6 +242,8 @@ export const TodayLeadersBoard = gql`
                     scoreOne
                     scoreTwo
                     score
+                    dob
+                    age
                 }
             }
         }
@@ -237,7 +253,7 @@ export const TodayLeadersBoard = gql`
 export const NowLeadersBoard = gql`
     query TodayLeaders($now: DateTime) {
         lbs(
-            sort: ["score:asc", "createdAt:asc"]
+            sort: ["score:desc", "createdAt:asc"]
             filters: { createdAt: { gte: $now } }
             pagination: { limit: 9 }
         ) {
@@ -252,6 +268,8 @@ export const NowLeadersBoard = gql`
                     scoreOne
                     scoreTwo
                     score
+                    age
+                    dob
                 }
             }
         }
@@ -261,7 +279,7 @@ export const NowLeadersBoard = gql`
 export const PlaceToday = gql`
     query PlaceToday($today: DateTime) {
         lbs(
-            sort: ["score:asc", "createdAt:asc"]
+            sort: ["score:desc", "createdAt:asc"]
             filters: { createdAt: { gte: $today } }
         ) {
             data {
@@ -276,7 +294,7 @@ export const PlaceToday = gql`
 
 export const PlaceAllTime = gql`
     query PlaceToday {
-        lbs(sort: ["score:asc", "createdAt:asc"]) {
+        lbs(sort: ["score:desc", "createdAt:asc"]) {
             data {
                 id
                 attributes {

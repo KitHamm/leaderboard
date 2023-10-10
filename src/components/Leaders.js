@@ -149,7 +149,7 @@ function Contestant(props) {
                 {props.contestant.attributes.displayName}
             </div>
             <div className="col-3 text-end">
-                {props.contestant.attributes.score}
+                {props.contestant.attributes.score.toLocaleString("en-US")}
             </div>
         </div>
     );

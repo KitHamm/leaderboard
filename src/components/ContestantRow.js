@@ -18,7 +18,8 @@ export default function ContestantRow(props) {
                     <strong>Display:</strong> {contestant.displayName}
                 </div>
                 <div className="col-3">
-                    <strong>Final:</strong> {contestant.score}
+                    <strong>Final:</strong>{" "}
+                    {contestant.score.toLocaleString("en-US")}
                 </div>
                 <div className="col-3 text-end">
                     <button
@@ -34,14 +35,16 @@ export default function ContestantRow(props) {
                     <strong>Name:</strong>{" "}
                     {contestant.firstName + " " + contestant.lastName}
                 </div>
-                <div className="col-2">
-                    <strong>First:</strong> {contestant.scoreOne}
+                <div className="col-6">
+                    <strong>First:</strong>{" "}
+                    {contestant.scoreOne.toLocaleString("en-US")}
                 </div>
                 <div className="col-5 offset-1">
                     <strong>Email:</strong> {contestant.email}
                 </div>
                 <div className="col-3">
-                    <strong>Second:</strong> {contestant.scoreTwo}
+                    <strong>Second:</strong>{" "}
+                    {contestant.scoreTwo.toLocaleString("en-US")}
                 </div>
                 <div className="col-3 text-end">
                     <button
@@ -55,6 +58,8 @@ export default function ContestantRow(props) {
                         Delete
                     </button>
                 </div>
+                <div className="col-5 offset-1">DOB: {contestant.dob}</div>
+                <div className="col-6">Age: {contestant.age}</div>
             </div>
             <DeleteModal id={contestant.id} data={contestant} />
             <EditModal id={contestant.id} data={contestant} />

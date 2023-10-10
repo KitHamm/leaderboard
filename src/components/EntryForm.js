@@ -6,12 +6,16 @@ import Terms from "./terms";
 export default function EntryForm() {
     const [emailText, setEmailText] = useState("");
     const [view, setView] = useState(1);
+    const [ageVerifyText, setAgeVerifyText] = useState("");
+    const [ageVerified, setAgeVerified] = useState(false);
     const [acceptTerms, setAcceptTerms] = useState(false);
     const [formState, setFormState] = useState({
         displayName: "",
         firstName: "",
         lastName: "",
         email: "",
+        dob: "",
+        age: "",
         scoreOne: 0,
         scoreTwo: 0,
         score: 0,
@@ -22,6 +26,8 @@ export default function EntryForm() {
             firstName: formState.firstName,
             lastName: formState.lastName,
             email: formState.email,
+            dob: formState.dob,
+            age: formState.age,
             scoreOne: formState.scoreOne,
             scoreTwo: formState.scoreTwo,
             score: formState.score,
@@ -29,13 +35,14 @@ export default function EntryForm() {
     });
     function scoreCalc(scoreOne, scoreTwo) {
         let score;
-        if (scoreOne > scoreTwo) {
+        /*if (scoreOne > scoreTwo) {
             score = scoreOne - scoreTwo;
         } else if (scoreOne < scoreTwo) {
             score = scoreTwo - scoreOne;
         } else {
             score = 0;
-        }
+        }*/
+        score = scoreOne + scoreTwo;
         return score;
     }
 
@@ -79,7 +86,31 @@ export default function EntryForm() {
                 : div.classList.replace("fade-in-3", "fade-in-2");
         }
     }
-
+    function ageVerification(date) {
+        var today = new Date();
+        var birthDate = new Date(date);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        console.log(age);
+        if (age >= 18) {
+            setAgeVerified(true);
+            setAgeVerifyText("");
+            setFormState({
+                ...formState,
+                dob: date,
+                age: age,
+            });
+        } else {
+            setAgeVerifyText("Players must be 18 or over to participate.");
+            setFormState({
+                ...formState,
+                dob: "",
+            });
+        }
+    }
     function handleSubmit() {
         setFormState({
             ...formState,
@@ -198,6 +229,17 @@ export default function EntryForm() {
                                         placeholder="Last Name"
                                     />
                                 </div>
+                                <div className="col-6 mb-4">
+                                    <label>Date Of Birth</label>
+                                    <input
+                                        value={formState.dob}
+                                        onChange={(e) => {
+                                            ageVerification(e.target.value);
+                                        }}
+                                        type="date"
+                                        required
+                                    />
+                                </div>
                                 <div className="col-1 offset-1 mb-4">
                                     <input
                                         id="terms-check"
@@ -207,8 +249,9 @@ export default function EntryForm() {
                                         }}
                                     />
                                 </div>
-                                <div className="col-10 mb-4">
-                                    I have read and agree to the{" "}
+                                <div className="col-4 mb-4">
+                                    I have read and agree to the
+                                    <br />
                                     <strong
                                         style={{ textDecoration: "underline" }}
                                         onClick={(e) => {
@@ -221,11 +264,18 @@ export default function EntryForm() {
                                         Terms of Service
                                     </strong>
                                 </div>
+                                <div
+                                    id="emailText"
+                                    className="col-10 fade-in-2">
+                                    {ageVerifyText}
+                                </div>
                                 {acceptTerms &&
                                 formState.displayName !== "" &&
                                 formState.firstName !== "" &&
                                 formState.lastName !== "" &&
-                                formState.email !== "" ? (
+                                formState.email !== "" &&
+                                formState.dob !== "" &&
+                                ageVerified ? (
                                     <>
                                         <div
                                             id="emailText"

@@ -1,7 +1,7 @@
 import { cookies } from "../App";
 import { useState, useEffect, useContext } from "react";
 import { LOGIN, ROLE } from "./Queries";
-import { skipToken, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { loggedInContext } from "../pages/Dashboard";
 import { loggedInContextFront } from "../pages/Home";
 import { tokenContext } from "../App";

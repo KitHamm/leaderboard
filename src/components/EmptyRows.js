@@ -16,8 +16,8 @@ export default function EmptyRows(props) {
                     <h3>{filled + index + 1}</h3>
                     <div className="suffix">{suffix[filled + index]}</div>
                 </div>
-                <div className="col-7"></div>
-                <div className="col-3">
+                <div className="col-6"></div>
+                <div className="col-4 text-end pe-4">
                     <h3>0</h3>
                 </div>
             </div>

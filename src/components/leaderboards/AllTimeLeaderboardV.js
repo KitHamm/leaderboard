@@ -32,14 +32,16 @@ export default function AllTimeLeaderboard(props) {
                                 <div className="suffix">{suffix[index]}</div>
                             </div>
 
-                            <div className="col-7">
+                            <div className="col-6">
                                 <h3 className="name d-name">
                                     {contestant.attributes.displayName}
                                 </h3>
                             </div>
-                            <div className="col-3">
+                            <div className="col-4 text-end pe-4">
                                 <h3 className="score">
-                                    {contestant.attributes.score}
+                                    {contestant.attributes.score.toLocaleString(
+                                        "en-US"
+                                    )}
                                 </h3>
                             </div>
                         </div>

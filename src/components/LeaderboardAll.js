@@ -33,27 +33,7 @@ export default function LeaderboardAll() {
     }
 
     if (data) {
-        var CSVdata = [
-            [
-                "Display Name",
-                "First Name",
-                "Last Name",
-                "Email",
-                "Score One",
-                "Score Two",
-                "Final Score",
-            ],
-        ];
         data.lbs.data.forEach((contestant) => {
-            CSVdata.push([
-                contestant.attributes.displayName,
-                contestant.attributes.firstName,
-                contestant.attributes.lastName,
-                contestant.attributes.email,
-                contestant.attributes.scoreOne,
-                contestant.attributes.scoreTwo,
-                contestant.attributes.score,
-            ]);
             contestants.push({
                 id: contestant.id,
                 createdAt: contestant.attributes.createdAt,
@@ -61,6 +41,8 @@ export default function LeaderboardAll() {
                 firstName: contestant.attributes.firstName,
                 lastName: contestant.attributes.lastName,
                 email: contestant.attributes.email,
+                age: contestant.attributes.age,
+                dob: contestant.attributes.dob,
                 scoreOne: contestant.attributes.scoreOne,
                 scoreTwo: contestant.attributes.scoreTwo,
                 score: contestant.attributes.score,
@@ -76,22 +58,27 @@ export default function LeaderboardAll() {
             if (a > b) return -1;
             return 0;
         });
-        //console.log(dates);
         var showData = [];
         if (boardView === "date") {
-            showData = contestants;
+            showData = contestants.sort(function (a, b) {
+                var keyA = a.createdAt,
+                    keyB = b.createdAt;
+                if (keyA < keyB) return 1;
+                if (keyA > keyB) return -1;
+                return 0;
+            });
         } else if (boardView === "score") {
-            contestants.reverse();
+            //contestants.reverse();
             showData = contestants.sort(function (a, b) {
                 var keyA = parseInt(a.score),
                     keyB = parseInt(b.score);
-                if (keyA < keyB) return -1;
-                if (keyA > keyB) return 1;
+                if (keyA < keyB) return 1;
+                if (keyA > keyB) return -1;
                 return 0;
             });
         } else {
             var temp = [];
-            contestants.reverse();
+            //contestants.reverse();
             contestants.forEach((contestant) => {
                 if (contestant.createdAt.split("T")[0] === boardView) {
                     temp.push(contestant);
@@ -100,8 +87,8 @@ export default function LeaderboardAll() {
             showData = temp.sort(function (a, b) {
                 var keyA = parseInt(a.score),
                     keyB = parseInt(b.score);
-                if (keyA < keyB) return -1;
-                if (keyA > keyB) return 1;
+                if (keyA < keyB) return 1;
+                if (keyA > keyB) return -1;
                 return 0;
             });
         }
@@ -163,10 +150,10 @@ export default function LeaderboardAll() {
                             onClick={(e) => {
                                 e.preventDefault();
                                 setBoardView("score");
-                                setViewText("All Time - Lowest Score First");
+                                setViewText("All Time - Highest Score First");
                             }}
                             className={
-                                viewText === "All Time - Lowest Score First"
+                                viewText === "All Time - Highest Score First"
                                     ? "btn btn-warning"
                                     : "btn gold btn-success"
                             }>
@@ -186,7 +173,7 @@ export default function LeaderboardAll() {
                                                 date.split("-")[1] +
                                                 "-" +
                                                 date.split("-")[0] +
-                                                " - Lowest Score First"
+                                                " - Highest Score First"
                                         );
                                     }}
                                     className={
@@ -196,7 +183,7 @@ export default function LeaderboardAll() {
                                             date.split("-")[1] +
                                             "-" +
                                             date.split("-")[0] +
-                                            " - Lowest Score First"
+                                            " - Highest Score First"
                                             ? "btn btn-warning"
                                             : "btn gold btn-success"
                                     }>
@@ -237,7 +224,7 @@ export default function LeaderboardAll() {
                             <CSVLink
                                 className="btn btn-success"
                                 filename={"Contestant-Data-All-Sorted-Time.csv"}
-                                data={CSVdata}>
+                                data={sortCSVData("date", data.lbs.data)}>
                                 Download All - Newest First
                             </CSVLink>
                         </div>
@@ -248,11 +235,11 @@ export default function LeaderboardAll() {
                                     "Contestant-Data-All-Sorted-Score.csv"
                                 }
                                 data={sortCSVData("score", data.lbs.data)}>
-                                Download All - Lowest Score First
+                                Download All - Highest Score First
                             </CSVLink>
                         </div>
                         <div className="col-12 mb-4">
-                            All Daily Downloads are lowest score (winner) first
+                            All Daily Downloads are Highest score (winner) first
                         </div>
                         {dates.map((date, index) => {
                             return (
@@ -307,19 +294,20 @@ function sortCSVData(sort, contestants) {
             "First Name",
             "Last Name",
             "Email",
+            "Age",
+            "DOB",
             "Score One",
             "Score Two",
             "Final Score",
         ],
     ];
     var temp2 = [];
-    if (sort === "score") {
-        //contestants.reverse();
+    if (sort === "date") {
         var temp = contestants.sort(function (a, b) {
-            var keyA = parseInt(a.attributes.score),
-                keyB = parseInt(b.attributes.score);
-            if (keyA < keyB) return 1;
-            if (keyA > keyB) return -1;
+            var keyA = a.attributes.createdAt,
+                keyB = b.attributes.createdAt;
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
             return 0;
         });
         temp.forEach((contestant) => {
@@ -328,6 +316,34 @@ function sortCSVData(sort, contestants) {
                 contestant.attributes.firstName,
                 contestant.attributes.lastName,
                 contestant.attributes.email,
+                contestant.attributes.age,
+                contestant.attributes.dob,
+                contestant.attributes.scoreOne,
+                contestant.attributes.scoreTwo,
+                contestant.attributes.score,
+            ]);
+        });
+        temp2.reverse();
+        temp2.forEach((contestant) => {
+            array.push(contestant);
+        });
+        return array;
+    } else if (sort === "score") {
+        var temp = contestants.sort(function (a, b) {
+            var keyA = parseInt(a.attributes.score),
+                keyB = parseInt(b.attributes.score);
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
+            return 0;
+        });
+        temp.forEach((contestant) => {
+            temp2.push([
+                contestant.attributes.displayName,
+                contestant.attributes.firstName,
+                contestant.attributes.lastName,
+                contestant.attributes.email,
+                contestant.attributes.age,
+                contestant.attributes.dob,
                 contestant.attributes.scoreOne,
                 contestant.attributes.scoreTwo,
                 contestant.attributes.score,
@@ -348,6 +364,8 @@ function sortCSVData(sort, contestants) {
                     firstName: contestant.attributes.firstName,
                     lastName: contestant.attributes.lastName,
                     email: contestant.attributes.email,
+                    age: contestant.attributes.age,
+                    dob: contestant.attributes.dob,
                     scoreOne: contestant.attributes.scoreOne,
                     scoreTwo: contestant.attributes.scoreTwo,
                     score: contestant.attributes.score,
@@ -357,8 +375,8 @@ function sortCSVData(sort, contestants) {
         var temp = temp2.sort(function (a, b) {
             var keyA = parseInt(a.score),
                 keyB = parseInt(b.score);
-            if (keyA < keyB) return 1;
-            if (keyA > keyB) return -1;
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
             return 0;
         });
         temp.reverse();
@@ -368,6 +386,8 @@ function sortCSVData(sort, contestants) {
                 contestant.firstName,
                 contestant.lastName,
                 contestant.email,
+                contestant.age,
+                contestant.dob,
                 contestant.scoreOne,
                 contestant.scoreTwo,
                 contestant.score,

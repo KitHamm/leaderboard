@@ -3,6 +3,8 @@ import { useMutation } from "@apollo/client";
 import { EDITENTRY } from "./Queries";
 
 export default function EditModal(props) {
+    const [ageVerified, setAgeVerified] = useState(false);
+    const [ageVerifiedText, setAgeVerifyText] = useState("");
     const [editFormState, setEditFormState] = useState({
         id: props.data.id,
         displayName: props.data.displayName,
@@ -12,6 +14,8 @@ export default function EditModal(props) {
         scoreOne: props.data.scoreOne,
         scoreTwo: props.data.scoreTwo,
         score: props.data.score,
+        age: props.data.age,
+        dob: props.data.dob,
     });
 
     const [editEntry, { loading, error, data }] = useMutation(EDITENTRY, {
@@ -24,21 +28,48 @@ export default function EditModal(props) {
             scoreOne: editFormState.scoreOne,
             scoreTwo: editFormState.scoreTwo,
             score: editFormState.score,
+            age: editFormState.age,
+            dob: editFormState.dob,
         },
     });
 
     function scoreCalc(scoreOne, scoreTwo) {
         let score;
-        if (scoreOne > scoreTwo) {
+        /*if (scoreOne > scoreTwo) {
             score = scoreOne - scoreTwo;
         } else if (scoreOne < scoreTwo) {
             score = scoreTwo - scoreOne;
         } else {
             score = 0;
-        }
+        }*/
+        score = scoreOne + scoreTwo;
         return score;
     }
-
+    function ageVerification(date) {
+        var today = new Date();
+        var birthDate = new Date(date);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        console.log(age);
+        if (age >= 18) {
+            setAgeVerified(true);
+            setAgeVerifyText("");
+            setEditFormState({
+                ...editFormState,
+                dob: date,
+                age: age,
+            });
+        } else {
+            setAgeVerifyText("Players must be 18 or over to participate.");
+            setEditFormState({
+                ...editFormState,
+                dob: "",
+            });
+        }
+    }
     useEffect(() => {
         setEditFormState({
             ...editFormState,
@@ -74,54 +105,83 @@ export default function EditModal(props) {
                             e.preventDefault();
                             editEntry();
                         }}>
-                        <label>Display Name</label>
-                        <input
-                            className="mb-4"
-                            type="text"
-                            value={editFormState.displayName}
-                            onChange={(e) =>
-                                setEditFormState({
-                                    ...editFormState,
-                                    displayName: e.target.value,
-                                })
-                            }
-                        />
-                        <label>First Name</label>
-                        <input
-                            className="mb-4"
-                            type="text"
-                            value={editFormState.firstName}
-                            onChange={(e) =>
-                                setEditFormState({
-                                    ...editFormState,
-                                    firstName: e.target.value,
-                                })
-                            }
-                        />
-                        <label>Last Name</label>
-                        <input
-                            className="mb-4"
-                            type="text"
-                            value={editFormState.lastName}
-                            onChange={(e) =>
-                                setEditFormState({
-                                    ...editFormState,
-                                    lastName: e.target.value,
-                                })
-                            }
-                        />
-                        <label>Email</label>
-                        <input
-                            className="mb-4"
-                            type="text"
-                            value={editFormState.email}
-                            onChange={(e) =>
-                                setEditFormState({
-                                    ...editFormState,
-                                    email: e.target.value,
-                                })
-                            }
-                        />
+                        <div className="row row-cols-2">
+                            <div className="col">
+                                <label>Display Name</label>
+                                <input
+                                    className="mb-4"
+                                    type="text"
+                                    value={editFormState.displayName}
+                                    onChange={(e) =>
+                                        setEditFormState({
+                                            ...editFormState,
+                                            displayName: e.target.value,
+                                        })
+                                    }
+                                />
+                            </div>
+                            <div className="col">
+                                <label>First Name</label>
+                                <input
+                                    className="mb-4"
+                                    type="text"
+                                    value={editFormState.firstName}
+                                    onChange={(e) =>
+                                        setEditFormState({
+                                            ...editFormState,
+                                            firstName: e.target.value,
+                                        })
+                                    }
+                                />
+                            </div>
+                            <div className="col">
+                                <label>Last Name</label>
+                                <input
+                                    className="mb-4"
+                                    type="text"
+                                    value={editFormState.lastName}
+                                    onChange={(e) =>
+                                        setEditFormState({
+                                            ...editFormState,
+                                            lastName: e.target.value,
+                                        })
+                                    }
+                                />
+                            </div>
+                            <div className="col">
+                                <label>Email</label>
+                                <input
+                                    className="mb-4"
+                                    type="text"
+                                    value={editFormState.email}
+                                    onChange={(e) =>
+                                        setEditFormState({
+                                            ...editFormState,
+                                            email: e.target.value,
+                                        })
+                                    }
+                                />
+                            </div>
+                            <div className="col">
+                                <label>DOB</label>
+                                <input
+                                    type="date"
+                                    className="mb-4"
+                                    value={editFormState.dob}
+                                    onChange={(e) =>
+                                        ageVerification(e.target.value)
+                                    }
+                                />
+                            </div>
+                            <div className="col">
+                                <label>Age</label>
+                                <input
+                                    type="number"
+                                    value={editFormState.age}
+                                    readOnly
+                                />
+                            </div>
+                        </div>
                         <div className="mb-4 row">
                             <div className="col-4">
                                 <label>Score One</label>
@@ -163,6 +223,9 @@ export default function EditModal(props) {
                                     )}
                                 />
                             </div>
+                        </div>
+                        <div className="row">
+                            <div className="col mb-4">{ageVerifiedText}</div>
                         </div>
                         <div className="row">
                             <div className="col-6">
