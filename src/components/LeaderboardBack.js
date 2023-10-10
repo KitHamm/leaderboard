@@ -11,6 +11,7 @@ import {
 } from "./Queries";
 
 export default function LeaderboardBack() {
+    document.body.style.overflow = "auto";
     /* eslint-disable no-unused-vars */
     const [view, setView] = useContext(viewContext);
     const [selectView] = useMutation(updateView);

@@ -3,7 +3,6 @@ import { useMutation } from "@apollo/client";
 import { EDITENTRY } from "./Queries";
 
 export default function EditModal(props) {
-    const [ageVerified, setAgeVerified] = useState(false);
     const [ageVerifiedText, setAgeVerifyText] = useState("");
     const [editFormState, setEditFormState] = useState({
         id: props.data.id,
@@ -55,7 +54,6 @@ export default function EditModal(props) {
         }
         console.log(age);
         if (age >= 18) {
-            setAgeVerified(true);
             setAgeVerifyText("");
             setEditFormState({
                 ...editFormState,

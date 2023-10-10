@@ -2,6 +2,8 @@ import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 
 export default function ContestantRow(props) {
+    document.body.style.overflow = "auto";
+
     const contestant = props.contestant;
     const index = props.index;
     return (
