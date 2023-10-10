@@ -45,14 +45,14 @@ export default function Terms() {
                     EGX London 2023 and play the Sonic Superstars game on the
                     Specsavers exhibition stand. You will be required to play
                     the game as normal for a first time, and for a second time
-                    with the game distorted. Your first game time will be
-                    deducted from your second game time to give your total
-                    score. To submit your score into the competition leader
-                    board, you will need to give your name and email address and
-                    consent to being contacted in relation to the competition.
-                    All steps in the entry process must be completed. This
-                    process shall be the &quot;<strong>Entry</strong>&quot; or
-                    &quot;<strong>Entries</strong>&quot;.
+                    with the game distorted. Your first game score will be added
+                    to your second game score to give your total score. To
+                    submit your score into the competition leader board, you
+                    will need to give your name and email address and consent to
+                    being contacted in relation to the competition. All steps in
+                    the entry process must be completed. This process shall be
+                    the &quot;<strong>Entry</strong>&quot; or &quot;
+                    <strong>Entries</strong>&quot;.
                 </li>
                 <li>
                     Each person is allowed a maximum of three entries into the

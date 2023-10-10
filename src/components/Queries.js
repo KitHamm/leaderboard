@@ -70,9 +70,9 @@ export const NEWENTRY = gql`
         $email: String!
         $firstName: String!
         $lastName: String!
-        $scoreOne: Int
-        $scoreTwo: Int
-        $score: Int
+        $scoreOne: Long
+        $scoreTwo: Long
+        $score: Long
         $dob: Date
         $age: Int
     ) {
@@ -113,9 +113,9 @@ export const EDITENTRY = gql`
         $firstName: String!
         $lastName: String!
         $email: String!
-        $scoreOne: Int
-        $scoreTwo: Int
-        $score: Int
+        $scoreOne: Long
+        $scoreTwo: Long
+        $score: Long
         $dob: Date
         $age: Int
     ) {
