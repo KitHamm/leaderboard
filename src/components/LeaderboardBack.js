@@ -52,7 +52,7 @@ export default function LeaderboardBack() {
                         </button>
                     </div>
                     <div className="col-6 text-center">
-                        <div>Current Leaderboard</div>
+                        <h4>Displayed Leaderboard</h4>
                     </div>
 
                     <div className="col-3 text-end">
