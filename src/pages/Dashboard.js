@@ -57,9 +57,11 @@ export default function Dashboard() {
                     }}>
                     Log Out
                 </button>
+            </div>
+            <div className="info-button">
                 <button
                     id="info-button"
-                    className="btn btn-success mt-3"
+                    className="btn btn-success"
                     onClick={(e) => {
                         e.preventDefault();
                         document.getElementById("info").showModal();

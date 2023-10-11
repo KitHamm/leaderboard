@@ -95,18 +95,18 @@ export default function LeaderboardAll() {
 
         return (
             <>
-                <div className="row mt-5 mb-4">
+                <div className="row mt-5 top-title mb-4">
                     <div className="col-4">
                         <button
                             className="btn btn-danger"
                             onClick={(e) => {
                                 setView(1);
                             }}>
-                            Close
+                            Back
                         </button>
                     </div>
                     <div className="col-4 text-center">
-                        <div>All Entries</div>
+                        <h4>All Entries</h4>
                     </div>
                     {data.lbs.data.length > 0 ? (
                         <div className="col-4 text-end">
@@ -122,13 +122,13 @@ export default function LeaderboardAll() {
                             </button>
                         </div>
                     ) : (
-                        <></>
+                        <div className="col-4"></div>
                     )}
-                </div>
-                <div className="row mb-4">
-                    <div className="col text-center">{viewText}</div>
-                </div>
 
+                    <div className="col-12 mt-4">
+                        <div className="col text-center">{viewText}</div>
+                    </div>
+                </div>
                 <div className="row pt-4 mb-4 admin-select">
                     <div className="col-3 mb-4 text-center">
                         <button

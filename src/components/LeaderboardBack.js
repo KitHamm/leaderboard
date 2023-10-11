@@ -41,14 +41,14 @@ export default function LeaderboardBack() {
     if (data)
         return (
             <>
-                <div className="row mt-5 mb-4">
+                <div className="row mt-5 top-title mb-4">
                     <div className="col-3">
                         <button
                             className="btn btn-danger"
                             onClick={(e) => {
                                 setView(1);
                             }}>
-                            Close
+                            Back
                         </button>
                     </div>
                     <div className="col-6 text-center">
@@ -56,7 +56,7 @@ export default function LeaderboardBack() {
                     </div>
 
                     <div className="col-3 text-end">
-                        <button
+                        {/*<button
                             className="btn btn-danger"
                             onClick={(e) => {
                                 document
@@ -65,7 +65,7 @@ export default function LeaderboardBack() {
                                 document.body.style.overflow = "hidden";
                             }}>
                             Clear
-                        </button>
+                        </button>*/}
                     </div>
                 </div>
                 <LeaderboardViewSwitch

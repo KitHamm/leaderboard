@@ -151,22 +151,26 @@ export default function EntryForm() {
         <>
             <div className="row">
                 <div className="col-12">
-                    <div className="col-4 offset-8 text-end">
-                        <button
-                            onClick={() => {
-                                window.location.reload();
-                            }}
-                            className="btn btn-danger"
-                            type="submit">
-                            Cancel
-                        </button>
-                    </div>
                     <form
-                        className="row entry"
+                        className="row mt-5 entry"
                         onSubmit={(e) => {
                             e.preventDefault();
                             handleSubmit();
                         }}>
+                        <div className="col-4 offset-4 mb-4 text-center">
+                            <h4>New Contestant</h4>
+                        </div>
+                        <div className="col-4 mb-4 text-end">
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    window.location.reload();
+                                }}
+                                className="btn btn-danger"
+                                type="submit">
+                                Cancel
+                            </button>
+                        </div>
                         {view === 1 ? (
                             <>
                                 <div className="col-6 mb-4">
