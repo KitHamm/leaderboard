@@ -1,12 +1,60 @@
 import { useQuery, useMutation } from "@apollo/client";
-import { TodayLeadersBoard, AllTimeLeaders, LB, updateView } from "./Queries";
+import {
+    TodayLeadersBoard,
+    AllTimeLeaders,
+    LB,
+    updateView,
+    LeaderboardView,
+} from "./Queries";
+import { useEffect, useState } from "react";
 
 export default function Leaders(props) {
+    const [view, setView] = useState("");
+    const [date, setDate] = useState("");
+    const [time, setTime] = useState("");
+    const { loading, error, data } = useQuery(LeaderboardView, {
+        pollInterval: 1000,
+    });
+    useEffect(() => {
+        if (data) {
+            if (view !== data.leaderboardView.data.attributes.view) {
+                setView(data.leaderboardView.data.attributes.view);
+                setDate(
+                    data.leaderboardView.data.attributes.updatedAt.split("T")[0]
+                );
+                setTime(
+                    data.leaderboardView.data.attributes.updatedAt
+                        .split("T")[1]
+                        .split(".")[0]
+                );
+            }
+        }
+    }, [data]);
     return (
         <div className="row backend-boards mt-3">
+            <div className="col-12 mb-2 text-center">
+                {view === "now"
+                    ? "Board cleared at " +
+                      (parseInt(time.split(":")[0]) + 1) +
+                      ":" +
+                      time.split(":")[1] +
+                      ":" +
+                      time.split(":")[2] +
+                      " on " +
+                      date.split("-")[2] +
+                      "-" +
+                      date.split("-")[1] +
+                      "-" +
+                      date.split("-")[0] +
+                      ". Displaying results from this time forward."
+                    : ""}
+            </div>
             <div className="col-12 lb text-center">
                 <div className="col-12 mt-4">
-                    <h5>Todays Leaderboard</h5>
+                    <h5>
+                        Todays Leaderboard{" "}
+                        {view === "today" ? "(On Display)" : ""}
+                    </h5>
                 </div>
                 <div className="row mt-3 mb-3">
                     <div className="col-6 offset-2 text-start">Name</div>
@@ -16,7 +64,10 @@ export default function Leaders(props) {
             </div>
             <div className="col-12 lb mt-3 text-center">
                 <div className="collb mt-4">
-                    <h5>All Time Leaderboard</h5>
+                    <h5>
+                        All Time Leaderboard{" "}
+                        {view === "allTime" ? "(On Display)" : ""}
+                    </h5>
                 </div>
                 <div className="row mt-3 mb-3">
                     <div className="col-6 offset-2 text-start">Name</div>
@@ -46,6 +97,7 @@ function Today() {
         data: dataShowing,
     } = useQuery(LB);
     /* eslint-enable no-unused-vars */
+
     function handleClick() {
         selectView({ variables: { view: "today" } });
     }

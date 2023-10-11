@@ -206,6 +206,7 @@ input[type="date"] {
 }
 .logout {
     position: absolute;
+    display: grid;
     top: 1rem;
     left: 1rem;
     button {

@@ -52,7 +52,7 @@ export default function EditModal(props) {
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
-        console.log(age);
+        //console.log(age);
         if (age >= 18) {
             setAgeVerifyText("");
             setEditFormState({

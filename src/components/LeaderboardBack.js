@@ -77,6 +77,22 @@ export default function LeaderboardBack() {
                         <div className="col-12 text-center">
                             <h4>Are you sure?</h4>
                         </div>
+                        <div className="col-12">
+                            It is advised not to use this function, this was
+                            created for testing purposes. The daily leaderboard
+                            will automatically reset each day.
+                            <br />
+                            <br />
+                            Clearing the leader board will remove the current
+                            contestants from view, but will not delete the
+                            contestants from todays competition or overall
+                            competition. The leader board will display
+                            contestants added from the time that you clear the
+                            board and will continue to do so until another view
+                            is selected. Todays leader board, or the overall
+                            leaderboard, can be displayed again from the main
+                            dashboard.
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col-6">
@@ -95,7 +111,7 @@ export default function LeaderboardBack() {
                         </div>
                         <div className="col-6 text-end">
                             <button
-                                className="btn btn-danger"
+                                className="btn btn-success"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     document

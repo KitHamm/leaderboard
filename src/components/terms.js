@@ -10,7 +10,8 @@ export default function Terms() {
                 <li>
                     Specsavers Optical Group Limited whose registered office is
                     at La Villiaze, St Andrews, Guernsey, GY6 8YP, is the legal
-                    promoter of this prize draw (‘<strong>Specsavers</strong>’).
+                    promoter of this prize draw (‘<strong>Specsavers</strong>
+                    ’).
                 </li>
                 <li>
                     Information on how to enter forms part of the terms and
@@ -32,7 +33,7 @@ export default function Terms() {
                 </li>
                 <li>
                     The competition will commence on 12th October 2023 at 09:01
-                    (Local UK Time) and conclude on 15 th October 2023 at 22:01
+                    (Local UK Time) and conclude on 15th October 2023 at 22:01
                     (Local UK Time) (together the ‘<strong>Entry Period</strong>
                     ’).
                 </li>
@@ -45,14 +46,13 @@ export default function Terms() {
                     EGX London 2023 and play the Sonic Superstars game on the
                     Specsavers exhibition stand. You will be required to play
                     the game as normal for a first time, and for a second time
-                    with the game distorted. Your first game score will be added
-                    to your second game score to give your total score. To
+                    with the game distorted. Your first game time will be added
+                    from your second game time to give your total score. To
                     submit your score into the competition leader board, you
                     will need to give your name and email address and consent to
                     being contacted in relation to the competition. All steps in
-                    the entry process must be completed. This process shall be
-                    the &quot;<strong>Entry</strong>&quot; or &quot;
-                    <strong>Entries</strong>&quot;.
+                    the entry process must be completed. This process shall be
+                    the "<strong>Entry</strong>" or "<strong>Entries</strong>".
                 </li>
                 <li>
                     Each person is allowed a maximum of three entries into the
@@ -155,18 +155,52 @@ export default function Terms() {
                     control make it necessary to do so.
                 </li>
             </ol>
+            <h5>Selection of the winner </h5>
+            <ol start={"20"} className="terms-list">
+                <li>
+                    Each Qualifying Entrant who has entered a valid Entry over
+                    the duration of the Entry Period will be added to the
+                    exhibition leader board. The Qualifying Entrants with the
+                    overall, first, second and third best scores across each of
+                    the 4 separate days will be contacted via email to arrange
+                    their corresponding prize.
+                </li>
+                <li>
+                    There is a maximum one prize per Qualifying Entrant
+                    (excluding the overall prize detailed in clause 17). A
+                    Qualifying Entrant may not be placed more than once over the
+                    course of the competition. If a Qualifying Entrant submits
+                    scores that place them more than once on the exhibition
+                    leader board, they will be awarded the prize for their
+                    highest score only and their other scores will be discarded.
+                    Any other prizes will be awarded to the Qualifying Entrants
+                    with the next highest scores.
+                </li>
+                <li>
+                    The announcing of the daily winners will take place at 20:00
+                    on 12th October 2021, 13th October 2023, 14th October 2023
+                    and 15th October 2023 (approximately) (local UK time) at the
+                    end of each exhibition day. The announcing of the overall
+                    winners will take place at 20:00 on 15th October 2023
+                    (approximately) (local UK time).
+                </li>
+                <li>
+                    Specsavers’ decision of the winner is final and no further
+                    correspondence or discussion will be entered into.
+                </li>
+            </ol>
             <h5>Claiming a prize</h5>
             <ol start={"24"} className="terms-list">
                 <li>
-                    Winners shall be contacted by Specsavers or its agent
-                    Tangerine Partnership Limited (&quot;
-                    <strong>Tangerine</strong>&quot;) via the email address
-                    submitted as part of the competition Entry.
+                    Winners shall be contacted by Specsavers or its
+                    agentTangerine Tangerine Partnership Limited ("
+                    <strong>Tangerine</strong>") via the email address submitted
+                    as part of the competition Entry.
                 </li>
                 <li>
                     Winners will be expected to claim their prize within 24
                     hours of being notified by responding to the email received.
-                    By entering this prize draw all Qualifying Entrants agree
+                    By entering this prize draw all Qualifying Entrants agree
                     that if they are a winner, Specsavers shall be permitted to
                     share their contact details (which they have provided to
                     Specsavers) with Tangerine for the purposes of arranging the
