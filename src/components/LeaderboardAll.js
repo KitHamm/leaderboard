@@ -127,29 +127,29 @@ export default function LeaderboardAll() {
         return (
             <>
                 <div className="row mt-5 top-title mb-4">
-                    <div className="col-4">
+                    <div className="col-3">
                         <button
-                            className="btn btn-danger"
+                            className="btn btn-danger w-100"
                             onClick={(e) => {
                                 setView(1);
                             }}>
                             Back
                         </button>
                     </div>
-                    <div className="col-4 text-center">
+                    <div className="col-6 text-center">
                         <h4>All Entries</h4>
                     </div>
                     {data.lbs.data.length > 0 ? (
-                        <div className="col-4 text-end">
+                        <div className="col-3 text-end">
                             <button
-                                className="btn btn-success"
+                                className="btn btn-success w-100"
                                 onClick={() => {
                                     document
                                         .getElementById("download-options")
                                         .show();
                                     document.body.style.overflow = "hidden";
                                 }}>
-                                Download Options
+                                Download
                             </button>
                         </div>
                     ) : (
@@ -157,7 +157,9 @@ export default function LeaderboardAll() {
                     )}
 
                     <div className="col-12 mt-4">
-                        <div className="col text-center">{viewText}</div>
+                        <div className="col text-center">
+                            {viewText} ({showData.length} Entries)
+                        </div>
                     </div>
                 </div>
                 <div className="row pt-4 mb-4 admin-select">
@@ -175,7 +177,7 @@ export default function LeaderboardAll() {
                                     ? "btn btn-warning"
                                     : "btn gold btn-success"
                             }>
-                            All Time
+                            Newest First
                         </button>
                     </div>
                     <div className="col-3 mb-4 text-center">
@@ -192,7 +194,7 @@ export default function LeaderboardAll() {
                                     ? "btn btn-warning"
                                     : "btn gold btn-success"
                             }>
-                            All Score
+                            Highest Score
                         </button>
                     </div>
                     {dates.map((date) => {
@@ -234,6 +236,7 @@ export default function LeaderboardAll() {
                         );
                     })}
                 </div>
+
                 {showData.length > 0 ? (
                     showData
                         .slice(
@@ -257,7 +260,10 @@ export default function LeaderboardAll() {
                         <div className="col-12 text-center">No Entries.</div>
                     </div>
                 )}
-                <div className="row mt-3 mb-3">
+                <div className="row admin-select p-3 mt-4 mb-3">
+                    <div className="col-12 mb-2 text-center">
+                        {pages.length} Page/s
+                    </div>
                     <div className="col-12 text-center">
                         {page > 1 ? (
                             <>
