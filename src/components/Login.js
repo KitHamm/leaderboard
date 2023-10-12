@@ -1,6 +1,6 @@
 import { cookies } from "../App";
 import { useState, useEffect, useContext } from "react";
-import { LOGIN, ROLE } from "./Queries";
+import { LOGIN, ROLE, loginEvent } from "./Queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { loggedInContext } from "../pages/Dashboard";
 import { loggedInContextFront } from "../pages/Home";
@@ -28,6 +28,8 @@ export default function Login() {
         skip: !userId,
         variables: { id: userId },
     });
+    const [loginEventPost, { data: dataLoginEvent }] = useMutation(loginEvent);
+
     /* eslint-enable no-unused-vars */
     useEffect(() => {
         if (roleData !== undefined) {
@@ -83,6 +85,7 @@ export default function Login() {
                         onSubmit={(e) => {
                             e.preventDefault();
                             login();
+                            loginEventPost();
                         }}>
                         <h3 className="mb-5">Login</h3>
                         <label>Username</label>

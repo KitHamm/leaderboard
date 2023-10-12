@@ -63,7 +63,15 @@ export const AllContestantBackend = gql`
         }
     }
 `;
-
+export const loginEvent = gql`
+    mutation {
+        createLoginEvent(data: { login: "login" }) {
+            data {
+                id
+            }
+        }
+    }
+`;
 export const NEWENTRY = gql`
     mutation CREATE_ENTRY(
         $displayName: String!
