@@ -8,6 +8,10 @@ import { CSVLink } from "react-csv";
 export default function LeaderboardAll() {
     document.body.style.overflow = "auto";
     /* eslint-disable no-unused-vars */
+    const [page, setPage] = useState(1);
+    var numPages = 0;
+    var pages = [];
+    const [contestantPerPage] = useState(10);
     const [view, setView] = useContext(viewContext);
     const [boardView, setBoardView] = useState("date");
     const [viewText, setViewText] = useState("All Time - Newest First");
@@ -60,6 +64,15 @@ export default function LeaderboardAll() {
         });
         var showData = [];
         if (boardView === "date") {
+            pages = [];
+            if (contestants.length % 10 === 0) {
+                numPages = contestants.length / 10;
+            } else {
+                numPages = Math.floor(contestants.length / 10) + 1;
+            }
+            for (let index = 0; index < numPages; index++) {
+                pages.push(index);
+            }
             showData = contestants.sort(function (a, b) {
                 var keyA = a.createdAt,
                     keyB = b.createdAt;
@@ -69,6 +82,15 @@ export default function LeaderboardAll() {
             });
         } else if (boardView === "score") {
             //contestants.reverse();
+            pages = [];
+            if (contestants.length % 10 === 0) {
+                numPages = contestants.length / 10;
+            } else {
+                numPages = Math.floor(contestants.length / 10) + 1;
+            }
+            for (let index = 0; index < numPages; index++) {
+                pages.push(index);
+            }
             showData = contestants.sort(function (a, b) {
                 var keyA = parseInt(a.score),
                     keyB = parseInt(b.score);
@@ -84,6 +106,15 @@ export default function LeaderboardAll() {
                     temp.push(contestant);
                 }
             });
+            pages = [];
+            if (temp.length % 10 === 0) {
+                numPages = temp.length / 10;
+            } else {
+                numPages = Math.floor(temp.length / 10) + 1;
+            }
+            for (let index = 0; index < numPages; index++) {
+                pages.push(index);
+            }
             showData = temp.sort(function (a, b) {
                 var keyA = parseInt(a.score),
                     keyB = parseInt(b.score);
@@ -136,6 +167,8 @@ export default function LeaderboardAll() {
                                 e.preventDefault();
                                 setBoardView("date");
                                 setViewText("All Time - Newest First");
+                                setPage(1);
+                                window.scrollTo(0, 0);
                             }}
                             className={
                                 viewText === "All Time - Newest First"
@@ -151,6 +184,8 @@ export default function LeaderboardAll() {
                                 e.preventDefault();
                                 setBoardView("score");
                                 setViewText("All Time - Highest Score First");
+                                setPage(1);
+                                window.scrollTo(0, 0);
                             }}
                             className={
                                 viewText === "All Time - Highest Score First"
@@ -175,6 +210,8 @@ export default function LeaderboardAll() {
                                                 date.split("-")[0] +
                                                 " - Highest Score First"
                                         );
+                                        setPage(1);
+                                        window.scrollTo(0, 0);
                                     }}
                                     className={
                                         viewText ===
@@ -198,21 +235,109 @@ export default function LeaderboardAll() {
                     })}
                 </div>
                 {showData.length > 0 ? (
-                    showData.map((contestant, index) => {
-                        return (
-                            <ContestantRow
-                                boardView={boardView}
-                                key={contestant.displayName + index}
-                                contestant={contestant}
-                                index={index}
-                            />
-                        );
-                    })
+                    showData
+                        .slice(
+                            page * contestantPerPage - contestantPerPage,
+                            page * contestantPerPage
+                        )
+                        .map((contestant, index) => {
+                            return (
+                                <ContestantRow
+                                    boardView={boardView}
+                                    key={contestant.displayName + index}
+                                    contestant={contestant}
+                                    index={
+                                        (page - 1) * contestantPerPage + index
+                                    }
+                                />
+                            );
+                        })
                 ) : (
                     <div className="row p-1 contestant">
                         <div className="col-12 text-center">No Entries.</div>
                     </div>
                 )}
+                <div className="row mt-3 mb-3">
+                    <div className="col-12 text-center">
+                        {page > 1 ? (
+                            <>
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setPage(1);
+                                        window.scrollTo(0, 0);
+                                    }}
+                                    className="btn btn-success me-1">
+                                    First
+                                </button>
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setPage(page - 1);
+                                        window.scrollTo(0, 0);
+                                    }}
+                                    className="btn btn-success ms-1 me-1">
+                                    Prev
+                                </button>
+                            </>
+                        ) : (
+                            ""
+                        )}
+                        {page > 2 ? "..." : ""}
+                        {pages
+                            .slice(
+                                page === 1
+                                    ? page - 1
+                                    : page === pages.length
+                                    ? page - 3
+                                    : page - 2,
+                                page === 1 ? page + 2 : page + 1
+                            )
+                            .map((p) => {
+                                return (
+                                    <button
+                                        key={p}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setPage(p + 1);
+                                            window.scrollTo(0, 0);
+                                        }}
+                                        className={
+                                            page === p + 1
+                                                ? "btn btn-warning ms-1 me-1"
+                                                : "btn btn-success ms-1 me-1"
+                                        }>
+                                        {p + 1}
+                                    </button>
+                                );
+                            })}
+                        {page < pages.length - 1 ? "..." : ""}
+                        {page < pages.length ? (
+                            <>
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setPage(page + 1);
+                                        window.scrollTo(0, 0);
+                                    }}
+                                    className="btn btn-success me-1 ms-1">
+                                    Next
+                                </button>
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setPage(pages.length);
+                                        window.scrollTo(0, 0);
+                                    }}
+                                    className="btn btn-success ms-1 me-1">
+                                    Last
+                                </button>
+                            </>
+                        ) : (
+                            ""
+                        )}
+                    </div>
+                </div>
                 <dialog id="download-options">
                     <div className="row">
                         <div className="col-12 text-center">
@@ -332,8 +457,8 @@ function sortCSVData(sort, contestants) {
         var temp = contestants.sort(function (a, b) {
             var keyA = parseInt(a.attributes.score),
                 keyB = parseInt(b.attributes.score);
-            if (keyA < keyB) return -1;
-            if (keyA > keyB) return 1;
+            if (keyA < keyB) return 1;
+            if (keyA > keyB) return -1;
             return 0;
         });
         temp.forEach((contestant) => {
@@ -349,7 +474,7 @@ function sortCSVData(sort, contestants) {
                 contestant.attributes.score,
             ]);
         });
-        temp2.reverse();
+        //temp2.reverse();
         temp2.forEach((contestant) => {
             array.push(contestant);
         });
@@ -375,11 +500,11 @@ function sortCSVData(sort, contestants) {
         var temp = temp2.sort(function (a, b) {
             var keyA = parseInt(a.score),
                 keyB = parseInt(b.score);
-            if (keyA < keyB) return -1;
-            if (keyA > keyB) return 1;
+            if (keyA < keyB) return 1;
+            if (keyA > keyB) return -1;
             return 0;
         });
-        temp.reverse();
+        //temp.reverse();
         temp.forEach((contestant) => {
             array.push([
                 contestant.displayName,

@@ -159,6 +159,8 @@ function NowLeaderboardComp(props) {
                 scoreOne: contestant.attributes.scoreOne,
                 scoreTwo: contestant.attributes.scoreTwo,
                 score: contestant.attributes.score,
+                dob: contestant.attributes.dob,
+                age: contestant.attributes.age,
             });
         });
         return data.lbs.data.length > 0 ? (
@@ -201,6 +203,8 @@ function TodayLeaderboardComp() {
                 scoreOne: contestant.attributes.scoreOne,
                 scoreTwo: contestant.attributes.scoreTwo,
                 score: contestant.attributes.score,
+                dob: contestant.attributes.dob,
+                age: contestant.attributes.age,
             });
         });
         return data.lbs.data.length > 0 ? (
@@ -240,6 +244,8 @@ function AllTimeLeaderboardComp() {
                 scoreOne: contestant.attributes.scoreOne,
                 scoreTwo: contestant.attributes.scoreTwo,
                 score: contestant.attributes.score,
+                dob: contestant.attributes.dob,
+                age: contestant.attributes.age,
             });
         });
         return data.lbs.data.length > 0 ? (
