@@ -1,8 +1,14 @@
-import { useContext, useState } from "react";
+// Apollo imports
 import { useQuery } from "@apollo/client";
+// React imports
+import { useContext, useState } from "react";
+// component imports
 import { viewContext } from "../pages/Dashboard";
-import { AllContestantBackend } from "./Queries";
 import ContestantRow from "./ContestantRow";
+// gql query imports
+import { AllContestantBackend } from "./Queries";
+// library imports
+// CSV download data
 import { CSVLink } from "react-csv";
 
 export default function LeaderboardAll() {
@@ -81,7 +87,6 @@ export default function LeaderboardAll() {
                 return 0;
             });
         } else if (boardView === "score") {
-            //contestants.reverse();
             pages = [];
             if (contestants.length % 10 === 0) {
                 numPages = contestants.length / 10;
@@ -100,7 +105,6 @@ export default function LeaderboardAll() {
             });
         } else {
             var temp = [];
-            //contestants.reverse();
             contestants.forEach((contestant) => {
                 if (contestant.createdAt.split("T")[0] === boardView) {
                     temp.push(contestant);

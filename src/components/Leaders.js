@@ -1,4 +1,8 @@
+// Apollo imports
 import { useQuery, useMutation } from "@apollo/client";
+// React imports
+import { useEffect, useState } from "react";
+// gql query imports
 import {
     TodayLeadersBoard,
     AllTimeLeaders,
@@ -6,12 +10,13 @@ import {
     updateView,
     LeaderboardView,
 } from "./Queries";
-import { useEffect, useState } from "react";
 
 export default function Leaders(props) {
+    // states
     const [view, setView] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
+    // polling for changes
     const { loading, error, data } = useQuery(LeaderboardView, {
         pollInterval: 1000,
     });
@@ -33,21 +38,24 @@ export default function Leaders(props) {
     return (
         <div className="row backend-boards mt-3">
             <div className="col-12 mb-2 text-center">
-                {view === "now"
-                    ? "Board cleared at " +
-                      (parseInt(time.split(":")[0]) + 1) +
-                      ":" +
-                      time.split(":")[1] +
-                      ":" +
-                      time.split(":")[2] +
-                      " on " +
-                      date.split("-")[2] +
-                      "-" +
-                      date.split("-")[1] +
-                      "-" +
-                      date.split("-")[0] +
-                      ". Displaying results from this time forward."
-                    : ""}
+                {
+                    // information for when the board was last cleared
+                    view === "now"
+                        ? "Board cleared at " +
+                          (parseInt(time.split(":")[0]) + 1) +
+                          ":" +
+                          time.split(":")[1] +
+                          ":" +
+                          time.split(":")[2] +
+                          " on " +
+                          date.split("-")[2] +
+                          "-" +
+                          date.split("-")[1] +
+                          "-" +
+                          date.split("-")[0] +
+                          ". Displaying results from this time forward."
+                        : ""
+                }
             </div>
             <div className="col-12 lb text-center">
                 <div className="col-12 mt-4">
@@ -60,6 +68,7 @@ export default function Leaders(props) {
                     <div className="col-6 offset-2 text-start">Name</div>
                     <div className="col-3 text-end">Score</div>
                 </div>
+                {/* See today component below*/}
                 <Today />
             </div>
             <div className="col-12 lb mt-3 text-center">
@@ -73,11 +82,14 @@ export default function Leaders(props) {
                     <div className="col-6 offset-2 text-start">Name</div>
                     <div className="col-3 text-end">Score</div>
                 </div>
+                {/* See all time component below*/}
                 <AllTime />
             </div>
         </div>
     );
 }
+
+// View for todays leaders
 function Today() {
     const [selectView] = useMutation(updateView);
     const today = new Date().toJSON().split("T")[0];
@@ -136,7 +148,7 @@ function Today() {
             </>
         );
 }
-
+// view for all time leaders
 function AllTime() {
     const [selectView] = useMutation(updateView);
     const {

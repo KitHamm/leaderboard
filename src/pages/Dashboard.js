@@ -1,10 +1,13 @@
+// React imports
 import { useState, useEffect, createContext } from "react";
+// component imports
 import EntryForm from "../components/EntryForm";
 import LeaderboardBack from "../components/LeaderboardBack";
 import LeaderboardAll from "../components/LeaderboardAll";
 import Leaders from "../components/Leaders";
-import { cookies } from "../App";
 import Login from "../components/Login";
+// cookie and context
+import { cookies } from "../App";
 export const loggedInContext = createContext();
 export const viewContext = createContext();
 
@@ -17,6 +20,8 @@ export default function Dashboard() {
     body.style.backgroundImage = "url('/leaderboardadmin/backgroundadmin.png')";
     body.style.backgroundSize = "cover";
     body.style.backgroundRepeat = "repeat-y";
+
+    // refresh jwt login token if already saved in cookies
     useEffect(() => {
         if (!cookies.get("jwt")) {
             setLoggedIn(false);
@@ -76,46 +81,49 @@ export default function Dashboard() {
                         <h3>Leaderboard</h3>
                     </div>
                 </div>
-                {view !== 1 ? (
-                    <></>
-                ) : (
-                    <>
-                        <div className="row mb-3">
-                            <div className="col-8 offset-2 text-center">
-                                <button
-                                    onClick={() => {
-                                        setView(2);
-                                    }}
-                                    className="btn btn-success">
-                                    Add Contestant
-                                </button>
+                {
+                    view !== 1 ? (
+                        <></>
+                    ) : (
+                        <>
+                            <div className="row mb-3">
+                                <div className="col-8 offset-2 text-center">
+                                    <button
+                                        onClick={() => {
+                                            setView(2);
+                                        }}
+                                        className="btn btn-success">
+                                        Add Contestant
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="row mb-3">
-                            <div className="col-12 text-center">
-                                <button
-                                    onClick={() => {
-                                        setView(3);
-                                    }}
-                                    className="btn btn-success">
-                                    View/Edit displayed Leaderboard
-                                </button>
+                            <div className="row mb-3">
+                                <div className="col-12 text-center">
+                                    <button
+                                        onClick={() => {
+                                            setView(3);
+                                        }}
+                                        className="btn btn-success">
+                                        View/Edit displayed Leaderboard
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12 text-center">
-                                <button
-                                    onClick={() => {
-                                        setView(4);
-                                    }}
-                                    className="btn btn-success">
-                                    View/Edit all contestants
-                                </button>
+                            <div className="row">
+                                <div className="col-12 text-center">
+                                    <button
+                                        onClick={() => {
+                                            setView(4);
+                                        }}
+                                        className="btn btn-success">
+                                        View/Edit all contestants
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <Leaders />
-                    </>
-                )}
+                            <Leaders />
+                        </>
+                    )
+                    /* Selected view switch component*/
+                }
                 <viewContext.Provider value={[view, setView]}>
                     <View view={view} />
                 </viewContext.Provider>
@@ -124,7 +132,7 @@ export default function Dashboard() {
         </>
     );
 }
-
+// selected view switch component
 function View(props) {
     switch (props.view) {
         case 1:

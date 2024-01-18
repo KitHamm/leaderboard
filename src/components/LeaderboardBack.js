@@ -1,7 +1,8 @@
-import { useContext } from "react";
+// Apollo imports
 import { useQuery, useMutation } from "@apollo/client";
-import ContestantRow from "./ContestantRow";
-import { viewContext } from "../pages/Dashboard";
+// React imports
+import { useContext } from "react";
+// gql query imports
 import {
     LeaderboardView,
     updateView,
@@ -9,6 +10,9 @@ import {
     TodayLeadersBoard,
     NowLeadersBoard,
 } from "./Queries";
+// component imports
+import ContestantRow from "./ContestantRow";
+import { viewContext } from "../pages/Dashboard";
 
 export default function LeaderboardBack() {
     document.body.style.overflow = "auto";
@@ -54,8 +58,8 @@ export default function LeaderboardBack() {
                     <div className="col-6 text-center">
                         <h4>Displayed Leaderboard</h4>
                     </div>
-
                     <div className="col-3 text-end">
+                        {/* no longer desired by client */}
                         {/*<button
                             className="btn btn-danger"
                             onClick={(e) => {
@@ -68,6 +72,7 @@ export default function LeaderboardBack() {
                         </button>*/}
                     </div>
                 </div>
+                {/* switch component for the selected leaderboard view */}
                 <LeaderboardViewSwitch
                     view={data.leaderboardView.data.attributes.view}
                     updatedAt={data.leaderboardView.data.attributes.updatedAt}
@@ -127,7 +132,7 @@ export default function LeaderboardBack() {
             </>
         );
 }
-
+// switch component for the selected leaderboard view
 function LeaderboardViewSwitch(props) {
     switch (props.view) {
         case "now":
@@ -138,7 +143,8 @@ function LeaderboardViewSwitch(props) {
             return <TodayLeaderboardComp />;
     }
 }
-
+// All different mini leaderboard views
+// Should consider DRY.
 function NowLeaderboardComp(props) {
     var showData = [];
     const { loading, error, data } = useQuery(NowLeadersBoard, {

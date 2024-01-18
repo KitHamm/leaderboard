@@ -1,5 +1,8 @@
+// Apollo imports
 import { useQuery } from "@apollo/client";
+// gwl query imports
 import { NowLeadersBoard } from "../Queries";
+// component imports
 import EmptyRows from "../EmptyRows";
 import { LodErView } from "../Leaderboard";
 export const suffix = ["ST", "ND", "RD", "TH", "TH", "TH", "TH", "TH", "TH"];
@@ -13,6 +16,7 @@ export default function NowLeaderboard(props) {
     if (loading) return <LodErView text="Loading..." />;
     if (error) return <LodErView text="Error" />;
     if (data)
+        // main display map of contestants
         return (
             <>
                 {data.lbs.data.slice(0, 10).map((contestant, index) => {

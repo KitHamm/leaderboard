@@ -1,12 +1,14 @@
+// Component Imports
 import Leaderboard from "../components/Leaderboard";
-import { useState, useEffect, createContext } from "react";
 import Login from "../components/Login";
+// React and cookie imports
+import { useState, useEffect, createContext } from "react";
 import { cookies } from "../App";
 export const loggedInContextFront = createContext();
 
 export default function Home() {
     const [loggedIn, setLoggedIn] = useState(false);
-
+    // refresh jwt login token if already saved in cookies
     useEffect(() => {
         if (!cookies.get("jwt")) {
             setLoggedIn(false);
@@ -15,7 +17,7 @@ export default function Home() {
             setLoggedIn(true);
         }
     }, []);
-
+    // return login screen to fetch jwt token
     if (!loggedIn) {
         return (
             <loggedInContextFront.Provider value={[loggedIn, setLoggedIn]}>

@@ -1,11 +1,18 @@
-import { cookies } from "../App";
-import { useState, useEffect, useContext } from "react";
-import { LOGIN, ROLE, loginEvent } from "./Queries";
+// Apollo imports
 import { useMutation, useQuery } from "@apollo/client";
-import { loggedInContext } from "../pages/Dashboard";
+// React imports
+import { useState, useEffect, useContext } from "react";
+// context/cookie import
+// use loggedInContextFront when building main display
+import { cookies } from "../App";
 import { loggedInContextFront } from "../pages/Home";
 import { tokenContext } from "../App";
+// gql query imports
+import { LOGIN, ROLE, loginEvent } from "./Queries";
+// component imports
+import { loggedInContext } from "../pages/Dashboard";
 
+// Log in component
 export default function Login() {
     document.body.style.overflow = "auto";
     /* eslint-disable no-unused-vars */

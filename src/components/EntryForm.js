@@ -1,9 +1,15 @@
+// Apollo imports
 import { useMutation } from "@apollo/client";
+// gql query imports
 import { NEWENTRY } from "../components/Queries";
+// React imports
 import { useState, useEffect } from "react";
+// component imports
 import Placed from "./Placed";
 import Terms from "./terms";
+
 export default function EntryForm() {
+    // entry form states and form state
     const [emailText, setEmailText] = useState("");
     const [view, setView] = useState(1);
     const [ageVerifyText, setAgeVerifyText] = useState("");
@@ -20,6 +26,7 @@ export default function EntryForm() {
         scoreTwo: 0,
         score: 0,
     });
+    // create entry mutation
     const [createEntry, { loading, error, data }] = useMutation(NEWENTRY, {
         variables: {
             displayName: formState.displayName,
@@ -33,19 +40,16 @@ export default function EntryForm() {
             score: formState.score,
         },
     });
+    // score calculator !simplified since confirmation from client on game rules.
+    // No longer using difference, now using sum of scores.
+    // Should be exported and imported, this is not DRY.
     function scoreCalc(scoreOne, scoreTwo) {
         let score;
-        /*if (scoreOne > scoreTwo) {
-            score = scoreOne - scoreTwo;
-        } else if (scoreOne < scoreTwo) {
-            score = scoreTwo - scoreOne;
-        } else {
-            score = 0;
-        }*/
         score = scoreOne + scoreTwo;
         return score;
     }
 
+    // update total score on change
     useEffect(() => {
         setFormState({
             ...formState,
@@ -53,6 +57,7 @@ export default function EntryForm() {
         });
     }, [formState.scoreOne, formState.scoreTwo]);
 
+    // form validation
     function handleValidation() {
         var div = document.getElementById("emailText");
         setEmailText("");
@@ -62,30 +67,28 @@ export default function EntryForm() {
                 formState.email.split("@")[1].split(".").length < 4
             ) {
                 if (formState.email.split("@")[1].split(".")[1].length > 0) {
-                    //console.log("Valid");
                     setView(2);
                 } else {
-                    //console.log("Not Valid");
                     setEmailText("Please enter a valid email.");
                     div.classList.contains("fade-in-2")
                         ? div.classList.replace("fade-in-2", "fade-in-3")
                         : div.classList.replace("fade-in-3", "fade-in-2");
                 }
             } else {
-                //console.log("Not Valid");
                 setEmailText("Please enter a valid email.");
                 div.classList.contains("fade-in-2")
                     ? div.classList.replace("fade-in-2", "fade-in-3")
                     : div.classList.replace("fade-in-3", "fade-in-2");
             }
         } else {
-            //console.log("Not Valid");
             setEmailText("Please enter a valid email.");
             div.classList.contains("fade-in-2")
                 ? div.classList.replace("fade-in-2", "fade-in-3")
                 : div.classList.replace("fade-in-3", "fade-in-2");
         }
     }
+    // set age verified
+    // should be exported and imported. This is not DRY.
     function ageVerification(date) {
         var today = new Date();
         var birthDate = new Date(date);
@@ -273,34 +276,37 @@ export default function EntryForm() {
                                     className="col-10 fade-in-2">
                                     {ageVerifyText}
                                 </div>
-                                {acceptTerms &&
-                                formState.displayName !== "" &&
-                                formState.firstName !== "" &&
-                                formState.lastName !== "" &&
-                                formState.email !== "" &&
-                                formState.dob !== "" &&
-                                ageVerified ? (
-                                    <>
-                                        <div
-                                            id="emailText"
-                                            className="col-10 fade-in-2">
-                                            {emailText}
-                                        </div>
-                                        <div className="col-2 text-end">
-                                            <button
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    handleValidation();
-                                                    //setView(2);
-                                                }}
-                                                className="btn btn-success">
-                                                Next
-                                            </button>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <></>
-                                )}
+                                {
+                                    // only allow next state button if form is filled
+                                    acceptTerms &&
+                                    formState.displayName !== "" &&
+                                    formState.firstName !== "" &&
+                                    formState.lastName !== "" &&
+                                    formState.email !== "" &&
+                                    formState.dob !== "" &&
+                                    ageVerified ? (
+                                        <>
+                                            <div
+                                                id="emailText"
+                                                className="col-10 fade-in-2">
+                                                {emailText}
+                                            </div>
+                                            <div className="col-2 text-end">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        handleValidation();
+                                                        //setView(2);
+                                                    }}
+                                                    className="btn btn-success">
+                                                    Next
+                                                </button>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )
+                                }
                             </>
                         ) : (
                             <>
@@ -308,7 +314,6 @@ export default function EntryForm() {
                                     <label>First Score</label>
                                     <input
                                         required
-                                        //value={formState.scoreOne}
                                         onChange={(e) => {
                                             setFormState({
                                                 ...formState,
@@ -326,7 +331,6 @@ export default function EntryForm() {
                                     <label>Second Score</label>
                                     <input
                                         required
-                                        //value={formState.scoreTwo}
                                         onChange={(e) => {
                                             setFormState({
                                                 ...formState,

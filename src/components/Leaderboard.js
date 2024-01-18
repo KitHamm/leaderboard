@@ -1,9 +1,11 @@
+// Apollo imports
 import { useQuery } from "@apollo/client";
+// Component imports
 import { LeaderboardView } from "../components/Queries";
 import TodayLeaderboard from "./leaderboards/TodayLeaderboard";
 import AllTimeLeaderboard from "./leaderboards/AllTimeLeaderboardV";
 import NowLeaderboard from "./leaderboards/NowLeaderboard";
-
+// suffix usage for leaderboard placement
 export const suffix = [
     "ST",
     "ND",
@@ -18,6 +20,7 @@ export const suffix = [
 ];
 
 export default function Leaderboard() {
+    // poll strapi for which leaderboard to view on the main display
     const {
         loading: loadingView,
         error: errorView,
@@ -26,6 +29,7 @@ export default function Leaderboard() {
     if (loadingView) return <LodErView text="Loading..." />;
     if (errorView) return <LodErView text="Error" />;
     if (dataView)
+        // switch case for the main display leaderboard
         switch (dataView.leaderboardView.data.attributes.view) {
             case "now":
                 return (
@@ -41,7 +45,7 @@ export default function Leaderboard() {
                 return <TodayLeaderboard />;
         }
 }
-
+// Error display component
 export function LodErView(props) {
     return (
         <div className="row">

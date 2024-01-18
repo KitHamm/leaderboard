@@ -1,8 +1,12 @@
+// React imports
 import { useState, useEffect } from "react";
+// Apollo imports
 import { useMutation } from "@apollo/client";
+// gql query imports
 import { EDITENTRY } from "./Queries";
 
 export default function EditModal(props) {
+    // verification state and form state
     const [ageVerifiedText, setAgeVerifyText] = useState("");
     const [editFormState, setEditFormState] = useState({
         id: props.data.id,
@@ -16,7 +20,7 @@ export default function EditModal(props) {
         age: props.data.age,
         dob: props.data.dob,
     });
-
+    // edit entry mutation
     const [editEntry, { loading, error, data }] = useMutation(EDITENTRY, {
         variables: {
             id: editFormState.id,
@@ -31,19 +35,14 @@ export default function EditModal(props) {
             dob: editFormState.dob,
         },
     });
-
+    // score calculator !simplified since confirmation from client on game rules.
+    // No longer using difference, now using sum of scores.
     function scoreCalc(scoreOne, scoreTwo) {
         let score;
-        /*if (scoreOne > scoreTwo) {
-            score = scoreOne - scoreTwo;
-        } else if (scoreOne < scoreTwo) {
-            score = scoreTwo - scoreOne;
-        } else {
-            score = 0;
-        }*/
         score = scoreOne + scoreTwo;
         return score;
     }
+    // set age verified
     function ageVerification(date) {
         var today = new Date();
         var birthDate = new Date(date);
@@ -52,7 +51,6 @@ export default function EditModal(props) {
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
-        //console.log(age);
         if (age >= 18) {
             setAgeVerifyText("");
             setEditFormState({

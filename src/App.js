@@ -6,13 +6,17 @@ import {
     createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+// Page Imports
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
+// Universal Cookie Import
 import Cookies from "universal-cookie";
+// React import and login token context
 import { createContext, useState } from "react";
 export const tokenContext = createContext();
 
-// apollo client
+// Apollo CLient
+// Change path to leaderboard when building the main display
 export const cookies = new Cookies(null, { path: "/leaderboardadmin" });
 export const url = process.env.REACT_APP_URL;
 
@@ -33,6 +37,7 @@ function App() {
         link: authLink.concat(httpLink),
         cache: new InMemoryCache(),
     });
+    // Routes for main display and admin dashboard
     return (
         <BrowserRouter>
             <ApolloProvider client={client}>
@@ -45,7 +50,6 @@ function App() {
                             </tokenContext.Provider>
                         }
                     />
-
                     <Route
                         path="/leaderboardadmin"
                         element={

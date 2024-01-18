@@ -1,4 +1,6 @@
+// Apollo imports
 import { useMutation } from "@apollo/client";
+// gql query imports
 import { DELETEENTRY } from "./Queries";
 
 export default function DeleteModal(props) {
@@ -6,6 +8,7 @@ export default function DeleteModal(props) {
         deleteEntry,
         { loading: loadingDelete, error: errorDelete, data: dataDelete },
     ] = useMutation(DELETEENTRY);
+    // dialog for delete contestant
     return (
         <dialog id={"delete-" + props.id}>
             {loadingDelete ? (

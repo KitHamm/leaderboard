@@ -1,9 +1,14 @@
+// Apollo imports
 import { useQuery } from "@apollo/client";
+// gql query imports
 import { PlaceAllTime, PlaceToday } from "./Queries";
+// component imports
 import { suffix } from "./Leaderboard";
 
 export default function Placed(props) {
+    // todays date
     const today = new Date().toJSON().split("T")[0];
+    // formatting for query
     var todayVar = today + "T00:00:00.000Z";
     const {
         loading: loadingToday,
@@ -35,10 +40,8 @@ export default function Placed(props) {
                 </div>
             </div>
         );
-
+    // calculate where the new entry has placed today and all time
     if (dataToday && dataAllTime) {
-        //console.log(dataToday);
-        //console.log(dataAllTime);
         var todayIDs = [];
         var allTimeIDs = [];
         dataToday.lbs.data.map((id, index) => {
@@ -78,7 +81,7 @@ export default function Placed(props) {
         );
     }
 }
-
+// suffix render
 function ordinal_suffix_of(i) {
     var j = i % 10,
         k = i % 100;

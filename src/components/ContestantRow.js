@@ -1,11 +1,13 @@
+// component imports
 import DeleteModal from "./DeleteModal";
 import EditModal from "./EditModal";
 
 export default function ContestantRow(props) {
     document.body.style.overflow = "auto";
-
+    // variables
     const contestant = props.contestant;
     const index = props.index;
+    // row for each contestant on the leaderboard
     return (
         <div>
             <div className="row p-3 contestant-back mb-1">

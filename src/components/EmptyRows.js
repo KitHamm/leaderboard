@@ -1,5 +1,6 @@
+// component imports
 import { suffix } from "./Leaderboard";
-
+// empty riw for when less than 9 entries on the leaderboard
 export default function EmptyRows(props) {
     let filled = 9 - props.amount;
     let rows = [];
