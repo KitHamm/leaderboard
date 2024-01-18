@@ -14,7 +14,7 @@ export const tokenContext = createContext();
 
 // apollo client
 export const cookies = new Cookies(null, { path: "/leaderboardadmin" });
-export const url = "https://cms.plasticelephant.co.uk";
+export const url = process.env.REACT_APP_URL;
 
 function App() {
     const [token, setToken] = useState(cookies.get("jwt"));
